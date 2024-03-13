@@ -1,16 +1,19 @@
-# fp
+# Metal Weight Calculator
 
-A new Flutter project.
+Metal Weight Calculator is a simple Flutter application that helps users calculate the weight of colored metals based on their shape and dimensions. Whether it's copper, aluminum, or iron, this app provides a convenient tool for estimating metal weights for various applications.
+
+## Features
+
+- Choose from different types of metals including copper, aluminum, and iron.
+- Select the shape of the metal piece: rectangle or circle.
+- Input dimensions such as length, width, diameter, and thickness.
+- Calculates the estimated weight of the metal based on the provided dimensions.
+- Intuitive user interface for easy navigation and input.
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+- Live site URL : https://bashirnahas.github.io
 
-A few resources to get you started if this is your first Flutter project:
+## Contributing
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+Contributions are welcome! If you have any suggestions, bug reports, or feature requests, please open an issue or submit a pull request.
