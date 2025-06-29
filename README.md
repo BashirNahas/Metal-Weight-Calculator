@@ -20,6 +20,17 @@
 ---
 
 ## 📸 لقطات شاشة
+1️⃣ Splash Screen - شاشة البداية
+![IMG_8752](https://github.com/user-attachments/assets/8b40a7ee-93b7-4a94-92df-f385e6823f53)
+
+2️⃣ Home Interface - الواجهة الرئيسية
+![IMG_8748](https://github.com/user-attachments/assets/2f8969e9-b44b-441b-82fc-426b397dfa66)
+
+3️⃣ Input Fields - إدخال القيم
+![IMG_8749](https://github.com/user-attachments/assets/a2148873-80dc-45bb-ac4d-fc305c4e38a0)
+
+4️⃣ Calculation Result - نتيجة الحساب
+![IMG_8750](https://github.com/user-attachments/assets/b1f06a6a-06d1-44d0-8669-3bcdb3529025)
 
 
 ---
