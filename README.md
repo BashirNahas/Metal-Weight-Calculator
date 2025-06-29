@@ -1,16 +1,40 @@
-# after
+# 🧮 Metal Weight Calculator (حساب وزن المعادن)
 
-A new Flutter project.
+تطبيق Flutter لحساب وزن المعادن المختلفة بناءً على أبعادها وشكلها، مع واجهة مستخدم عربية جذابة وسهلة الاستخدام.
 
-## Getting Started
+## 📱 التجربة الحية
 
-This project is a starting point for a Flutter application.
+🔗 [جرّب التطبيق على الويب](https://bashirnahas.github.io/Metal-Weight-Calculator/)
 
-A few resources to get you started if this is your first Flutter project:
+---
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+## 🛠 الميزات
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+- ✨ شاشة تمهيدية (Splash Screen) متحركة.
+- 🧲 اختيار نوع المعدن: نحاس، ألمنيوم، حديد.
+- 📐 اختيار شكل المقطع: مستطيل أو مدوّر.
+- 🔢 إدخال الطول، العرض، القطر، والسماكة.
+- ⚖️ حساب الوزن بدقة باستخدام الكثافة النوعية.
+- 🧮 تصميم عصري باستخدام Google Fonts وLottie animations.
+
+---
+
+## 📸 لقطات شاشة
+
+> *(أضف هنا صور GIF أو PNG لاحقًا لتوضيح واجهة التطبيق)*
+
+---
+
+## 🚀 التثبيت والتشغيل محليًا
+
+### المتطلبات:
+- Flutter SDK مثبت
+- محرر كـ VS Code أو Android Studio
+
+### خطوات التشغيل:
+
+```bash
+git clone https://github.com/BashirNahas/Metal-Weight-Calculator.git
+cd Metal-Weight-Calculator
+flutter pub get
+flutter run
