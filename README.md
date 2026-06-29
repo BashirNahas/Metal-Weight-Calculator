@@ -1,106 +1,114 @@
 ![GitHub repo size](https://img.shields.io/github/repo-size/BashirNahas/Metal-Weight-Calculator)
 ![GitHub stars](https://img.shields.io/github/stars/BashirNahas/Metal-Weight-Calculator?style=social)
 
+# Metal Weight Calculator | حساب وزن المعادن
 
-#  Metal Weight Calculator 🧮 | حساب وزن المعادن
+A professional, production-ready **Flutter** app to calculate the weight of metals (copper, aluminum, iron) with live market prices, calculation history, dark/light themes, and full Arabic/English support. Powered by **Synaptix**.
 
-A beautiful and easy-to-use **Flutter** app to calculate the **weight of different metals** based on dimensions and shape — with full Arabic support and modern animations.
-
-تطبيق مبني باستخدام **Flutter** لحساب **وزن المعادن** المختلفة بناءً على الأبعاد والشكل، مع دعم كامل للغة العربية وتصميم عصري.
-
----
-
-## 🌐 Live Demo | العرض المباشر
-
-🔗 [Try it on the Web / جرّبه الآن](https://bashirnahas.github.io/Metal-Weight-Calculator/)
+تطبيق **Flutter** احترافي لحساب **وزن المعادن** مع أسعار السوق الحية، سجل الحسابات، وضع داكن/فاتح، ودعم كامل للعربية والإنجليزية. مدعوم من **Synaptix**.
 
 ---
 
-## ✨ Features | الميزات
+## Live Web App | التطبيق على الويب
 
-- 🌟 Beautiful splash screen with animations  
-  شاشة تمهيدية أنيقة متحركة  
-- 🧲 Choose from 3 metals: Copper, Aluminum, Iron  
-  اختيار المعدن: نحاس، ألمنيوم، حديد  
-- 📐 Select shape: Rectangular or Circular  
-  اختيار الشكل: مستطيل أو مدوّر  
-- 🔢 Input length, width, diameter, and thickness  
-  إدخال الأبعاد: الطول، العرض، القطر، السماكة  
-- ⚖️ Accurate weight calculation based on real density  
-  حساب دقيق للوزن حسب الكثافة النوعية  
-- 🎨 Clean and responsive UI with Google Fonts & Lottie  
-  واجهة أنيقة وسلسة باستخدام خطوط Google و Lottie  
+**Open on any device — no App Store needed:**
+
+[https://bashirnahas.github.io/Metal-Weight-Calculator/](https://bashirnahas.github.io/Metal-Weight-Calculator/)
+
+Supports "Add to Home Screen" on iPhone/iPad for a native app experience.
 
 ---
 
-## 📸 Screenshots | لقطات الشاشة
+## Features | الميزات
 
-### 1️⃣ Splash Screen - شاشة البداية  
-> A smooth animated welcome screen  
-> شاشة ترحيبية برسوم متحركة جميلة
+- **Clean Architecture** — core / models / services / repositories / providers / screens / widgets
+- **3 metals** — Copper (8.96 g/cm³), Aluminum (2.70), Iron (7.85)
+- **2 shapes** — Rectangular plate & circular rod
+- **Calculation history** — save, favorite, swipe-to-delete
+- **Live metal market prices** — copper, aluminum, iron, gold, silver, and more via metals.dev API (15-min cache)
+- **Copy & share results**
+- **Dark / Light / System themes** — persisted across sessions
+- **Arabic (default, RTL) + English** — switchable in Settings
+- **Settings screen** — theme, language, about, privacy policy, contact, rate, share
+- **"Powered by Synaptix"** branding throughout
+- **PWA-ready** — installable from browser on iOS/Android/desktop
 
+---
+
+## Screenshots | لقطات الشاشة
+
+### Splash Screen
 ![Splash Screen](https://github.com/user-attachments/assets/8b40a7ee-93b7-4a94-92df-f385e6823f53)
 
----
-
-### 2️⃣ Home Interface - الواجهة الرئيسية  
-> Main interface for selecting metal and shape  
-> واجهة اختيار المعدن والشكل
-
+### Calculator
 ![Home Interface](https://github.com/user-attachments/assets/2f8969e9-b44b-441b-82fc-426b397dfa66)
 
----
-
-### 3️⃣ Input Fields - إدخال القيم  
-> Enter measurements like length, width, diameter  
-> إدخال القياسات مثل الطول، العرض، القطر
-
+### Input Fields
 ![Input Fields](https://github.com/user-attachments/assets/a2148873-80dc-45bb-ac4d-fc305c4e38a0)
 
----
-
-### 4️⃣ Calculation Result - نتيجة الحساب  
-> Shows calculated weight with animation  
-> عرض النتيجة النهائية برسوم متحركة
-
+### Result
 ![Calculation Result](https://github.com/user-attachments/assets/b1f06a6a-06d1-44d0-8669-3bcdb3529025)
 
 ---
 
-## 🛠 Installation & Running | التثبيت والتشغيل محليًا
-
-### 📋 Requirements | المتطلبات:
-- ✅ Flutter SDK
-- ✅ Editor like VS Code or Android Studio
-
-### ▶️ Run the app | خطوات التشغيل:
-
+## Installation | التثبيت
 
 ```bash
 git clone https://github.com/BashirNahas/Metal-Weight-Calculator.git
 cd Metal-Weight-Calculator
 flutter pub get
-flutter  run
-
+flutter run
 ```
-## 📦 Build for Web | بناء نسخة الويب
+
+### Build Android APK
+
 ```bash
-flutter build web --base-href /Metal-Weight-Calculator/
+flutter build apk --release --dart-define=METALS_API_KEY=your_key
 ```
-🔼 بعد تنفيذ الأمر أعلاه، قم بنسخ محتويات مجلد build/web إلى فرع gh-pages لرفع التطبيق على GitHub Pages.
 
-## 👨‍💻 Developed by | المطوّر:
+### Build Web
 
-- 👤 Name: Mohamad Bashir Nahas
-- 🔗 GitHub: [@BashirNahas](https://github.com/BashirNahas)
+```bash
+flutter build web --base-href /Metal-Weight-Calculator/ --release --dart-define=METALS_API_KEY=your_key
+```
 
-## 📄 License | الرخصة:
-- 📜 Type: MIT License
-- ✅ Free to use, modify, and distribute
-- 🔗 Must include attribution to the original author
+---
 
-## 🤝 Contribution | المساهمة
+## Architecture | البنية
 
-يسعدني تلقي اقتراحات أو تحسينات من مجتمع Flutter ❤️  
-Feel free to fork the repo and create a pull request!
+```
+lib/
+  core/constants/   — AppConstants, AppColors
+  core/extensions/  — BuildContext helpers (l10n, isDark, showSnack)
+  core/utils/       — AppFormatters (weight, price, date)
+  models/           — Metal, Calculation, MetalPrice
+  services/         — StorageService (SharedPreferences), MetalPriceService (HTTP)
+  repositories/     — CalculationRepository, MetalPriceRepository (cache)
+  providers/        — ThemeProvider, LocaleProvider, CalculatorProvider,
+                      HistoryProvider, MarketPricesProvider
+  theme/            — AppTheme (Material 3 light + dark)
+  l10n/             — AppLocalizations (Arabic + English, manual delegate)
+  screens/          — splash, home, calculator, history, market_prices, settings
+  widgets/          — common, calculator, dialogs, market
+```
 
+---
+
+## Play Store
+
+- **App ID:** `com.synaptix.metalweightcalculator`
+- **Min SDK:** 21 (Android 5.0)
+- **Target SDK:** 35
+- **ProGuard / R8** minification enabled for release
+- Adaptive icons included
+
+---
+
+## Developer | المطوّر
+
+- **Bashir Nahas** — [@BashirNahas](https://github.com/BashirNahas)
+- Powered by **Synaptix**
+
+## License
+
+MIT — free to use, modify, and distribute with attribution.
