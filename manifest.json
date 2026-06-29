@@ -1,13 +1,17 @@
 {
     "name": "Metal Weight Calculator",
-    "short_name": "MWC",
-    "start_url": ".",
+    "short_name": "Metal Calc",
+    "start_url": "/Metal-Weight-Calculator/",
+    "scope": "/Metal-Weight-Calculator/",
     "display": "standalone",
-    "background_color": "#0175C2",
-    "theme_color": "#0175C2",
-    "description": "A new Flutter project.",
+    "background_color": "#0F0F1A",
+    "theme_color": "#22223B",
+    "description": "Calculate copper, aluminum and iron plate weights instantly. Live metal market prices. Powered by Synaptix.",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
+    "lang": "ar",
+    "dir": "rtl",
+    "categories": ["utilities", "productivity"],
     "icons": [
         {
             "src": "icons/Icon-192.png",
@@ -30,6 +34,12 @@
             "sizes": "512x512",
             "type": "image/png",
             "purpose": "maskable"
+        },
+        {
+            "src": "logo.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "any"
         }
     ]
 }
