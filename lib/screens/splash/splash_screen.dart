@@ -137,49 +137,42 @@ class _SplashScreenState extends State<SplashScreen>
                           ),
                         ),
                       ),
-                      const SizedBox(height: 16),
-                      Text(
-                        '@Bashir_Nahas',
-                        style: TextStyle(
-                          color: AppColors.secondary.withValues(alpha: 0.8),
-                          fontSize: 13,
-                          fontWeight: FontWeight.w300,
-                          letterSpacing: 1.2,
-                        ),
-                      ),
                     ],
                   ),
                 ),
-                // Synaptix branding at bottom
+                // Synaptix branding at bottom — force LTR so RTL app doesn't reverse order
                 Positioned(
                   bottom: 24,
                   left: 0,
                   right: 0,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        'Powered by ',
-                        style: TextStyle(
-                          color: AppColors.secondary.withValues(alpha: 0.5),
-                          fontSize: 12,
-                        ),
-                      ),
-                      ShaderMask(
-                        shaderCallback: (bounds) => const LinearGradient(
-                          colors: [AppColors.secondary, AppColors.primary],
-                        ).createShader(bounds),
-                        child: const Text(
-                          'Synaptix',
+                  child: Directionality(
+                    textDirection: TextDirection.ltr,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          'Powered by ',
                           style: TextStyle(
-                            color: Colors.white,
+                            color: AppColors.secondary.withValues(alpha: 0.5),
                             fontSize: 12,
-                            fontWeight: FontWeight.bold,
-                            letterSpacing: 0.5,
                           ),
                         ),
-                      ),
-                    ],
+                        ShaderMask(
+                          shaderCallback: (bounds) => const LinearGradient(
+                            colors: [AppColors.secondary, AppColors.primary],
+                          ).createShader(bounds),
+                          child: const Text(
+                            'Synaptix',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 12,
+                              fontWeight: FontWeight.bold,
+                              letterSpacing: 0.5,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ],

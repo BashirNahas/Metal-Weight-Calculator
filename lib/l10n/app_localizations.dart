@@ -116,6 +116,10 @@ class AppLocalizations {
   String get tin => _t('tin');
   String get platinum => _t('platinum');
   String get palladium => _t('palladium');
+  String get steel => _t('steel');
+  String get stainlessSteel => _t('stainlessSteel');
+  String get brass => _t('brass');
+  String get titanium => _t('titanium');
 
   // Helper
   String metalName(String key) =>
@@ -205,6 +209,10 @@ class AppLocalizations {
       'tin': 'قصدير',
       'platinum': 'بلاتين',
       'palladium': 'بلاديوم',
+      'steel': 'فولاذ',
+      'stainlessSteel': 'استانلس',
+      'brass': 'نحاس أصفر',
+      'titanium': 'تيتانيوم',
       'metal_copper': 'نحاس',
       'metal_aluminum': 'ألومنيوم',
       'metal_aluminium': 'ألومنيوم',
@@ -303,6 +311,10 @@ class AppLocalizations {
       'tin': 'Tin',
       'platinum': 'Platinum',
       'palladium': 'Palladium',
+      'steel': 'Steel',
+      'stainlessSteel': 'Stainless',
+      'brass': 'Brass',
+      'titanium': 'Titanium',
       'metal_copper': 'Copper',
       'metal_aluminum': 'Aluminum',
       'metal_aluminium': 'Aluminum',

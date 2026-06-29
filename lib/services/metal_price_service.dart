@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:http/http.dart' as http;
 import 'package:metal_weight_calculator/core/constants/app_constants.dart';
 import 'package:metal_weight_calculator/models/metal_price.dart';
@@ -7,7 +8,7 @@ class MetalPriceService {
   const MetalPriceService();
 
   Future<List<MetalPrice>> fetchPrices() async {
-    final uri = Uri.parse(AppConstants.metalsApiBaseUrl).replace(
+    final directUri = Uri.parse(AppConstants.metalsApiBaseUrl).replace(
       queryParameters: {
         'api_key': AppConstants.metalsApiKey,
         'currency': 'USD',
@@ -15,7 +16,21 @@ class MetalPriceService {
       },
     );
 
-    final response = await http.get(uri).timeout(const Duration(seconds: 15));
+    // On web, metals.dev doesn't send CORS headers, so requests are blocked by
+    // the browser. Route through corsproxy.io which adds the required headers.
+    final Uri uri;
+    if (kIsWeb) {
+      uri = Uri.parse(
+        'https://corsproxy.io/?url=${Uri.encodeQueryComponent(directUri.toString())}',
+      );
+    } else {
+      uri = directUri;
+    }
+
+    final response = await http
+        .get(uri, headers: {'Accept': 'application/json'}).timeout(
+      const Duration(seconds: 20),
+    );
 
     if (response.statusCode != 200) {
       throw MetalPriceException(
@@ -39,7 +54,8 @@ class MetalPriceService {
 
     for (final entry in metals.entries) {
       final key = entry.key.toLowerCase();
-      final names = MetalPrice.knownMetals[key] ?? MetalPrice.knownMetals[entry.key];
+      final names =
+          MetalPrice.knownMetals[key] ?? MetalPrice.knownMetals[entry.key];
       if (names == null) continue;
 
       final priceRaw = entry.value;

@@ -36,10 +36,15 @@ class AppColors {
   static const Color copperColor = Color(0xFFB87333);
   static const Color aluminumColor = Color(0xFF848789);
   static const Color ironColor = Color(0xFF71797E);
+  static const Color steelColor = Color(0xFF607D8B);
+  static const Color stainlessSteelColor = Color(0xFF90A4AE);
   static const Color goldColor = Color(0xFFFFD700);
   static const Color silverColor = Color(0xFFC0C0C0);
   static const Color zincColor = Color(0xFF7C8C96);
-  static const Color nickelColor = Color(0xFF857855);
+  static const Color nickelColor = Color(0xFFBCAAA4);
+  static const Color leadColor = Color(0xFF757575);
+  static const Color brassColor = Color(0xFFE5B84D);
+  static const Color titaniumColor = Color(0xFF546E7A);
 
   // Gradient
   static const List<Color> primaryGradient = [secondary, primary];

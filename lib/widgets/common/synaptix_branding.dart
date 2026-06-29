@@ -9,7 +9,6 @@ class SynaptixBranding extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = context.l10n;
     final isDark = context.isDark;
 
     return Column(
@@ -20,31 +19,35 @@ class SynaptixBranding extends StatelessWidget {
             color: isDark ? AppColors.borderDark : AppColors.borderLight,
           ),
         const SizedBox(height: 8),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              '${l10n.poweredBy} ',
-              style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                    color: isDark
-                        ? AppColors.textSecondaryDark
-                        : AppColors.textSecondaryLight,
-                  ),
-            ),
-            ShaderMask(
-              shaderCallback: (bounds) => const LinearGradient(
-                colors: [AppColors.secondary, AppColors.primary],
-              ).createShader(bounds),
-              child: Text(
-                'Synaptix',
+        // Force LTR so "Powered by Synaptix" never reverses in RTL mode
+        Directionality(
+          textDirection: TextDirection.ltr,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                'Powered by ',
                 style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                      letterSpacing: 0.5,
+                      color: isDark
+                          ? AppColors.textSecondaryDark
+                          : AppColors.textSecondaryLight,
                     ),
               ),
-            ),
-          ],
+              ShaderMask(
+                shaderCallback: (bounds) => const LinearGradient(
+                  colors: [AppColors.secondary, AppColors.primary],
+                ).createShader(bounds),
+                child: Text(
+                  'Synaptix',
+                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        letterSpacing: 0.5,
+                      ),
+                ),
+              ),
+            ],
+          ),
         ),
         const SizedBox(height: 8),
       ],
