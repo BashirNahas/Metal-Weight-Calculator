@@ -1,0 +1,99 @@
+import 'dart:convert';
+import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:metal_weight_calculator/core/constants/app_constants.dart';
+import 'package:metal_weight_calculator/models/calculation.dart';
+import 'package:metal_weight_calculator/models/metal_price.dart';
+
+class StorageService {
+  StorageService._();
+  static final StorageService instance = StorageService._();
+
+  SharedPreferences? _prefs;
+
+  Future<void> init() async {
+    _prefs = await SharedPreferences.getInstance();
+  }
+
+  SharedPreferences get _p {
+    assert(_prefs != null, 'StorageService.init() must be called before use');
+    return _prefs!;
+  }
+
+  // --- Theme ---
+
+  Future<void> saveThemeMode(ThemeMode mode) =>
+      _p.setInt(AppConstants.kThemeMode, mode.index);
+
+  ThemeMode loadThemeMode() {
+    final idx = _p.getInt(AppConstants.kThemeMode);
+    if (idx == null) return ThemeMode.system;
+    return ThemeMode.values[idx.clamp(0, ThemeMode.values.length - 1)];
+  }
+
+  // --- Locale ---
+
+  Future<void> saveLocale(Locale locale) =>
+      _p.setString(AppConstants.kLocale, locale.languageCode);
+
+  Locale loadLocale() {
+    final code = _p.getString(AppConstants.kLocale);
+    return Locale(code ?? 'ar');
+  }
+
+  // --- History ---
+
+  Future<void> saveHistory(List<Calculation> history) async {
+    final list = history.take(AppConstants.maxHistoryItems).map((c) => jsonEncode(c.toJson())).toList();
+    await _p.setStringList(AppConstants.kCalculationHistory, list);
+  }
+
+  List<Calculation> loadHistory() {
+    final list = _p.getStringList(AppConstants.kCalculationHistory) ?? [];
+    return list
+        .map((s) {
+          try {
+            return Calculation.fromJson(jsonDecode(s) as Map<String, dynamic>);
+          } catch (_) {
+            return null;
+          }
+        })
+        .whereType<Calculation>()
+        .toList();
+  }
+
+  // --- Metal prices cache ---
+
+  Future<void> saveCachedPrices(List<MetalPrice> prices) async {
+    final list = prices.map((p) => jsonEncode(p.toJson())).toList();
+    await _p.setStringList(AppConstants.kCachedPrices, list);
+    await _p.setString(
+      AppConstants.kLastPricesUpdate,
+      DateTime.now().toIso8601String(),
+    );
+  }
+
+  List<MetalPrice>? loadCachedPrices() {
+    final list = _p.getStringList(AppConstants.kCachedPrices);
+    if (list == null || list.isEmpty) return null;
+    try {
+      return list
+          .map((s) => MetalPrice.fromJson(jsonDecode(s) as Map<String, dynamic>))
+          .toList();
+    } catch (_) {
+      return null;
+    }
+  }
+
+  DateTime? loadLastPricesUpdate() {
+    final s = _p.getString(AppConstants.kLastPricesUpdate);
+    if (s == null) return null;
+    return DateTime.tryParse(s);
+  }
+
+  bool get isPriceCacheValid {
+    final last = loadLastPricesUpdate();
+    if (last == null) return false;
+    return DateTime.now().difference(last) < AppConstants.pricesCacheDuration;
+  }
+}
