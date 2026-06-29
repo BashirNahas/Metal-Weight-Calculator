@@ -1,19 +1,23 @@
 {
-  "metals": {
-    "copper": 9400,
-    "aluminum": 2350,
-    "iron": 130,
-    "zinc": 2800,
-    "nickel": 16500,
-    "lead": 2100,
-    "tin": 28000,
-    "gold": 96700000,
-    "silver": 1060000,
-    "platinum": 32150000,
-    "palladium": 32000000,
-    "steel": 700
-  },
+  "status": "success",
   "currency": "USD",
   "unit": "tonne",
-  "timestamp": "2025-06-30T00:00:00.000Z"
+  "metals": {
+    "copper": 13628.1284,
+    "aluminum": 3087.6,
+    "lead": 1881.8,
+    "nickel": 16332,
+    "zinc": 3467.94,
+    "gold": 4018.54,
+    "silver": 58.4995,
+    "platinum": 1585.704,
+    "palladium": 1228.038,
+    "iron": 130,
+    "tin": 28000,
+    "steel": 700
+  },
+  "timestamps": {
+    "metal": "2026-06-30T00:25:00.000Z",
+    "currency": "2026-06-30T00:25:00.000Z"
+  }
 }
