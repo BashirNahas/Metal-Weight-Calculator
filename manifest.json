@@ -1,11 +1,11 @@
 {
-    "name": "Metal Weight Calculator",
-    "short_name": "MWC",
+    "name": "Nahas MetalHub",
+    "short_name": "MetalHub",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
     "theme_color": "#0175C2",
-    "description": "A new Flutter project.",
+    "description": "Calculate precise metal weights by shape and grade, with live market prices.",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [

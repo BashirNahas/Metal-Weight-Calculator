@@ -1,0 +1,19 @@
+{
+  "metals": {
+    "copper": 9400,
+    "aluminum": 2350,
+    "iron": 130,
+    "zinc": 2800,
+    "nickel": 16500,
+    "lead": 2100,
+    "tin": 28000,
+    "gold": 96700000,
+    "silver": 1060000,
+    "platinum": 32150000,
+    "palladium": 32000000,
+    "steel": 700
+  },
+  "currency": "USD",
+  "unit": "tonne",
+  "timestamp": "2025-06-30T00:00:00.000Z"
+}
