@@ -62,6 +62,11 @@ class MetalPriceService {
     throw MetalPriceException(lastError?.toString() ?? 'All methods failed');
   }
 
+  // metals.dev returns precious metals in USD/troy-oz regardless of unit=tonne.
+  // Multiply these by troyOzPerTonne to normalise to USD/tonne.
+  static const _troyOzPerTonne = 32_150.7466;
+  static const _preciousMetalKeys = {'gold', 'silver', 'platinum', 'palladium'};
+
   List<MetalPrice> _parse(http.Response response) {
     if (response.statusCode != 200) {
       throw MetalPriceException(
@@ -80,18 +85,29 @@ class MetalPriceService {
       throw const MetalPriceException('No metals data in response');
     }
 
-    final timestamp = _parseTimestamp(body['timestamp']);
+    // Handle both new API format (timestamps.metal) and bootstrap format (timestamp)
+    final ts = body['timestamps'] is Map
+        ? (body['timestamps'] as Map)['metal']
+        : body['timestamp'];
+    final timestamp = _parseTimestamp(ts);
     final results = <MetalPrice>[];
 
     for (final entry in metals.entries) {
       final key = entry.key.toLowerCase();
+      // Skip LBMA/MCX/IBJA variants — use the clean keys only
+      if (key.contains('_') || key.contains(' ore')) continue;
       final names =
           MetalPrice.knownMetals[key] ?? MetalPrice.knownMetals[entry.key];
       if (names == null) continue;
 
       final priceRaw = entry.value;
-      final price = priceRaw is num ? priceRaw.toDouble() : null;
+      double? price = priceRaw is num ? priceRaw.toDouble() : null;
       if (price == null || price <= 0) continue;
+
+      // Convert precious metals from USD/troy-oz → USD/tonne
+      if (_preciousMetalKeys.contains(key)) {
+        price = price * _troyOzPerTonne;
+      }
 
       results.add(MetalPrice(
         key: key,

@@ -16,7 +16,7 @@ class AppConstants {
       'Check out Nahas MetalHub - a professional tool for calculating metal weights! Download now.';
 
   // API — pass via --dart-define=METALS_API_KEY=your_key at build time
-  static const String metalsApiBaseUrl = 'https://metals.dev/api/latest';
+  static const String metalsApiBaseUrl = 'https://api.metals.dev/v1/latest';
   static const String metalsApiKey = String.fromEnvironment(
     'METALS_API_KEY',
     defaultValue: 'GSXSD3M4DWA63FI2G0TA771I2G0TA',

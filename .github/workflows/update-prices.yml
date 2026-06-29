@@ -22,7 +22,7 @@ jobs:
       - name: Fetch latest metal prices
         run: |
           HTTP_STATUS=$(curl -s -o prices.json -w "%{http_code}" \
-            "https://metals.dev/api/latest?api_key=${{ secrets.METALS_API_KEY }}&currency=USD&unit=tonne" \
+            "https://api.metals.dev/v1/latest?api_key=${{ secrets.METALS_API_KEY }}&currency=USD&unit=tonne" \
             -H "Accept: application/json")
           echo "HTTP status: $HTTP_STATUS"
           if [ "$HTTP_STATUS" != "200" ]; then
