@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class AppConstants {
   AppConstants._();
 
-  static const String appName = 'Metal Weight Calculator';
+  static const String appName = 'Nahas MetalHub';
   static const String appVersion = '1.0.1';
   static const String buildNumber = '2';
   static const String developerHandle = '@Bashir_Nahas';
@@ -13,7 +13,7 @@ class AppConstants {
   static const String playStoreUrl =
       'https://play.google.com/store/apps/details?id=com.synaptix.metalweightcalculator';
   static const String shareText =
-      'Check out Metal Weight Calculator - a professional tool for calculating metal weights! Download now.';
+      'Check out Nahas MetalHub - a professional tool for calculating metal weights! Download now.';
 
   // API — pass via --dart-define=METALS_API_KEY=your_key at build time
   static const String metalsApiBaseUrl = 'https://metals.dev/api/latest';

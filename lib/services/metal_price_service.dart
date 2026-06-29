@@ -23,8 +23,23 @@ class MetalPriceService {
       return _parse(response);
     }
 
-    // On web, metals.dev doesn't include CORS headers so the browser blocks
-    // direct requests. Try multiple free CORS proxies in order.
+    return _fetchWeb(directUri);
+  }
+
+  Future<List<MetalPrice>> _fetchWeb(Uri directUri) async {
+    // ① Same-origin prices.json — populated by GitHub Actions every 4 h.
+    //    No CORS headers needed because it's the same domain as the web app.
+    try {
+      final sameOriginUri = Uri.base.resolve('prices.json');
+      final response = await http
+          .get(sameOriginUri)
+          .timeout(const Duration(seconds: 10));
+      if (response.statusCode == 200) return _parse(response);
+    } catch (_) {
+      // Not found or network error — fall through to proxies
+    }
+
+    // ② CORS proxies as fallback (both try to relay metals.dev with CORS headers)
     final encoded = Uri.encodeQueryComponent(directUri.toString());
     final proxies = [
       'https://api.allorigins.win/raw?url=$encoded',
@@ -44,7 +59,7 @@ class MetalPriceService {
     }
 
     if (lastError is MetalPriceException) throw lastError;
-    throw MetalPriceException(lastError?.toString() ?? 'All proxies failed');
+    throw MetalPriceException(lastError?.toString() ?? 'All methods failed');
   }
 
   List<MetalPrice> _parse(http.Response response) {

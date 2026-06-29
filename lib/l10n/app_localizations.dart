@@ -36,11 +36,21 @@ class AppLocalizations {
   String get selectShape => _t('selectShape');
   String get rectangle => _t('rectangle');
   String get circle => _t('circle');
+  String get squareBar => _t('squareBar');
+  String get roundBar => _t('roundBar');
+  String get hexBar => _t('hexBar');
+  String get pipe => _t('pipe');
+  String get moreShapes => _t('moreShapes');
+  String get changeLabel => _t('changeLabel');
   String get enterMeasurements => _t('enterMeasurements');
   String get length => _t('length');
   String get width => _t('width');
   String get diameter => _t('diameter');
   String get thickness => _t('thickness');
+  String get side => _t('side');
+  String get acrossFlats => _t('acrossFlats');
+  String get outerDiameter => _t('outerDiameter');
+  String get wallThickness => _t('wallThickness');
   String get calculateWeight => _t('calculateWeight');
   String get required => _t('required');
   String get fillAllFields => _t('fillAllFields');
@@ -127,7 +137,7 @@ class AppLocalizations {
 
   static const Map<String, Map<String, String>> _strings = {
     'ar': {
-      'appName': 'حساب وزن المعادن',
+      'appName': 'Nahas MetalHub',
       'poweredBy': 'مدعوم من',
       'companyName': 'Synaptix',
       'calculator': 'الحاسبة',
@@ -139,13 +149,23 @@ class AppLocalizations {
       'aluminum': 'ألومنيوم',
       'iron': 'حديد',
       'selectShape': 'اختر الشكل',
-      'rectangle': 'مستطيلة',
-      'circle': 'مدورة',
+      'rectangle': 'لوحة مستطيلة',
+      'circle': 'قرص دائري',
+      'squareBar': 'قضيب مربع',
+      'roundBar': 'قضيب دائري',
+      'hexBar': 'قضيب سداسي',
+      'pipe': 'أنبوب',
+      'moreShapes': 'أشكال\nأخرى',
+      'changeLabel': 'تغيير',
       'enterMeasurements': 'أدخل القياسات',
       'length': 'الطول (سم)',
       'width': 'العرض (سم)',
       'diameter': 'القطر (سم)',
       'thickness': 'السماكة (مم)',
+      'side': 'الجانب (سم)',
+      'acrossFlats': 'بين الوجوه (سم)',
+      'outerDiameter': 'القطر الخارجي (سم)',
+      'wallThickness': 'سُمك الجدار (مم)',
       'calculateWeight': 'احسب الوزن',
       'required': 'مطلوب',
       'fillAllFields': 'يرجى ملء جميع الحقول المطلوبة',
@@ -229,7 +249,7 @@ class AppLocalizations {
       'metal_steel': 'فولاذ',
     },
     'en': {
-      'appName': 'Metal Weight Calculator',
+      'appName': 'Nahas MetalHub',
       'poweredBy': 'Powered by',
       'companyName': 'Synaptix',
       'calculator': 'Calculator',
@@ -241,13 +261,23 @@ class AppLocalizations {
       'aluminum': 'Aluminum',
       'iron': 'Iron',
       'selectShape': 'Select Shape',
-      'rectangle': 'Rectangle',
-      'circle': 'Circle',
+      'rectangle': 'Flat Plate',
+      'circle': 'Round Disc',
+      'squareBar': 'Square Bar',
+      'roundBar': 'Round Bar',
+      'hexBar': 'Hex Bar',
+      'pipe': 'Pipe / Tube',
+      'moreShapes': 'More\nShapes',
+      'changeLabel': 'Change',
       'enterMeasurements': 'Enter Measurements',
       'length': 'Length (cm)',
       'width': 'Width (cm)',
       'diameter': 'Diameter (cm)',
       'thickness': 'Thickness (mm)',
+      'side': 'Side (cm)',
+      'acrossFlats': 'Across Flats (cm)',
+      'outerDiameter': 'Outer Ø (cm)',
+      'wallThickness': 'Wall Thickness (mm)',
       'calculateWeight': 'Calculate Weight',
       'required': 'Required',
       'fillAllFields': 'Please fill all required fields',

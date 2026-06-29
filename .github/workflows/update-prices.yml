@@ -1,0 +1,40 @@
+name: Update Metal Prices
+
+on:
+  schedule:
+    - cron: '0 */4 * * *'   # every 4 hours
+  workflow_dispatch:          # allow manual trigger from GitHub UI
+
+permissions:
+  contents: write
+
+jobs:
+  update-prices:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout gh-pages branch
+        uses: actions/checkout@v4
+        with:
+          ref: gh-pages
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Fetch latest metal prices
+        run: |
+          HTTP_STATUS=$(curl -s -o prices.json -w "%{http_code}" \
+            "https://metals.dev/api/latest?api_key=${{ secrets.METALS_API_KEY }}&currency=USD&unit=tonne" \
+            -H "Accept: application/json")
+          echo "HTTP status: $HTTP_STATUS"
+          if [ "$HTTP_STATUS" != "200" ]; then
+            echo "API returned $HTTP_STATUS — keeping existing prices.json"
+            git checkout -- prices.json 2>/dev/null || true
+          fi
+
+      - name: Commit and push if changed
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add prices.json
+          git diff --staged --quiet && echo "No price changes" || \
+            git commit -m "chore: update metal prices $(date -u +%Y-%m-%dT%H:%M:%SZ) [skip ci]"
+          git push

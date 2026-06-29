@@ -42,7 +42,7 @@ enum Metal {
         Metal.zinc => Icons.hexagon_outlined,
         Metal.nickel => Icons.circle_outlined,
         Metal.lead => FontAwesomeIcons.weightHanging,
-        Metal.brass => FontAwesomeIcons.music,
+        Metal.brass => Icons.plumbing_rounded,  // brass is widely used in plumbing fittings
         Metal.titanium => Icons.science_outlined,
         Metal.gold => FontAwesomeIcons.coins,
         Metal.silver => Icons.paid_outlined,
@@ -73,14 +73,25 @@ enum Metal {
 
 enum Shape {
   rectangle,
-  circle;
+  circle,
+  squareBar,
+  roundBar,
+  hexBar,
+  pipe;
 
   String get key => name;
 
   IconData get icon => switch (this) {
         Shape.rectangle => Icons.crop_landscape_rounded,
         Shape.circle => Icons.circle_outlined,
+        Shape.squareBar => Icons.stop_rounded,
+        Shape.roundBar => Icons.lens,
+        Shape.hexBar => Icons.hexagon,
+        Shape.pipe => Icons.donut_large_rounded,
       };
+
+  bool get isPrimary =>
+      this == Shape.rectangle || this == Shape.circle;
 
   static Shape fromKey(String key) {
     return Shape.values.firstWhere(

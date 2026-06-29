@@ -8,7 +8,7 @@ class Calculation {
   final double? length;
   final double? width;
   final double? diameter;
-  final double thickness;
+  final double thickness; // mm for plate/disc/pipe wall; 0 for bar shapes
   final double weightKg;
   bool isFavorite;
   final DateTime timestamp;
@@ -20,7 +20,7 @@ class Calculation {
     this.length,
     this.width,
     this.diameter,
-    required this.thickness,
+    this.thickness = 0,
     required this.weightKg,
     this.isFavorite = false,
     required this.timestamp,
@@ -32,15 +32,43 @@ class Calculation {
     double? length,
     double? width,
     double? diameter,
-    required double thickness,
+    double thickness = 0,
   }) {
-    double volume;
-    if (shape == Shape.rectangle) {
-      volume = (length ?? 0) * (width ?? 0) * (thickness / 10);
-    } else {
-      final r = (diameter ?? 0) / 2;
-      volume = math.pi * r * r * (thickness / 10);
-    }
+    // All linear dimensions are in cm. Thickness is in mm → divide by 10.
+    final double volume = switch (shape) {
+      // Rectangular plate/sheet: L × W × T(mm→cm)
+      Shape.rectangle =>
+        (length ?? 0) * (width ?? 0) * (thickness / 10),
+
+      // Circular disc: π × r² × T(mm→cm)
+      Shape.circle =>
+        math.pi * math.pow((diameter ?? 0) / 2, 2) * (thickness / 10),
+
+      // Square bar: side² × length (all cm)
+      Shape.squareBar =>
+        math.pow(width ?? 0, 2).toDouble() * (length ?? 0),
+
+      // Round bar: π × r² × length (all cm)
+      Shape.roundBar =>
+        math.pi * math.pow((diameter ?? 0) / 2, 2) * (length ?? 0),
+
+      // Hexagonal bar: (√3/2) × AF² × length  (AF = across-flats in cm)
+      // Area of regular hexagon given across-flats = (√3/2) × AF²
+      Shape.hexBar =>
+        (math.sqrt(3) / 2) * math.pow(width ?? 0, 2) * (length ?? 0),
+
+      // Hollow pipe: π/4 × (OD² − ID²) × length
+      // OD = diameter (cm), wall = thickness (mm→cm), ID = OD − 2×wall
+      Shape.pipe => () {
+          final od = diameter ?? 0;
+          final wallCm = thickness / 10;
+          final id = od - 2 * wallCm;
+          if (id <= 0) return 0.0;
+          return math.pi / 4.0 * ((od * od) - (id * id)) * (length ?? 0);
+        }(),
+    };
+
+    // volume (cm³) × density (g/cm³) / 1000 = kg
     final weight = volume * metal.density / 1000;
 
     return Calculation(
@@ -76,7 +104,7 @@ class Calculation {
         length: (json['length'] as num?)?.toDouble(),
         width: (json['width'] as num?)?.toDouble(),
         diameter: (json['diameter'] as num?)?.toDouble(),
-        thickness: (json['thickness'] as num).toDouble(),
+        thickness: (json['thickness'] as num?)?.toDouble() ?? 0,
         weightKg: (json['weightKg'] as num).toDouble(),
         isFavorite: json['isFavorite'] as bool? ?? false,
         timestamp: DateTime.parse(json['timestamp'] as String),

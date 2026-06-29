@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:metal_weight_calculator/core/constants/app_colors.dart';
 import 'package:metal_weight_calculator/core/extensions/context_extensions.dart';
+import 'package:metal_weight_calculator/l10n/app_localizations.dart';
 import 'package:metal_weight_calculator/models/metal.dart';
 import 'package:metal_weight_calculator/providers/calculator_provider.dart';
 import 'package:metal_weight_calculator/providers/history_provider.dart';
@@ -207,62 +208,11 @@ class CalculatorScreen extends StatelessWidget {
                           const SizedBox(height: 16),
                           AnimatedSwitcher(
                             duration: const Duration(milliseconds: 280),
-                            child: calc.selectedShape == Shape.rectangle
-                                ? Row(
-                                    key: const ValueKey('rect'),
-                                    children: [
-                                      Expanded(
-                                        child: MeasurementField(
-                                          controller: calc.lengthController,
-                                          label: l10n.length,
-                                          icon: Icons.height_rounded,
-                                          hasError:
-                                              calc.fieldErrors['length'] ??
-                                                  false,
-                                          errorText: l10n.required,
-                                          onChanged: (_) =>
-                                              calc.clearFieldError('length'),
-                                        ),
-                                      ),
-                                      const SizedBox(width: 12),
-                                      Expanded(
-                                        child: MeasurementField(
-                                          controller: calc.widthController,
-                                          label: l10n.width,
-                                          icon: Icons.width_normal_rounded,
-                                          hasError:
-                                              calc.fieldErrors['width'] ??
-                                                  false,
-                                          errorText: l10n.required,
-                                          onChanged: (_) =>
-                                              calc.clearFieldError('width'),
-                                        ),
-                                      ),
-                                    ],
-                                  )
-                                : MeasurementField(
-                                    key: const ValueKey('circ'),
-                                    controller: calc.diameterController,
-                                    label: l10n.diameter,
-                                    icon:
-                                        Icons.radio_button_unchecked_rounded,
-                                    hasError:
-                                        calc.fieldErrors['diameter'] ?? false,
-                                    errorText: l10n.required,
-                                    onChanged: (_) =>
-                                        calc.clearFieldError('diameter'),
-                                  ),
-                          ),
-                          const SizedBox(height: 14),
-                          MeasurementField(
-                            controller: calc.thicknessController,
-                            label: l10n.thickness,
-                            icon: Icons.layers_outlined,
-                            hasError:
-                                calc.fieldErrors['thickness'] ?? false,
-                            errorText: l10n.required,
-                            onChanged: (_) =>
-                                calc.clearFieldError('thickness'),
+                            child: _MeasurementFields(
+                              key: ValueKey(calc.selectedShape),
+                              calc: calc,
+                              l10n: l10n,
+                            ),
                           ),
                         ],
                       ),
@@ -283,6 +233,112 @@ class CalculatorScreen extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+}
+
+/// Renders the measurement inputs for the currently selected [Shape].
+/// Field controllers are reused across shapes with shifted meaning:
+///   width    → side (squareBar) | across-flats (hexBar)
+///   diameter → bar diameter (roundBar) | outer Ø (pipe)
+///   thickness → wall thickness (pipe); unused for solid bars
+class _MeasurementFields extends StatelessWidget {
+  final CalculatorProvider calc;
+  final AppLocalizations l10n;
+
+  const _MeasurementFields({
+    super.key,
+    required this.calc,
+    required this.l10n,
+  });
+
+  Widget _lengthField() => MeasurementField(
+        controller: calc.lengthController,
+        label: l10n.length,
+        icon: Icons.height_rounded,
+        hasError: calc.fieldErrors['length'] ?? false,
+        errorText: l10n.required,
+        onChanged: (_) => calc.clearFieldError('length'),
+      );
+
+  Widget _widthField({required String label, required IconData icon}) =>
+      MeasurementField(
+        controller: calc.widthController,
+        label: label,
+        icon: icon,
+        hasError: calc.fieldErrors['width'] ?? false,
+        errorText: l10n.required,
+        onChanged: (_) => calc.clearFieldError('width'),
+      );
+
+  Widget _diameterField({required String label}) => MeasurementField(
+        controller: calc.diameterController,
+        label: label,
+        icon: Icons.radio_button_unchecked_rounded,
+        hasError: calc.fieldErrors['diameter'] ?? false,
+        errorText: l10n.required,
+        onChanged: (_) => calc.clearFieldError('diameter'),
+      );
+
+  Widget _thicknessField({required String label}) => MeasurementField(
+        controller: calc.thicknessController,
+        label: label,
+        icon: Icons.layers_outlined,
+        hasError: calc.fieldErrors['thickness'] ?? false,
+        errorText: l10n.required,
+        onChanged: (_) => calc.clearFieldError('thickness'),
+      );
+
+  Widget _row(Widget a, Widget b) => Row(
+        children: [
+          Expanded(child: a),
+          const SizedBox(width: 12),
+          Expanded(child: b),
+        ],
+      );
+
+  @override
+  Widget build(BuildContext context) {
+    final fields = switch (calc.selectedShape) {
+      Shape.rectangle => [
+          _row(
+            _lengthField(),
+            _widthField(label: l10n.width, icon: Icons.width_normal_rounded),
+          ),
+          const SizedBox(height: 14),
+          _thicknessField(label: l10n.thickness),
+        ],
+      Shape.circle => [
+          _diameterField(label: l10n.diameter),
+          const SizedBox(height: 14),
+          _thicknessField(label: l10n.thickness),
+        ],
+      Shape.squareBar => [
+          _row(
+            _lengthField(),
+            _widthField(label: l10n.side, icon: Icons.square_outlined),
+          ),
+        ],
+      Shape.roundBar => [
+          _row(_lengthField(), _diameterField(label: l10n.diameter)),
+        ],
+      Shape.hexBar => [
+          _row(
+            _lengthField(),
+            _widthField(label: l10n.acrossFlats, icon: Icons.hexagon_outlined),
+          ),
+        ],
+      Shape.pipe => [
+          _row(_lengthField(), _diameterField(label: l10n.outerDiameter)),
+          const SizedBox(height: 14),
+          _thicknessField(label: l10n.wallThickness),
+        ],
+    };
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      mainAxisSize: MainAxisSize.min,
+      children: fields,
     );
   }
 }

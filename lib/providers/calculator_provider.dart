@@ -6,6 +6,11 @@ class CalculatorProvider extends ChangeNotifier {
   Metal _selectedMetal = Metal.copper;
   Shape _selectedShape = Shape.rectangle;
 
+  // Shared across shapes — semantics change per shape:
+  //   length   → plate length (rect) | bar/pipe length (bar shapes)
+  //   width    → plate width (rect)  | side (squareBar) | across-flats (hexBar)
+  //   diameter → disc diameter (circle) | bar diameter (roundBar) | OD (pipe)
+  //   thickness → plate/disc thickness in mm | pipe wall thickness in mm
   final lengthController = TextEditingController();
   final widthController = TextEditingController();
   final diameterController = TextEditingController();
@@ -42,29 +47,46 @@ class CalculatorProvider extends ChangeNotifier {
       'diameter': false,
       'thickness': false,
     };
-
     bool valid = true;
 
-    final thickness = double.tryParse(thicknessController.text.trim());
-    if (thickness == null || thickness <= 0) {
-      errors['thickness'] = true;
-      valid = false;
+    // thickness: required for plate/disc/pipe; not used for solid bars
+    final needsThickness = _selectedShape == Shape.rectangle ||
+        _selectedShape == Shape.circle ||
+        _selectedShape == Shape.pipe;
+    if (needsThickness) {
+      final t = double.tryParse(thicknessController.text.trim());
+      if (t == null || t <= 0) {
+        errors['thickness'] = true;
+        valid = false;
+      }
     }
 
-    if (_selectedShape == Shape.rectangle) {
-      final length = double.tryParse(lengthController.text.trim());
-      if (length == null || length <= 0) {
+    // length: required for all except circle disc
+    if (_selectedShape != Shape.circle) {
+      final l = double.tryParse(lengthController.text.trim());
+      if (l == null || l <= 0) {
         errors['length'] = true;
         valid = false;
       }
-      final width = double.tryParse(widthController.text.trim());
-      if (width == null || width <= 0) {
+    }
+
+    // width: required for rectangle, squareBar, hexBar
+    if (_selectedShape == Shape.rectangle ||
+        _selectedShape == Shape.squareBar ||
+        _selectedShape == Shape.hexBar) {
+      final w = double.tryParse(widthController.text.trim());
+      if (w == null || w <= 0) {
         errors['width'] = true;
         valid = false;
       }
-    } else {
-      final diameter = double.tryParse(diameterController.text.trim());
-      if (diameter == null || diameter <= 0) {
+    }
+
+    // diameter: required for circle, roundBar, pipe
+    if (_selectedShape == Shape.circle ||
+        _selectedShape == Shape.roundBar ||
+        _selectedShape == Shape.pipe) {
+      final d = double.tryParse(diameterController.text.trim());
+      if (d == null || d <= 0) {
         errors['diameter'] = true;
         valid = false;
       }
@@ -78,7 +100,8 @@ class CalculatorProvider extends ChangeNotifier {
   Calculation? calculate() {
     if (!validate()) return null;
 
-    final thickness = double.parse(thicknessController.text.trim());
+    final thickness =
+        double.tryParse(thicknessController.text.trim()) ?? 0;
     final length = double.tryParse(lengthController.text.trim());
     final width = double.tryParse(widthController.text.trim());
     final diameter = double.tryParse(diameterController.text.trim());
@@ -134,6 +157,7 @@ class CalculatorProvider extends ChangeNotifier {
     fieldErrors['length'] = false;
     fieldErrors['width'] = false;
     fieldErrors['diameter'] = false;
+    fieldErrors['thickness'] = false;
   }
 
   @override
