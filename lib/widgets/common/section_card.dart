@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:metal_weight_calculator/core/constants/app_colors.dart';
+import 'package:metal_weight_calculator/core/extensions/context_extensions.dart';
 
 class SectionCard extends StatelessWidget {
   final Widget child;
@@ -14,10 +16,30 @@ class SectionCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
+    final isDark = context.isDark;
+
+    return Container(
       margin: margin ?? EdgeInsets.zero,
+      decoration: BoxDecoration(
+        color: isDark ? AppColors.cardDark : Colors.white,
+        borderRadius: BorderRadius.circular(20),
+        border: Border.all(
+          color: isDark
+              ? AppColors.borderDark.withValues(alpha: 0.5)
+              : const Color(0xFFEAEAF2),
+        ),
+        boxShadow: [
+          BoxShadow(
+            color: isDark
+                ? Colors.black.withValues(alpha: 0.18)
+                : Colors.black.withValues(alpha: 0.045),
+            blurRadius: 14,
+            offset: const Offset(0, 3),
+          ),
+        ],
+      ),
       child: Padding(
-        padding: padding ?? const EdgeInsets.all(16),
+        padding: padding ?? const EdgeInsets.all(18),
         child: child,
       ),
     );
@@ -37,10 +59,19 @@ class SectionHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
+
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Icon(icon, color: colorScheme.primary, size: 22),
+        Container(
+          width: 30,
+          height: 30,
+          decoration: BoxDecoration(
+            color: colorScheme.primary.withValues(alpha: 0.1),
+            borderRadius: BorderRadius.circular(8),
+          ),
+          child: Icon(icon, color: colorScheme.primary, size: 17),
+        ),
         const SizedBox(width: 10),
         Text(
           title,

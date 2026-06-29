@@ -57,15 +57,16 @@ class CalculatorScreen extends StatelessWidget {
     return Scaffold(
       body: CustomScrollView(
         slivers: [
-          // Decorative SliverAppBar
           SliverAppBar(
-            expandedHeight: 110,
+            expandedHeight: 116,
             pinned: true,
+            // centerTitle ensures the FlexibleSpaceBar title is centred too
+            centerTitle: true,
             backgroundColor:
-                isDark ? AppColors.cardDark : AppColors.cardLight,
+                isDark ? AppColors.backgroundDark : AppColors.backgroundLight,
             elevation: 0,
-            scrolledUnderElevation: 1,
-            shadowColor: Colors.black.withValues(alpha: 0.08),
+            scrolledUnderElevation: 0.8,
+            shadowColor: Colors.black.withValues(alpha: 0.10),
             actions: [
               IconButton(
                 icon: const Icon(Icons.refresh_rounded),
@@ -74,11 +75,13 @@ class CalculatorScreen extends StatelessWidget {
               ),
             ],
             flexibleSpace: FlexibleSpaceBar(
-              titlePadding:
-                  const EdgeInsets.only(left: 20, bottom: 14, right: 60),
+              centerTitle: true,
+              // Symmetric horizontal padding so the title is truly centred
+              titlePadding: const EdgeInsets.only(bottom: 16),
               title: Column(
                 mainAxisAlignment: MainAxisAlignment.end,
-                crossAxisAlignment: CrossAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisSize: MainAxisSize.min,
                 children: [
                   Text(
                     l10n.appName,
@@ -88,14 +91,45 @@ class CalculatorScreen extends StatelessWidget {
                               ? AppColors.textPrimaryDark
                               : AppColors.textPrimaryLight,
                         ),
+                    textAlign: TextAlign.center,
                   ),
-                  Text(
-                    'Powered by Synaptix',
-                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                          color: AppColors.secondary.withValues(alpha: 0.8),
-                          fontSize: 10,
-                          letterSpacing: 0.3,
+                  const SizedBox(height: 1),
+                  // Force LTR so Arabic RTL never reverses "Powered by Synaptix"
+                  Directionality(
+                    textDirection: TextDirection.ltr,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                          'Powered by ',
+                          style:
+                              Theme.of(context).textTheme.bodySmall?.copyWith(
+                                    color: AppColors.secondary
+                                        .withValues(alpha: 0.75),
+                                    fontSize: 9.5,
+                                    letterSpacing: 0.2,
+                                  ),
                         ),
+                        ShaderMask(
+                          shaderCallback: (bounds) => const LinearGradient(
+                            colors: [AppColors.secondary, AppColors.primary],
+                          ).createShader(bounds),
+                          child: Text(
+                            'Synaptix',
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodySmall
+                                ?.copyWith(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 9.5,
+                                  letterSpacing: 0.5,
+                                ),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ],
               ),
@@ -106,7 +140,7 @@ class CalculatorScreen extends StatelessWidget {
                     end: Alignment.bottomRight,
                     colors: isDark
                         ? [AppColors.cardDark, AppColors.surfaceDark]
-                        : [Colors.white, const Color(0xFFF0EEF5)],
+                        : [Colors.white, const Color(0xFFF2F0F8)],
                   ),
                 ),
               ),
@@ -119,11 +153,11 @@ class CalculatorScreen extends StatelessWidget {
               return SliverPadding(
                 padding: EdgeInsets.symmetric(
                   horizontal: context.isTablet ? 40 : 16,
-                  vertical: 12,
+                  vertical: 14,
                 ),
                 sliver: SliverList(
                   delegate: SliverChildListDelegate([
-                    // Metal selector
+                    // Metal selector card
                     SectionCard(
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
@@ -142,7 +176,7 @@ class CalculatorScreen extends StatelessWidget {
                     ),
                     const SizedBox(height: 12),
 
-                    // Shape selector
+                    // Shape selector card
                     SectionCard(
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
@@ -161,7 +195,7 @@ class CalculatorScreen extends StatelessWidget {
                     ),
                     const SizedBox(height: 12),
 
-                    // Measurements
+                    // Measurements card
                     SectionCard(
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
@@ -182,8 +216,9 @@ class CalculatorScreen extends StatelessWidget {
                                           controller: calc.lengthController,
                                           label: l10n.length,
                                           icon: Icons.height_rounded,
-                                          hasError: calc.fieldErrors['length'] ??
-                                              false,
+                                          hasError:
+                                              calc.fieldErrors['length'] ??
+                                                  false,
                                           errorText: l10n.required,
                                           onChanged: (_) =>
                                               calc.clearFieldError('length'),
@@ -195,8 +230,9 @@ class CalculatorScreen extends StatelessWidget {
                                           controller: calc.widthController,
                                           label: l10n.width,
                                           icon: Icons.width_normal_rounded,
-                                          hasError: calc.fieldErrors['width'] ??
-                                              false,
+                                          hasError:
+                                              calc.fieldErrors['width'] ??
+                                                  false,
                                           errorText: l10n.required,
                                           onChanged: (_) =>
                                               calc.clearFieldError('width'),
@@ -208,7 +244,8 @@ class CalculatorScreen extends StatelessWidget {
                                     key: const ValueKey('circ'),
                                     controller: calc.diameterController,
                                     label: l10n.diameter,
-                                    icon: Icons.radio_button_unchecked_rounded,
+                                    icon:
+                                        Icons.radio_button_unchecked_rounded,
                                     hasError:
                                         calc.fieldErrors['diameter'] ?? false,
                                     errorText: l10n.required,
@@ -230,14 +267,15 @@ class CalculatorScreen extends StatelessWidget {
                         ],
                       ),
                     ),
-                    const SizedBox(height: 20),
+                    const SizedBox(height: 22),
 
                     GradientButton(
                       label: l10n.calculateWeight,
                       icon: Icons.calculate_rounded,
+                      height: 58,
                       onPressed: () => _onCalculate(context),
                     ),
-                    const SizedBox(height: 32),
+                    const SizedBox(height: 36),
                   ]),
                 ),
               );

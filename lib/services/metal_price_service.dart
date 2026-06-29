@@ -16,22 +16,38 @@ class MetalPriceService {
       },
     );
 
-    // On web, metals.dev doesn't send CORS headers, so requests are blocked by
-    // the browser. Route through corsproxy.io which adds the required headers.
-    final Uri uri;
-    if (kIsWeb) {
-      uri = Uri.parse(
-        'https://corsproxy.io/?url=${Uri.encodeQueryComponent(directUri.toString())}',
-      );
-    } else {
-      uri = directUri;
+    if (!kIsWeb) {
+      final response = await http
+          .get(directUri, headers: {'Accept': 'application/json'})
+          .timeout(const Duration(seconds: 20));
+      return _parse(response);
     }
 
-    final response = await http
-        .get(uri, headers: {'Accept': 'application/json'}).timeout(
-      const Duration(seconds: 20),
-    );
+    // On web, metals.dev doesn't include CORS headers so the browser blocks
+    // direct requests. Try multiple free CORS proxies in order.
+    final encoded = Uri.encodeQueryComponent(directUri.toString());
+    final proxies = [
+      'https://api.allorigins.win/raw?url=$encoded',
+      'https://corsproxy.io/?$encoded',
+    ];
 
+    Object? lastError;
+    for (final url in proxies) {
+      try {
+        final response = await http
+            .get(Uri.parse(url), headers: {'Accept': 'application/json'})
+            .timeout(const Duration(seconds: 25));
+        return _parse(response);
+      } catch (e) {
+        lastError = e;
+      }
+    }
+
+    if (lastError is MetalPriceException) throw lastError;
+    throw MetalPriceException(lastError?.toString() ?? 'All proxies failed');
+  }
+
+  List<MetalPrice> _parse(http.Response response) {
     if (response.statusCode != 200) {
       throw MetalPriceException(
         'Server returned ${response.statusCode}',
@@ -75,18 +91,14 @@ class MetalPriceService {
     results.sort((a, b) {
       final ai = MetalPrice.priorityMetals.indexOf(a.key);
       final bi = MetalPrice.priorityMetals.indexOf(b.key);
-      final ai2 = ai == -1 ? 999 : ai;
-      final bi2 = bi == -1 ? 999 : bi;
-      return ai2.compareTo(bi2);
+      return (ai == -1 ? 999 : ai).compareTo(bi == -1 ? 999 : bi);
     });
 
     return results;
   }
 
   DateTime _parseTimestamp(dynamic value) {
-    if (value is String) {
-      return DateTime.tryParse(value) ?? DateTime.now();
-    }
+    if (value is String) return DateTime.tryParse(value) ?? DateTime.now();
     return DateTime.now();
   }
 }
