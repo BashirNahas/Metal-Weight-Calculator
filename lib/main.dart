@@ -67,6 +67,8 @@ class MetalWeightApp extends StatelessWidget {
             supportedLocales: const [
               Locale('ar'),
               Locale('en'),
+              Locale('fr'),
+              Locale('de'),
             ],
             localizationsDelegates: const [
               AppLocalizations.delegate,

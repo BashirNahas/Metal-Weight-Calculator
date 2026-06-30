@@ -35,11 +35,10 @@ class PriceCard extends StatelessWidget {
     final l10n = context.l10n;
     final isDark = context.isDark;
     final colorScheme = Theme.of(context).colorScheme;
-    final isArabic = l10n.copper == 'نحاس';
     final selectedUnit = context.watch<PriceUnitProvider>().unit;
 
-    final displayName = isArabic ? price.nameAr : price.nameEn;
-    final locale = isArabic ? 'ar' : 'en';
+    final locale = l10n.locale.languageCode;
+    final displayName = price.nameFor(locale);
     final (primaryValue, primaryLabel) = _primary(selectedUnit, l10n);
     final (secondaryValue, secondaryLabel) = _secondary(selectedUnit, l10n);
 

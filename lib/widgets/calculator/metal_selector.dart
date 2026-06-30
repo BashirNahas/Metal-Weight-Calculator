@@ -42,7 +42,6 @@ class MetalSelector extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
-    final isArabic = l10n.copper == 'نحاس';
     final isNonPrimary = !_primaryMetals.contains(selected);
 
     return Column(
@@ -54,7 +53,7 @@ class MetalSelector extends StatelessWidget {
           _SelectedMetalBanner(
             metal: selected,
             label: _label(l10n, selected),
-            changeLabel: isArabic ? 'تغيير' : 'Change',
+            changeLabel: l10n.changeLabel,
             onTap: () => _openSheet(context, l10n),
           ),
           const SizedBox(height: 12),
@@ -81,9 +80,8 @@ class MetalSelector extends StatelessWidget {
                 const SizedBox(width: 10),
               ],
               _MoreMetalsButton(
-                moreLabel:
-                    isArabic ? 'معادن\nأخرى' : 'More\nMetals',
-                swapLabel: isArabic ? 'تغيير' : 'Swap',
+                moreLabel: l10n.moreMetals,
+                swapLabel: l10n.swapLabel,
                 isNonPrimary: isNonPrimary,
                 onTap: () => _openSheet(context, l10n),
               ),

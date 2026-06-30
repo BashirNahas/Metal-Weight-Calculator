@@ -35,12 +35,23 @@ class StorageService {
 
   // --- Locale ---
 
+  static const _supportedLocaleCodes = {'ar', 'en', 'fr', 'de'};
+
   Future<void> saveLocale(Locale locale) =>
       _p.setString(AppConstants.kLocale, locale.languageCode);
 
+  // No saved preference yet: default to the device/browser locale (web picks
+  // up navigator.language, native picks up the OS locale) when it's one of
+  // our supported languages, otherwise fall back to English.
   Locale loadLocale() {
     final code = _p.getString(AppConstants.kLocale);
-    return Locale(code ?? 'ar');
+    if (code != null) return Locale(code);
+
+    final deviceCode =
+        WidgetsBinding.instance.platformDispatcher.locale.languageCode;
+    return Locale(
+      _supportedLocaleCodes.contains(deviceCode) ? deviceCode : 'en',
+    );
   }
 
   // --- History ---

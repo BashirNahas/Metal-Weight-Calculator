@@ -477,7 +477,7 @@ class _LanguageSelector extends StatelessWidget {
                       code: 'ar',
                       label: l10n.arabic,
                       flag: '🇸🇦',
-                      selected: localeProvider.isArabic,
+                      selected: localeProvider.locale.languageCode == 'ar',
                       onTap: () => localeProvider
                           .setLocale(const Locale('ar')),
                     ),
@@ -488,9 +488,35 @@ class _LanguageSelector extends StatelessWidget {
                       code: 'en',
                       label: l10n.english,
                       flag: '🇬🇧',
-                      selected: !localeProvider.isArabic,
+                      selected: localeProvider.locale.languageCode == 'en',
                       onTap: () => localeProvider
                           .setLocale(const Locale('en')),
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 10),
+              Row(
+                children: [
+                  Expanded(
+                    child: _LangTile(
+                      code: 'fr',
+                      label: l10n.french,
+                      flag: '🇫🇷',
+                      selected: localeProvider.locale.languageCode == 'fr',
+                      onTap: () => localeProvider
+                          .setLocale(const Locale('fr')),
+                    ),
+                  ),
+                  const SizedBox(width: 10),
+                  Expanded(
+                    child: _LangTile(
+                      code: 'de',
+                      label: l10n.german,
+                      flag: '🇩🇪',
+                      selected: localeProvider.locale.languageCode == 'de',
+                      onTap: () => localeProvider
+                          .setLocale(const Locale('de')),
                     ),
                   ),
                 ],

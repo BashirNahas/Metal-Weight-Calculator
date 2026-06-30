@@ -113,6 +113,8 @@ class MetalPriceService {
         key: key,
         nameEn: names.$1,
         nameAr: names.$2,
+        nameFr: names.$3,
+        nameDe: names.$4,
         pricePerTonne: price,
         currency: 'USD',
         timestamp: timestamp,

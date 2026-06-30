@@ -26,8 +26,7 @@ class _MarketPricesScreenState extends State<MarketPricesScreen> {
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
-    final isArabic = l10n.copper == 'نحاس';
-    final locale = isArabic ? 'ar' : 'en';
+    final locale = l10n.locale.languageCode;
 
     return Scaffold(
       appBar: AppBar(
@@ -64,7 +63,6 @@ class _MarketPricesScreenState extends State<MarketPricesScreen> {
             child: _Body(
               provider: provider,
               locale: locale,
-              isArabic: isArabic,
             ),
           );
         },
@@ -76,12 +74,10 @@ class _MarketPricesScreenState extends State<MarketPricesScreen> {
 class _Body extends StatelessWidget {
   final MarketPricesProvider provider;
   final String locale;
-  final bool isArabic;
 
   const _Body({
     required this.provider,
     required this.locale,
-    required this.isArabic,
   });
 
   @override

@@ -7,7 +7,6 @@ class LocaleProvider extends ChangeNotifier {
   LocaleProvider() : _locale = StorageService.instance.loadLocale();
 
   Locale get locale => _locale;
-  bool get isArabic => _locale.languageCode == 'ar';
 
   Future<void> setLocale(Locale locale) async {
     if (_locale == locale) return;
