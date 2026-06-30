@@ -80,28 +80,32 @@ class _SplashScreenState extends State<SplashScreen>
               fit: StackFit.expand,
               children: [
                 Center(
+                  child: Container(
+                    padding: const EdgeInsets.all(20),
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      boxShadow: [
+                        BoxShadow(
+                          color: AppColors.secondary.withValues(alpha: 0.3),
+                          blurRadius: 40,
+                          spreadRadius: 8,
+                        ),
+                      ],
+                    ),
+                    child: Image.asset(
+                      'assets/splash.png',
+                      width: 260,
+                      height: 260,
+                    ),
+                  ),
+                ),
+                // MetalHub wordmark, positioned lower toward the bottom of the screen
+                Positioned(
+                  bottom: 90,
+                  left: 0,
+                  right: 0,
                   child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Container(
-                        padding: const EdgeInsets.all(20),
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          boxShadow: [
-                            BoxShadow(
-                              color: AppColors.secondary.withValues(alpha: 0.3),
-                              blurRadius: 40,
-                              spreadRadius: 8,
-                            ),
-                          ],
-                        ),
-                        child: Image.asset(
-                          'assets/splash.png',
-                          width: 220,
-                          height: 220,
-                        ),
-                      ),
-                      const SizedBox(height: 40),
                       ShaderMask(
                         shaderCallback: (bounds) => const LinearGradient(
                           colors: [
@@ -116,7 +120,7 @@ class _SplashScreenState extends State<SplashScreen>
                           'MetalHub',
                           style: GoogleFonts.ubuntu(
                             color: Colors.white,
-                            fontSize: 28,
+                            fontSize: 36,
                             fontWeight: FontWeight.bold,
                             letterSpacing: 1.5,
                           ),
