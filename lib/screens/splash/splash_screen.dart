@@ -113,12 +113,12 @@ class _SplashScreenState extends State<SplashScreen>
                           end: Alignment.bottomRight,
                         ).createShader(bounds),
                         child: Text(
-                          'Nahas MetalHub',
-                          style: GoogleFonts.playfairDisplay(
+                          'MetalHub',
+                          style: GoogleFonts.ubuntu(
                             color: Colors.white,
-                            fontSize: 26,
+                            fontSize: 28,
                             fontWeight: FontWeight.bold,
-                            letterSpacing: 1.2,
+                            letterSpacing: 1.5,
                           ),
                           textAlign: TextAlign.center,
                         ),

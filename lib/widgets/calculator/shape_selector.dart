@@ -118,7 +118,7 @@ class _ShapeTile extends StatelessWidget {
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 220),
         curve: Curves.easeOut,
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 10),
         decoration: BoxDecoration(
           color: isSelected
               ? AppColors.primary.withValues(alpha: isDark ? 0.25 : 0.10)
@@ -146,10 +146,10 @@ class _ShapeTile extends StatelessWidget {
           children: [
             Icon(
               shape.icon,
-              size: 18,
+              size: 16,
               color: isSelected ? colorScheme.primary : colorScheme.outline,
             ),
-            const SizedBox(width: 8),
+            const SizedBox(width: 5),
             Flexible(
               child: FittedBox(
                 fit: BoxFit.scaleDown,

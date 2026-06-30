@@ -48,12 +48,25 @@ class MeasurementField extends StatelessWidget {
             color: colorScheme.onSurface,
           ),
       decoration: InputDecoration(
-        labelText: label,
+        label: FittedBox(
+          fit: BoxFit.scaleDown,
+          alignment: AlignmentDirectional.centerStart,
+          child: Text(
+            label,
+            style: TextStyle(
+              color: hasError
+                  ? colorScheme.error
+                  : colorScheme.onSurface.withValues(alpha: 0.6),
+              fontSize: 14,
+            ),
+          ),
+        ),
         prefixIcon: Icon(
           icon,
           size: 20,
           color: hasError ? colorScheme.error : colorScheme.primary,
         ),
+        prefixIconConstraints: const BoxConstraints(minWidth: 40, minHeight: 0),
         errorText: hasError ? (errorText ?? '') : null,
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
@@ -78,12 +91,6 @@ class MeasurementField extends StatelessWidget {
         focusedErrorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
           borderSide: BorderSide(color: colorScheme.error, width: 2),
-        ),
-        labelStyle: TextStyle(
-          color: hasError
-              ? colorScheme.error
-              : colorScheme.onSurface.withValues(alpha: 0.6),
-          fontSize: 14,
         ),
       ),
     );
