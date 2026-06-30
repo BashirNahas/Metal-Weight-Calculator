@@ -30,9 +30,8 @@ class _ResultDialogState extends State<ResultDialog> {
   String _buildShareText(BuildContext context) {
     final l10n = context.l10n;
     final c = widget.calculation;
-    final metalName = l10n.metalName(c.metal.key);
-    final shapeName =
-        c.shape.name == 'rectangle' ? l10n.rectangle : l10n.circle;
+    final metalName = l10n.metalLabel(c.metal);
+    final shapeName = l10n.shapeLabel(c.shape);
     final weight = AppFormatters.weight(c.weightKg);
 
     return '${l10n.appName}\n'
@@ -46,7 +45,7 @@ class _ResultDialogState extends State<ResultDialog> {
     final colorScheme = Theme.of(context).colorScheme;
     final isDark = context.isDark;
     final c = widget.calculation;
-    final metalName = l10n.metalName(c.metal.key);
+    final metalName = l10n.metalLabel(c.metal);
 
     return Dialog(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),

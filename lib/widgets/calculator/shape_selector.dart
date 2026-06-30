@@ -17,14 +17,7 @@ class ShapeSelector extends StatelessWidget {
 
   static const _primaryShapes = [Shape.rectangle, Shape.circle];
 
-  String _label(AppLocalizations l10n, Shape s) => switch (s) {
-        Shape.rectangle => l10n.rectangle,
-        Shape.circle => l10n.circle,
-        Shape.squareBar => l10n.squareBar,
-        Shape.roundBar => l10n.roundBar,
-        Shape.hexBar => l10n.hexBar,
-        Shape.pipe => l10n.pipe,
-      };
+  String _label(AppLocalizations l10n, Shape s) => l10n.shapeLabel(s);
 
   void _openSheet(BuildContext context, AppLocalizations l10n) {
     showModalBottomSheet(
@@ -158,15 +151,20 @@ class _ShapeTile extends StatelessWidget {
             ),
             const SizedBox(width: 8),
             Flexible(
-              child: Text(
-                label,
-                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                      fontWeight: isSelected ? FontWeight.bold : FontWeight.w500,
-                      color: isSelected
-                          ? colorScheme.onSurface
-                          : colorScheme.outline,
-                    ),
-                overflow: TextOverflow.ellipsis,
+              child: FittedBox(
+                fit: BoxFit.scaleDown,
+                alignment: Alignment.center,
+                child: Text(
+                  label,
+                  maxLines: 1,
+                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                        fontWeight:
+                            isSelected ? FontWeight.bold : FontWeight.w500,
+                        color: isSelected
+                            ? colorScheme.onSurface
+                            : colorScheme.outline,
+                      ),
+                ),
               ),
             ),
           ],
@@ -298,12 +296,17 @@ class _SelectedShapeBanner extends StatelessWidget {
             ),
             const SizedBox(width: 12),
             Expanded(
-              child: Text(
-                label,
-                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                      fontWeight: FontWeight.bold,
-                      color: colorScheme.onSurface,
-                    ),
+              child: FittedBox(
+                fit: BoxFit.scaleDown,
+                alignment: AlignmentDirectional.centerStart,
+                child: Text(
+                  label,
+                  maxLines: 1,
+                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                        fontWeight: FontWeight.bold,
+                        color: colorScheme.onSurface,
+                      ),
+                ),
               ),
             ),
             Container(
@@ -445,22 +448,25 @@ class _ShapePickerSheet extends StatelessWidget {
                         ),
                         const SizedBox(width: 10),
                         Expanded(
-                          child: Text(
-                            labelOf(s),
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyMedium
-                                ?.copyWith(
-                                  fontWeight: isSel
-                                      ? FontWeight.bold
-                                      : FontWeight.w500,
-                                  color: isSel
-                                      ? colorScheme.onSurface
-                                      : colorScheme.onSurface
-                                          .withValues(alpha: 0.65),
-                                ),
-                            maxLines: 2,
-                            overflow: TextOverflow.ellipsis,
+                          child: FittedBox(
+                            fit: BoxFit.scaleDown,
+                            alignment: AlignmentDirectional.centerStart,
+                            child: Text(
+                              labelOf(s),
+                              maxLines: 1,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyMedium
+                                  ?.copyWith(
+                                    fontWeight: isSel
+                                        ? FontWeight.bold
+                                        : FontWeight.w500,
+                                    color: isSel
+                                        ? colorScheme.onSurface
+                                        : colorScheme.onSurface
+                                            .withValues(alpha: 0.65),
+                                  ),
+                            ),
                           ),
                         ),
                       ],

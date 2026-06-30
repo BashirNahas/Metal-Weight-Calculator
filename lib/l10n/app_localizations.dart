@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:metal_weight_calculator/models/metal.dart';
 
 class AppLocalizations {
   AppLocalizations(this.locale);
@@ -40,6 +41,7 @@ class AppLocalizations {
   String get roundBar => _t('roundBar');
   String get hexBar => _t('hexBar');
   String get pipe => _t('pipe');
+  String get squareTube => _t('squareTube');
   String get moreShapes => _t('moreShapes');
   String get changeLabel => _t('changeLabel');
   String get enterMeasurements => _t('enterMeasurements');
@@ -55,6 +57,12 @@ class AppLocalizations {
   String get required => _t('required');
   String get fillAllFields => _t('fillAllFields');
   String get positiveNumber => _t('positiveNumber');
+
+  // Measurement units (settings)
+  String get measurementUnit => _t('measurementUnit');
+  String get millimeter => _t('millimeter');
+  String get centimeter => _t('centimeter');
+  String get inch => _t('inch');
 
   // Result dialog
   String get result => _t('result');
@@ -92,6 +100,7 @@ class AppLocalizations {
   String get lastUpdated => _t('lastUpdated');
   String get perTonne => _t('perTonne');
   String get perKg => _t('perKg');
+  String get perOunce => _t('perOunce');
   String get loading => _t('loading');
   String get failedToLoad => _t('failedToLoad');
   String get retry => _t('retry');
@@ -116,6 +125,10 @@ class AppLocalizations {
   String get appearance => _t('appearance');
   String get support => _t('support');
   String get credits => _t('credits');
+  String get priceUnit => _t('priceUnit');
+  String get tonneUnit => _t('tonneUnit');
+  String get kgUnit => _t('kgUnit');
+  String get ounceUnit => _t('ounceUnit');
 
   // Metal names (market)
   String get gold => _t('gold');
@@ -130,10 +143,44 @@ class AppLocalizations {
   String get stainlessSteel => _t('stainlessSteel');
   String get brass => _t('brass');
   String get titanium => _t('titanium');
+  String get bronze => _t('bronze');
+  String get magnesium => _t('magnesium');
+  String get tungsten => _t('tungsten');
 
-  // Helper
+  // Helper: market-price API names (e.g. "iron ore", "XAU") — not part of
+  // the calculator's Metal enum.
   String metalName(String key) =>
       _t('metal_$key') != 'metal_$key' ? _t('metal_$key') : key;
+
+  // Helper: localized label for a calculator Metal enum value.
+  String metalLabel(Metal m) => switch (m) {
+        Metal.copper => copper,
+        Metal.aluminum => aluminum,
+        Metal.iron => iron,
+        Metal.steel => steel,
+        Metal.stainlessSteel => stainlessSteel,
+        Metal.zinc => zinc,
+        Metal.nickel => nickel,
+        Metal.lead => lead,
+        Metal.brass => brass,
+        Metal.titanium => titanium,
+        Metal.gold => gold,
+        Metal.silver => silver,
+        Metal.bronze => bronze,
+        Metal.magnesium => magnesium,
+        Metal.tungsten => tungsten,
+      };
+
+  // Helper: localized label for a calculator Shape enum value.
+  String shapeLabel(Shape s) => switch (s) {
+        Shape.rectangle => rectangle,
+        Shape.circle => circle,
+        Shape.squareBar => squareBar,
+        Shape.roundBar => roundBar,
+        Shape.hexBar => hexBar,
+        Shape.pipe => pipe,
+        Shape.squareTube => squareTube,
+      };
 
   static const Map<String, Map<String, String>> _strings = {
     'ar': {
@@ -155,21 +202,26 @@ class AppLocalizations {
       'roundBar': 'قضيب دائري',
       'hexBar': 'قضيب سداسي',
       'pipe': 'أنبوب',
+      'squareTube': 'أنبوب مربع',
       'moreShapes': 'أشكال\nأخرى',
       'changeLabel': 'تغيير',
       'enterMeasurements': 'أدخل القياسات',
-      'length': 'الطول (سم)',
-      'width': 'العرض (سم)',
-      'diameter': 'القطر (سم)',
-      'thickness': 'السماكة (مم)',
-      'side': 'الجانب (سم)',
-      'acrossFlats': 'بين الوجوه (سم)',
-      'outerDiameter': 'القطر الخارجي (سم)',
-      'wallThickness': 'سُمك الجدار (مم)',
+      'length': 'الطول',
+      'width': 'العرض',
+      'diameter': 'القطر',
+      'thickness': 'السماكة',
+      'side': 'الجانب',
+      'acrossFlats': 'بين الوجوه',
+      'outerDiameter': 'القطر الخارجي',
+      'wallThickness': 'سُمك الجدار',
       'calculateWeight': 'احسب الوزن',
       'required': 'مطلوب',
       'fillAllFields': 'يرجى ملء جميع الحقول المطلوبة',
       'positiveNumber': 'أدخل رقماً موجباً',
+      'measurementUnit': 'وحدة القياس',
+      'millimeter': 'ملم',
+      'centimeter': 'سم',
+      'inch': 'إنش',
       'result': 'نتيجة الحساب',
       'weight': 'الوزن',
       'kg': 'كغ',
@@ -199,6 +251,7 @@ class AppLocalizations {
       'lastUpdated': 'آخر تحديث',
       'perTonne': 'لكل طن',
       'perKg': 'لكل كغ',
+      'perOunce': 'لكل أونصة',
       'loading': 'جاري التحميل...',
       'failedToLoad': 'فشل تحميل الأسعار',
       'retry': 'إعادة المحاولة',
@@ -221,6 +274,10 @@ class AppLocalizations {
       'appearance': 'المظهر والشكل',
       'support': 'الدعم',
       'credits': 'الاعتمادات',
+      'priceUnit': 'وحدة عرض الأسعار',
+      'tonneUnit': 'طن',
+      'kgUnit': 'كغ',
+      'ounceUnit': 'أونصة',
       'gold': 'ذهب',
       'silver': 'فضة',
       'zinc': 'زنك',
@@ -233,6 +290,9 @@ class AppLocalizations {
       'stainlessSteel': 'استانلس',
       'brass': 'نحاس أصفر',
       'titanium': 'تيتانيوم',
+      'bronze': 'برونز',
+      'magnesium': 'مغنيسيوم',
+      'tungsten': 'تنغستن',
       'metal_copper': 'نحاس',
       'metal_aluminum': 'ألومنيوم',
       'metal_aluminium': 'ألومنيوم',
@@ -267,21 +327,26 @@ class AppLocalizations {
       'roundBar': 'Round Bar',
       'hexBar': 'Hex Bar',
       'pipe': 'Pipe / Tube',
+      'squareTube': 'Square Tube',
       'moreShapes': 'More\nShapes',
       'changeLabel': 'Change',
       'enterMeasurements': 'Enter Measurements',
-      'length': 'Length (cm)',
-      'width': 'Width (cm)',
-      'diameter': 'Diameter (cm)',
-      'thickness': 'Thickness (mm)',
-      'side': 'Side (cm)',
-      'acrossFlats': 'Across Flats (cm)',
-      'outerDiameter': 'Outer Ø (cm)',
-      'wallThickness': 'Wall Thickness (mm)',
+      'length': 'Length',
+      'width': 'Width',
+      'diameter': 'Diameter',
+      'thickness': 'Thickness',
+      'side': 'Side',
+      'acrossFlats': 'Across Flats',
+      'outerDiameter': 'Outer Ø',
+      'wallThickness': 'Wall Thickness',
       'calculateWeight': 'Calculate Weight',
       'required': 'Required',
       'fillAllFields': 'Please fill all required fields',
       'positiveNumber': 'Enter a positive number',
+      'measurementUnit': 'Measurement Unit',
+      'millimeter': 'mm',
+      'centimeter': 'cm',
+      'inch': 'inch',
       'result': 'Calculation Result',
       'weight': 'Weight',
       'kg': 'kg',
@@ -311,6 +376,7 @@ class AppLocalizations {
       'lastUpdated': 'Last updated',
       'perTonne': 'per tonne',
       'perKg': 'per kg',
+      'perOunce': 'per oz',
       'loading': 'Loading...',
       'failedToLoad': 'Failed to load prices',
       'retry': 'Retry',
@@ -333,6 +399,10 @@ class AppLocalizations {
       'appearance': 'Appearance',
       'support': 'Support',
       'credits': 'Credits',
+      'priceUnit': 'Price Display Unit',
+      'tonneUnit': 'Tonne',
+      'kgUnit': 'Kg',
+      'ounceUnit': 'Ounce',
       'gold': 'Gold',
       'silver': 'Silver',
       'zinc': 'Zinc',
@@ -345,6 +415,9 @@ class AppLocalizations {
       'stainlessSteel': 'Stainless',
       'brass': 'Brass',
       'titanium': 'Titanium',
+      'bronze': 'Bronze',
+      'magnesium': 'Magnesium',
+      'tungsten': 'Tungsten',
       'metal_copper': 'Copper',
       'metal_aluminum': 'Aluminum',
       'metal_aluminium': 'Aluminum',

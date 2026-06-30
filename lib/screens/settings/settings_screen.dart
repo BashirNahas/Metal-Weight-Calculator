@@ -6,8 +6,12 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:metal_weight_calculator/core/constants/app_colors.dart';
 import 'package:metal_weight_calculator/core/constants/app_constants.dart';
 import 'package:metal_weight_calculator/core/extensions/context_extensions.dart';
+import 'package:metal_weight_calculator/models/measurement_unit.dart';
+import 'package:metal_weight_calculator/models/price_unit.dart';
 import 'package:metal_weight_calculator/providers/locale_provider.dart';
+import 'package:metal_weight_calculator/providers/price_unit_provider.dart';
 import 'package:metal_weight_calculator/providers/theme_provider.dart';
+import 'package:metal_weight_calculator/providers/units_provider.dart';
 import 'package:metal_weight_calculator/widgets/common/synaptix_branding.dart';
 
 class SettingsScreen extends StatefulWidget {
@@ -59,6 +63,16 @@ class _SettingsScreenState extends State<SettingsScreen> {
           _ThemeSelector(),
           const SizedBox(height: 4),
           _LanguageSelector(),
+          const SizedBox(height: 8),
+
+          // Calculator units
+          _SectionTitle(title: l10n.calculator),
+          _MeasurementUnitSelector(),
+          const SizedBox(height: 8),
+
+          // Price display unit
+          _SectionTitle(title: l10n.prices),
+          _PriceUnitSelector(),
           const SizedBox(height: 8),
 
           // About
@@ -300,6 +314,126 @@ class _ThemeChip extends StatelessWidget {
               overflow: TextOverflow.ellipsis,
             ),
           ],
+        ),
+      ),
+    );
+  }
+}
+
+class _MeasurementUnitSelector extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    final l10n = context.l10n;
+    final unitsProvider = context.watch<UnitsProvider>();
+
+    final options = [
+      (MeasurementUnit.mm, l10n.millimeter, Icons.straighten_outlined),
+      (MeasurementUnit.cm, l10n.centimeter, Icons.straighten_outlined),
+      (MeasurementUnit.inch, l10n.inch, Icons.straighten_outlined),
+    ];
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      child: Card(
+        margin: EdgeInsets.zero,
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  const Icon(Icons.straighten_outlined,
+                      size: 18, color: AppColors.secondary),
+                  const SizedBox(width: 8),
+                  Text(
+                    l10n.measurementUnit,
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyMedium
+                        ?.copyWith(fontWeight: FontWeight.w600),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 12),
+              Row(
+                children: options
+                    .map((o) => Expanded(
+                          child: Padding(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 3),
+                            child: _ThemeChip(
+                              label: o.$2,
+                              icon: o.$3,
+                              selected: unitsProvider.unit == o.$1,
+                              onTap: () => unitsProvider.setUnit(o.$1),
+                            ),
+                          ),
+                        ))
+                    .toList(),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _PriceUnitSelector extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    final l10n = context.l10n;
+    final priceUnitProvider = context.watch<PriceUnitProvider>();
+
+    final options = [
+      (PriceUnit.tonne, l10n.tonneUnit, Icons.local_shipping_outlined),
+      (PriceUnit.kg, l10n.kgUnit, Icons.scale_outlined),
+      (PriceUnit.ounce, l10n.ounceUnit, Icons.monetization_on_outlined),
+    ];
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      child: Card(
+        margin: EdgeInsets.zero,
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  const Icon(Icons.payments_outlined,
+                      size: 18, color: AppColors.secondary),
+                  const SizedBox(width: 8),
+                  Text(
+                    l10n.priceUnit,
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyMedium
+                        ?.copyWith(fontWeight: FontWeight.w600),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 12),
+              Row(
+                children: options
+                    .map((o) => Expanded(
+                          child: Padding(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 3),
+                            child: _ThemeChip(
+                              label: o.$2,
+                              icon: o.$3,
+                              selected: priceUnitProvider.unit == o.$1,
+                              onTap: () => priceUnitProvider.setUnit(o.$1),
+                            ),
+                          ),
+                        ))
+                    .toList(),
+              ),
+            ],
+          ),
         ),
       ),
     );

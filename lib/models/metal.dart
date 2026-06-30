@@ -14,7 +14,10 @@ enum Metal {
   brass,
   titanium,
   gold,
-  silver;
+  silver,
+  bronze,
+  magnesium,
+  tungsten;
 
   double get density => switch (this) {
         Metal.copper => 8.96,
@@ -29,6 +32,9 @@ enum Metal {
         Metal.titanium => 4.51,
         Metal.gold => 19.30,
         Metal.silver => 10.49,
+        Metal.bronze => 8.73,
+        Metal.magnesium => 1.74,
+        Metal.tungsten => 19.25,
       };
 
   String get key => name;
@@ -46,6 +52,9 @@ enum Metal {
         Metal.titanium => Icons.science_outlined,
         Metal.gold => FontAwesomeIcons.coins,
         Metal.silver => Icons.paid_outlined,
+        Metal.bronze => FontAwesomeIcons.medal,
+        Metal.magnesium => Icons.flare_outlined,
+        Metal.tungsten => Icons.bolt_outlined,
       };
 
   Color get accentColor => switch (this) {
@@ -61,6 +70,9 @@ enum Metal {
         Metal.titanium => AppColors.titaniumColor,
         Metal.gold => AppColors.goldColor,
         Metal.silver => AppColors.silverColor,
+        Metal.bronze => AppColors.bronzeColor,
+        Metal.magnesium => AppColors.magnesiumColor,
+        Metal.tungsten => AppColors.tungstenColor,
       };
 
   static Metal fromKey(String key) {
@@ -77,7 +89,8 @@ enum Shape {
   squareBar,
   roundBar,
   hexBar,
-  pipe;
+  pipe,
+  squareTube;
 
   String get key => name;
 
@@ -88,6 +101,7 @@ enum Shape {
         Shape.roundBar => Icons.lens,
         Shape.hexBar => Icons.hexagon,
         Shape.pipe => Icons.donut_large_rounded,
+        Shape.squareTube => Icons.crop_square_rounded,
       };
 
   bool get isPrimary =>

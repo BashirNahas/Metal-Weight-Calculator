@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:metal_weight_calculator/models/calculation.dart';
+import 'package:metal_weight_calculator/models/measurement_unit.dart';
 import 'package:metal_weight_calculator/models/metal.dart';
 
 class CalculatorProvider extends ChangeNotifier {
@@ -49,10 +50,11 @@ class CalculatorProvider extends ChangeNotifier {
     };
     bool valid = true;
 
-    // thickness: required for plate/disc/pipe; not used for solid bars
+    // thickness: required for plate/disc/pipe/tube; not used for solid bars
     final needsThickness = _selectedShape == Shape.rectangle ||
         _selectedShape == Shape.circle ||
-        _selectedShape == Shape.pipe;
+        _selectedShape == Shape.pipe ||
+        _selectedShape == Shape.squareTube;
     if (needsThickness) {
       final t = double.tryParse(thicknessController.text.trim());
       if (t == null || t <= 0) {
@@ -70,10 +72,11 @@ class CalculatorProvider extends ChangeNotifier {
       }
     }
 
-    // width: required for rectangle, squareBar, hexBar
+    // width: required for rectangle, squareBar, hexBar, squareTube
     if (_selectedShape == Shape.rectangle ||
         _selectedShape == Shape.squareBar ||
-        _selectedShape == Shape.hexBar) {
+        _selectedShape == Shape.hexBar ||
+        _selectedShape == Shape.squareTube) {
       final w = double.tryParse(widthController.text.trim());
       if (w == null || w <= 0) {
         errors['width'] = true;
@@ -97,11 +100,12 @@ class CalculatorProvider extends ChangeNotifier {
     return valid;
   }
 
-  Calculation? calculate() {
+  Calculation? calculate({MeasurementUnit unit = MeasurementUnit.cm}) {
     if (!validate()) return null;
 
+    final factor = unit.toCmFactor;
     final thickness =
-        double.tryParse(thicknessController.text.trim()) ?? 0;
+        (double.tryParse(thicknessController.text.trim()) ?? 0) * factor;
     final length = double.tryParse(lengthController.text.trim());
     final width = double.tryParse(widthController.text.trim());
     final diameter = double.tryParse(diameterController.text.trim());
@@ -109,9 +113,9 @@ class CalculatorProvider extends ChangeNotifier {
     _lastResult = Calculation.compute(
       metal: _selectedMetal,
       shape: _selectedShape,
-      length: length,
-      width: width,
-      diameter: diameter,
+      length: length == null ? null : length * factor,
+      width: width == null ? null : width * factor,
+      diameter: diameter == null ? null : diameter * factor,
       thickness: thickness,
     );
 

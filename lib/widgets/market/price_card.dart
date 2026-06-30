@@ -1,13 +1,34 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:metal_weight_calculator/core/constants/app_colors.dart';
 import 'package:metal_weight_calculator/core/extensions/context_extensions.dart';
 import 'package:metal_weight_calculator/core/utils/formatters.dart';
+import 'package:metal_weight_calculator/l10n/app_localizations.dart';
 import 'package:metal_weight_calculator/models/metal_price.dart';
+import 'package:metal_weight_calculator/models/price_unit.dart';
+import 'package:metal_weight_calculator/providers/price_unit_provider.dart';
 
 class PriceCard extends StatelessWidget {
   final MetalPrice price;
 
   const PriceCard({super.key, required this.price});
+
+  // Default (PriceUnit.tonne) reproduces the original tonne-primary /
+  // kg-secondary layout exactly. Other selections swap the primary value
+  // while keeping a sensible secondary reference value.
+  (double, String) _primary(PriceUnit unit, AppLocalizations l10n) =>
+      switch (unit) {
+        PriceUnit.tonne => (price.pricePerTonne, l10n.perTonne),
+        PriceUnit.kg => (price.pricePerKg, l10n.perKg),
+        PriceUnit.ounce => (price.pricePerOunce, l10n.perOunce),
+      };
+
+  (double, String) _secondary(PriceUnit unit, AppLocalizations l10n) =>
+      switch (unit) {
+        PriceUnit.tonne => (price.pricePerKg, l10n.perKg),
+        PriceUnit.kg => (price.pricePerTonne, l10n.perTonne),
+        PriceUnit.ounce => (price.pricePerKg, l10n.perKg),
+      };
 
   @override
   Widget build(BuildContext context) {
@@ -15,9 +36,12 @@ class PriceCard extends StatelessWidget {
     final isDark = context.isDark;
     final colorScheme = Theme.of(context).colorScheme;
     final isArabic = l10n.copper == 'نحاس';
+    final selectedUnit = context.watch<PriceUnitProvider>().unit;
 
     final displayName = isArabic ? price.nameAr : price.nameEn;
     final locale = isArabic ? 'ar' : 'en';
+    final (primaryValue, primaryLabel) = _primary(selectedUnit, l10n);
+    final (secondaryValue, secondaryLabel) = _secondary(selectedUnit, l10n);
 
     return Card(
       margin: const EdgeInsets.only(bottom: 12),
@@ -62,7 +86,7 @@ class PriceCard extends StatelessWidget {
                   ),
                   const SizedBox(height: 2),
                   Text(
-                    '${AppFormatters.priceSimple(price.pricePerKg, locale: locale)} / ${l10n.perKg}',
+                    '${AppFormatters.priceSimple(secondaryValue, locale: locale)} / $secondaryLabel',
                     style: Theme.of(context).textTheme.bodySmall?.copyWith(
                           color: isDark
                               ? AppColors.textSecondaryDark
@@ -72,12 +96,12 @@ class PriceCard extends StatelessWidget {
                 ],
               ),
             ),
-            // Price per tonne
+            // Primary price (driven by the user's selected price unit)
             Column(
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 Text(
-                  AppFormatters.priceSimple(price.pricePerTonne, locale: locale),
+                  AppFormatters.priceSimple(primaryValue, locale: locale),
                   style: Theme.of(context).textTheme.titleMedium?.copyWith(
                         fontWeight: FontWeight.bold,
                         color: colorScheme.primary,
@@ -85,7 +109,7 @@ class PriceCard extends StatelessWidget {
                 ),
                 const SizedBox(height: 2),
                 Text(
-                  l10n.perTonne,
+                  primaryLabel,
                   style: Theme.of(context).textTheme.bodySmall?.copyWith(
                         color: isDark
                             ? AppColors.textSecondaryDark

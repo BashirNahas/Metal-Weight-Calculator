@@ -39,7 +39,7 @@ class SectionCard extends StatelessWidget {
         ],
       ),
       child: Padding(
-        padding: padding ?? const EdgeInsets.all(18),
+        padding: padding ?? const EdgeInsets.all(14),
         child: child,
       ),
     );

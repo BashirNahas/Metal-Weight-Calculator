@@ -16,20 +16,7 @@ class MetalSelector extends StatelessWidget {
 
   static const _primaryMetals = [Metal.copper, Metal.aluminum];
 
-  String _label(AppLocalizations l10n, Metal m) => switch (m) {
-        Metal.copper => l10n.copper,
-        Metal.aluminum => l10n.aluminum,
-        Metal.iron => l10n.iron,
-        Metal.steel => l10n.steel,
-        Metal.stainlessSteel => l10n.stainlessSteel,
-        Metal.zinc => l10n.zinc,
-        Metal.nickel => l10n.nickel,
-        Metal.lead => l10n.lead,
-        Metal.brass => l10n.brass,
-        Metal.titanium => l10n.titanium,
-        Metal.gold => l10n.gold,
-        Metal.silver => l10n.silver,
-      };
+  String _label(AppLocalizations l10n, Metal m) => l10n.metalLabel(m);
 
   void _openSheet(BuildContext context, AppLocalizations l10n) {
     showModalBottomSheet(
@@ -192,16 +179,23 @@ class _PrimaryMetalCard extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 10),
-            Text(
-              label,
-              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                    fontWeight:
-                        isSelected ? FontWeight.bold : FontWeight.w500,
-                    color: isSelected
-                        ? colorScheme.onSurface
-                        : colorScheme.onSurface.withValues(alpha: 0.55),
-                  ),
-              textAlign: TextAlign.center,
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 4),
+              child: FittedBox(
+                fit: BoxFit.scaleDown,
+                child: Text(
+                  label,
+                  maxLines: 1,
+                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                        fontWeight:
+                            isSelected ? FontWeight.bold : FontWeight.w500,
+                        color: isSelected
+                            ? colorScheme.onSurface
+                            : colorScheme.onSurface.withValues(alpha: 0.55),
+                      ),
+                  textAlign: TextAlign.center,
+                ),
+              ),
             ),
             if (isSelected) ...[
               const SizedBox(height: 3),
@@ -346,12 +340,17 @@ class _SelectedMetalBanner extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Text(
-                    label,
-                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                          fontWeight: FontWeight.bold,
-                          color: colorScheme.onSurface,
-                        ),
+                  FittedBox(
+                    fit: BoxFit.scaleDown,
+                    alignment: AlignmentDirectional.centerStart,
+                    child: Text(
+                      label,
+                      maxLines: 1,
+                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                            fontWeight: FontWeight.bold,
+                            color: colorScheme.onSurface,
+                          ),
+                    ),
                   ),
                   Text(
                     '${metal.density} g/cm³',
@@ -544,19 +543,24 @@ class _MetalGridCell extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 8),
-            Text(
-              label,
-              style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                    fontWeight:
-                        isSelected ? FontWeight.bold : FontWeight.w500,
-                    color: isSelected
-                        ? colorScheme.onSurface
-                        : colorScheme.onSurface.withValues(alpha: 0.65),
-                    fontSize: 11.5,
-                  ),
-              textAlign: TextAlign.center,
-              maxLines: 2,
-              overflow: TextOverflow.ellipsis,
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 4),
+              child: FittedBox(
+                fit: BoxFit.scaleDown,
+                child: Text(
+                  label,
+                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                        fontWeight:
+                            isSelected ? FontWeight.bold : FontWeight.w500,
+                        color: isSelected
+                            ? colorScheme.onSurface
+                            : colorScheme.onSurface.withValues(alpha: 0.65),
+                        fontSize: 11.5,
+                      ),
+                  textAlign: TextAlign.center,
+                  maxLines: 2,
+                ),
+              ),
             ),
             if (isSelected) ...[
               const SizedBox(height: 2),

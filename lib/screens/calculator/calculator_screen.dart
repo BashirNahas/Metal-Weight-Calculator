@@ -6,6 +6,7 @@ import 'package:metal_weight_calculator/l10n/app_localizations.dart';
 import 'package:metal_weight_calculator/models/metal.dart';
 import 'package:metal_weight_calculator/providers/calculator_provider.dart';
 import 'package:metal_weight_calculator/providers/history_provider.dart';
+import 'package:metal_weight_calculator/providers/units_provider.dart';
 import 'package:metal_weight_calculator/widgets/calculator/measurement_field.dart';
 import 'package:metal_weight_calculator/widgets/calculator/metal_selector.dart';
 import 'package:metal_weight_calculator/widgets/calculator/shape_selector.dart';
@@ -20,9 +21,10 @@ class CalculatorScreen extends StatelessWidget {
   Future<void> _onCalculate(BuildContext context) async {
     FocusScope.of(context).unfocus();
     final calc = context.read<CalculatorProvider>();
+    final unit = context.read<UnitsProvider>().unit;
     final l10n = context.l10n;
 
-    final result = calc.calculate();
+    final result = calc.calculate(unit: unit);
     if (result == null) {
       context.showSnack(l10n.fillAllFields, isError: true);
       return;
@@ -59,7 +61,7 @@ class CalculatorScreen extends StatelessWidget {
       body: CustomScrollView(
         slivers: [
           SliverAppBar(
-            expandedHeight: 116,
+            expandedHeight: 96,
             pinned: true,
             // centerTitle ensures the FlexibleSpaceBar title is centred too
             centerTitle: true,
@@ -78,7 +80,7 @@ class CalculatorScreen extends StatelessWidget {
             flexibleSpace: FlexibleSpaceBar(
               centerTitle: true,
               // Symmetric horizontal padding so the title is truly centred
-              titlePadding: const EdgeInsets.only(bottom: 16),
+              titlePadding: const EdgeInsets.only(bottom: 12),
               title: Column(
                 mainAxisAlignment: MainAxisAlignment.end,
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -154,7 +156,7 @@ class CalculatorScreen extends StatelessWidget {
               return SliverPadding(
                 padding: EdgeInsets.symmetric(
                   horizontal: context.isTablet ? 40 : 16,
-                  vertical: 14,
+                  vertical: 10,
                 ),
                 sliver: SliverList(
                   delegate: SliverChildListDelegate([
@@ -167,7 +169,7 @@ class CalculatorScreen extends StatelessWidget {
                             icon: Icons.category_outlined,
                             title: l10n.selectMetal,
                           ),
-                          const SizedBox(height: 16),
+                          const SizedBox(height: 12),
                           MetalSelector(
                             selected: calc.selectedMetal,
                             onChanged: calc.selectMetal,
@@ -175,7 +177,7 @@ class CalculatorScreen extends StatelessWidget {
                         ],
                       ),
                     ),
-                    const SizedBox(height: 12),
+                    const SizedBox(height: 10),
 
                     // Shape selector card
                     SectionCard(
@@ -186,7 +188,7 @@ class CalculatorScreen extends StatelessWidget {
                             icon: Icons.square_outlined,
                             title: l10n.selectShape,
                           ),
-                          const SizedBox(height: 14),
+                          const SizedBox(height: 10),
                           ShapeSelector(
                             selected: calc.selectedShape,
                             onChanged: calc.selectShape,
@@ -194,7 +196,7 @@ class CalculatorScreen extends StatelessWidget {
                         ],
                       ),
                     ),
-                    const SizedBox(height: 12),
+                    const SizedBox(height: 10),
 
                     // Measurements card
                     SectionCard(
@@ -205,7 +207,7 @@ class CalculatorScreen extends StatelessWidget {
                             icon: Icons.straighten_outlined,
                             title: l10n.enterMeasurements,
                           ),
-                          const SizedBox(height: 16),
+                          const SizedBox(height: 12),
                           AnimatedSwitcher(
                             duration: const Duration(milliseconds: 280),
                             child: _MeasurementFields(
@@ -217,15 +219,15 @@ class CalculatorScreen extends StatelessWidget {
                         ],
                       ),
                     ),
-                    const SizedBox(height: 22),
+                    const SizedBox(height: 16),
 
                     GradientButton(
                       label: l10n.calculateWeight,
                       icon: Icons.calculate_rounded,
-                      height: 58,
+                      height: 52,
                       onPressed: () => _onCalculate(context),
                     ),
-                    const SizedBox(height: 36),
+                    const SizedBox(height: 20),
                   ]),
                 ),
               );
@@ -252,37 +254,45 @@ class _MeasurementFields extends StatelessWidget {
     required this.l10n,
   });
 
-  Widget _lengthField() => MeasurementField(
+  String _withUnit(String label, String symbol) => '$label ($symbol)';
+
+  Widget _lengthField(String symbol) => MeasurementField(
         controller: calc.lengthController,
-        label: l10n.length,
+        label: _withUnit(l10n.length, symbol),
         icon: Icons.height_rounded,
         hasError: calc.fieldErrors['length'] ?? false,
         errorText: l10n.required,
         onChanged: (_) => calc.clearFieldError('length'),
       );
 
-  Widget _widthField({required String label, required IconData icon}) =>
+  Widget _widthField({
+    required String label,
+    required String symbol,
+    required IconData icon,
+  }) =>
       MeasurementField(
         controller: calc.widthController,
-        label: label,
+        label: _withUnit(label, symbol),
         icon: icon,
         hasError: calc.fieldErrors['width'] ?? false,
         errorText: l10n.required,
         onChanged: (_) => calc.clearFieldError('width'),
       );
 
-  Widget _diameterField({required String label}) => MeasurementField(
+  Widget _diameterField({required String label, required String symbol}) =>
+      MeasurementField(
         controller: calc.diameterController,
-        label: label,
+        label: _withUnit(label, symbol),
         icon: Icons.radio_button_unchecked_rounded,
         hasError: calc.fieldErrors['diameter'] ?? false,
         errorText: l10n.required,
         onChanged: (_) => calc.clearFieldError('diameter'),
       );
 
-  Widget _thicknessField({required String label}) => MeasurementField(
+  Widget _thicknessField({required String label, required String symbol}) =>
+      MeasurementField(
         controller: calc.thicknessController,
-        label: label,
+        label: _withUnit(label, symbol),
         icon: Icons.layers_outlined,
         hasError: calc.fieldErrors['thickness'] ?? false,
         errorText: l10n.required,
@@ -299,39 +309,68 @@ class _MeasurementFields extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final unit = context.watch<UnitsProvider>().unit;
+    final symbol = unit.symbol;
+
     final fields = switch (calc.selectedShape) {
       Shape.rectangle => [
           _row(
-            _lengthField(),
-            _widthField(label: l10n.width, icon: Icons.width_normal_rounded),
+            _lengthField(symbol),
+            _widthField(
+              label: l10n.width,
+              symbol: symbol,
+              icon: Icons.width_normal_rounded,
+            ),
           ),
           const SizedBox(height: 14),
-          _thicknessField(label: l10n.thickness),
+          _thicknessField(label: l10n.thickness, symbol: symbol),
         ],
       Shape.circle => [
-          _diameterField(label: l10n.diameter),
+          _diameterField(label: l10n.diameter, symbol: symbol),
           const SizedBox(height: 14),
-          _thicknessField(label: l10n.thickness),
+          _thicknessField(label: l10n.thickness, symbol: symbol),
         ],
       Shape.squareBar => [
           _row(
-            _lengthField(),
-            _widthField(label: l10n.side, icon: Icons.square_outlined),
+            _lengthField(symbol),
+            _widthField(
+              label: l10n.side,
+              symbol: symbol,
+              icon: Icons.square_outlined,
+            ),
           ),
         ],
       Shape.roundBar => [
-          _row(_lengthField(), _diameterField(label: l10n.diameter)),
+          _row(_lengthField(symbol),
+              _diameterField(label: l10n.diameter, symbol: symbol)),
         ],
       Shape.hexBar => [
           _row(
-            _lengthField(),
-            _widthField(label: l10n.acrossFlats, icon: Icons.hexagon_outlined),
+            _lengthField(symbol),
+            _widthField(
+              label: l10n.acrossFlats,
+              symbol: symbol,
+              icon: Icons.hexagon_outlined,
+            ),
           ),
         ],
       Shape.pipe => [
-          _row(_lengthField(), _diameterField(label: l10n.outerDiameter)),
+          _row(_lengthField(symbol),
+              _diameterField(label: l10n.outerDiameter, symbol: symbol)),
           const SizedBox(height: 14),
-          _thicknessField(label: l10n.wallThickness),
+          _thicknessField(label: l10n.wallThickness, symbol: symbol),
+        ],
+      Shape.squareTube => [
+          _row(
+            _lengthField(symbol),
+            _widthField(
+              label: l10n.side,
+              symbol: symbol,
+              icon: Icons.crop_square_rounded,
+            ),
+          ),
+          const SizedBox(height: 14),
+          _thicknessField(label: l10n.wallThickness, symbol: symbol),
         ],
     };
 

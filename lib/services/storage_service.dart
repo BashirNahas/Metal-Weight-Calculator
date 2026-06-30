@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:metal_weight_calculator/core/constants/app_constants.dart';
 import 'package:metal_weight_calculator/models/calculation.dart';
+import 'package:metal_weight_calculator/models/measurement_unit.dart';
 import 'package:metal_weight_calculator/models/metal_price.dart';
+import 'package:metal_weight_calculator/models/price_unit.dart';
 
 class StorageService {
   StorageService._();
@@ -96,4 +98,20 @@ class StorageService {
     if (last == null) return false;
     return DateTime.now().difference(last) < AppConstants.pricesCacheDuration;
   }
+
+  // --- Measurement unit ---
+
+  Future<void> saveMeasurementUnit(MeasurementUnit unit) =>
+      _p.setInt(AppConstants.kMeasurementUnit, unit.index);
+
+  MeasurementUnit loadMeasurementUnit() =>
+      MeasurementUnit.fromIndex(_p.getInt(AppConstants.kMeasurementUnit));
+
+  // --- Price unit ---
+
+  Future<void> savePriceUnit(PriceUnit unit) =>
+      _p.setInt(AppConstants.kPriceUnit, unit.index);
+
+  PriceUnit loadPriceUnit() =>
+      PriceUnit.fromIndex(_p.getInt(AppConstants.kPriceUnit));
 }

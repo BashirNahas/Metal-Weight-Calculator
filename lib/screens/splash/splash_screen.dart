@@ -113,7 +113,7 @@ class _SplashScreenState extends State<SplashScreen>
                           end: Alignment.bottomRight,
                         ).createShader(bounds),
                         child: Text(
-                          'Metal Weight Calculator',
+                          'Nahas MetalHub',
                           style: GoogleFonts.playfairDisplay(
                             color: Colors.white,
                             fontSize: 26,

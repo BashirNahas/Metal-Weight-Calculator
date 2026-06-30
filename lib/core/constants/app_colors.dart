@@ -45,6 +45,9 @@ class AppColors {
   static const Color leadColor = Color(0xFF757575);
   static const Color brassColor = Color(0xFFE5B84D);
   static const Color titaniumColor = Color(0xFF546E7A);
+  static const Color bronzeColor = Color(0xFFCD7F32);
+  static const Color magnesiumColor = Color(0xFFA8C3BC);
+  static const Color tungstenColor = Color(0xFF3B3C36);
 
   // Gradient
   static const List<Color> primaryGradient = [secondary, primary];

@@ -20,6 +20,12 @@ class MetalPrice {
 
   double get pricePerKg => pricePerTonne / 1000;
 
+  // Troy ounces per metric tonne — matches the constant used to normalise
+  // metals.dev's raw precious-metal USD/troy-oz quotes to USD/tonne.
+  static const _troyOzPerTonne = 32_150.7466;
+
+  double get pricePerOunce => pricePerTonne / _troyOzPerTonne;
+
   Color get accentColor => switch (key) {
         'copper' => AppColors.copperColor,
         'aluminum' || 'aluminium' => AppColors.aluminumColor,

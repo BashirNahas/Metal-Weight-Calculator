@@ -181,9 +181,8 @@ class _HistoryCard extends StatelessWidget {
     final c = calculation;
     final isDark = context.isDark;
     final isArabic = l10n.copper == 'نحاس';
-    final metalName = l10n.metalName(c.metal.key);
-    final shapeName =
-        c.shape.name == 'rectangle' ? l10n.rectangle : l10n.circle;
+    final metalName = l10n.metalLabel(c.metal);
+    final shapeName = l10n.shapeLabel(c.shape);
     final locale = isArabic ? 'ar' : 'en';
 
     return Dismissible(

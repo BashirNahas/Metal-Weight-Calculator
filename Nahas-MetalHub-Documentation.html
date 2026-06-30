@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nahas MetalHub — Technical Documentation</title>
+<style>
+  :root {
+    --bg: #0f0f1a;
+    --card: #1a1a2e;
+    --card-2: #20203a;
+    --border: #2e2e4a;
+    --text: #e8e8f0;
+    --text-dim: #9a9ab0;
+    --primary: #7c7cf0;
+    --accent: #f0a868;
+    --good: #6fcf97;
+    --warn: #f2c94c;
+    --bad: #eb5757;
+    --code-bg: #11111f;
+    --radius: 14px;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background: linear-gradient(180deg, #0f0f1a 0%, #14142450 100%);
+    color: var(--text);
+    line-height: 1.65;
+  }
+  .wrap { max-width: 980px; margin: 0 auto; padding: 40px 24px 100px; }
+  header.hero {
+    text-align: center;
+    padding: 56px 24px 40px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 40px;
+  }
+  header.hero h1 {
+    font-size: 2.4rem;
+    margin: 0 0 8px;
+    background: linear-gradient(90deg, var(--primary), var(--accent));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  header.hero p { color: var(--text-dim); font-size: 1.05rem; margin: 4px 0; }
+  nav.toc {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px 24px;
+    margin-bottom: 40px;
+  }
+  nav.toc h2 { margin-top: 0; font-size: 1rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-dim); }
+  nav.toc ol { columns: 2; padding-left: 20px; margin: 0; }
+  nav.toc a { color: var(--primary); text-decoration: none; }
+  nav.toc a:hover { text-decoration: underline; }
+  section { margin-bottom: 48px; scroll-margin-top: 20px; }
+  h2 {
+    font-size: 1.5rem;
+    border-bottom: 2px solid var(--border);
+    padding-bottom: 10px;
+    margin-top: 0;
+  }
+  h2 .num { color: var(--primary); margin-right: 8px; }
+  h3 { font-size: 1.15rem; color: var(--accent); margin-top: 28px; }
+  p { color: #d6d6e2; }
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px 24px;
+    margin: 16px 0;
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 14px;
+    margin: 16px 0;
+  }
+  .pill-card {
+    background: var(--card-2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px 16px;
+  }
+  .pill-card .name { font-weight: 600; color: var(--text); }
+  .pill-card .meta { color: var(--text-dim); font-size: 0.85rem; margin-top: 4px; }
+  table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 0.92rem; }
+  th, td { text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--border); }
+  th { color: var(--accent); font-weight: 600; background: var(--card-2); }
+  tr:hover td { background: #1f1f38; }
+  code {
+    background: var(--code-bg);
+    padding: 2px 6px;
+    border-radius: 5px;
+    font-family: "SF Mono", Menlo, Consolas, monospace;
+    font-size: 0.88em;
+    color: #b8e6c9;
+  }
+  pre {
+    background: var(--code-bg);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px 18px;
+    overflow-x: auto;
+    font-family: "SF Mono", Menlo, Consolas, monospace;
+    font-size: 0.85rem;
+    line-height: 1.55;
+    color: #c9c9e8;
+  }
+  pre code { background: none; padding: 0; color: inherit; }
+  .badge {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 999px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    margin-left: 6px;
+  }
+  .badge.good { background: rgba(111,207,151,0.15); color: var(--good); }
+  .badge.warn { background: rgba(242,201,76,0.15); color: var(--warn); }
+  .badge.bad { background: rgba(235,87,87,0.15); color: var(--bad); }
+  .callout {
+    border-left: 4px solid var(--primary);
+    background: rgba(124,124,240,0.08);
+    border-radius: 0 10px 10px 0;
+    padding: 14px 18px;
+    margin: 16px 0;
+  }
+  .callout.warn { border-left-color: var(--warn); background: rgba(242,201,76,0.08); }
+  .callout.bad { border-left-color: var(--bad); background: rgba(235,87,87,0.08); }
+  .callout strong { color: var(--text); }
+  .flow {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+    margin: 20px 0;
+  }
+  .flow .step {
+    background: var(--card-2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 10px 14px;
+    font-size: 0.88rem;
+  }
+  .flow .arrow { color: var(--text-dim); }
+  footer {
+    text-align: center;
+    color: var(--text-dim);
+    font-size: 0.85rem;
+    margin-top: 60px;
+    padding-top: 24px;
+    border-top: 1px solid var(--border);
+  }
+  a.ext { color: var(--primary); }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="hero">
+  <h1>Nahas MetalHub</h1>
+  <p>Professional metal weight calculator with live market prices</p>
+  <p style="color:var(--text-dim); font-size:0.9rem;">by Synaptix &middot; built with Flutter &middot; v1.0.1+2</p>
+</header>
+
+<nav class="toc">
+  <h2>Contents</h2>
+  <ol>
+    <li><a href="#stack">Technology stack</a></li>
+    <li><a href="#architecture">App architecture</a></li>
+    <li><a href="#metals">Metal types &amp; densities</a></li>
+    <li><a href="#shapes">Shapes &amp; formulas</a></li>
+    <li><a href="#calc">How a calculation works</a></li>
+    <li><a href="#units">Measurement &amp; price display units</a></li>
+    <li><a href="#api">Live prices &amp; the metals.dev API</a></li>
+    <li><a href="#pipeline">Price automation pipeline</a></li>
+    <li><a href="#deploy">Deployment &amp; hosting</a></li>
+    <li><a href="#security">Security &amp; secrets handling</a></li>
+  </ol>
+</nav>
+
+<section id="stack">
+  <h2><span class="num">1.</span>Technology stack</h2>
+  <p>Nahas MetalHub is a single Flutter codebase compiled to a Progressive Web App (PWA) and, optionally, native Android/iOS apps from the same source.</p>
+  <div class="grid">
+    <div class="pill-card"><div class="name">Framework</div><div class="meta">Flutter (Dart SDK ^3.7.2)</div></div>
+    <div class="pill-card"><div class="name">State management</div><div class="meta">provider ^6.1.2 (ChangeNotifier)</div></div>
+    <div class="pill-card"><div class="name">Local storage</div><div class="meta">shared_preferences ^2.3.4</div></div>
+    <div class="pill-card"><div class="name">Networking</div><div class="meta">http ^1.2.2</div></div>
+    <div class="pill-card"><div class="name">Hosting</div><div class="meta">GitHub Pages (gh-pages branch)</div></div>
+    <div class="pill-card"><div class="name">Automation</div><div class="meta">GitHub Actions (cron, every 4h)</div></div>
+    <div class="pill-card"><div class="name">Icons/fonts</div><div class="meta">font_awesome_flutter, google_fonts</div></div>
+    <div class="pill-card"><div class="name">Sharing/launch</div><div class="meta">share_plus, url_launcher, package_info_plus</div></div>
+  </div>
+  <p>The app has no backend server of its own — it is a static site. All "live" behaviour (market prices) is achieved by a scheduled GitHub Action that writes a JSON file into the same GitHub Pages branch, which the web app then fetches same-origin (no server, no database).</p>
+</section>
+
+<section id="architecture">
+  <h2><span class="num">2.</span>App architecture</h2>
+  <p>The codebase follows a clean-architecture-style layering under <code>lib/</code>:</p>
+  <pre><code>lib/
+  core/          constants, theme colors, extensions, formatters
+  models/        Metal, Shape, Calculation, MetalPrice, MeasurementUnit, PriceUnit
+  services/      StorageService (SharedPreferences), MetalPriceService (HTTP)
+  providers/     ChangeNotifier providers (Theme, Locale, Calculator, History,
+                 Units, PriceUnit, MarketPrices)
+  screens/       Calculator, Market Prices, History, Settings, Splash
+  widgets/       Reusable UI: selectors, cards, dialogs
+  l10n/          Hand-rolled Arabic/English localization (AppLocalizations)</code></pre>
+  <p>State flows one-directionally: a screen reads a provider via <code>context.watch&lt;X&gt;()</code>, the user triggers an action, the provider mutates its state and calls <code>notifyListeners()</code>, and persists the change to <code>SharedPreferences</code> through <code>StorageService</code>. The app defaults to <strong>Arabic</strong> with a full <strong>English</strong> translation toggle in Settings, and supports light/dark/system theme.</p>
+</section>
+
+<section id="metals">
+  <h2><span class="num">3.</span>Metal types &amp; densities</h2>
+  <p>Each metal carries a fixed density (g/cm&sup3;) used directly in the weight formula. These are standard reference densities for commercially pure / common-alloy forms of each metal.</p>
+  <table>
+    <thead><tr><th>Metal</th><th>Density (g/cm&sup3;)</th><th>Notes</th></tr></thead>
+    <tbody>
+      <tr><td>Copper</td><td>8.96</td><td>Pure copper, default selection</td></tr>
+      <tr><td>Aluminum</td><td>2.70</td><td>Pure / 6061-class</td></tr>
+      <tr><td>Iron</td><td>7.85</td><td>Cast/wrought iron</td></tr>
+      <tr><td>Steel</td><td>7.85</td><td>Mild/carbon steel</td></tr>
+      <tr><td>Stainless Steel</td><td>8.00</td><td>304/316-class average</td></tr>
+      <tr><td>Zinc</td><td>7.13</td><td>&nbsp;</td></tr>
+      <tr><td>Nickel</td><td>8.91</td><td>&nbsp;</td></tr>
+      <tr><td>Lead</td><td>11.34</td><td>&nbsp;</td></tr>
+      <tr><td>Brass</td><td>8.50</td><td>Cu-Zn alloy average</td></tr>
+      <tr><td>Titanium</td><td>4.51</td><td>Grade 2-class</td></tr>
+      <tr><td>Gold</td><td>19.30</td><td>Pure (24k)</td></tr>
+      <tr><td>Silver</td><td>10.49</td><td>Pure / sterling-adjacent</td></tr>
+      <tr><td>Bronze <span class="badge good">new</span></td><td>8.73</td><td>Tin-bronze average</td></tr>
+      <tr><td>Magnesium <span class="badge good">new</span></td><td>1.74</td><td>&nbsp;</td></tr>
+      <tr><td>Tungsten <span class="badge good">new</span></td><td>19.25</td><td>One of the densest commercial metals</td></tr>
+    </tbody>
+  </table>
+  <p style="color:var(--text-dim); font-size:0.88rem;">These 15 metals are the calculator's selectable list (<code>lib/models/metal.dart</code>). The Market Prices screen additionally shows a few metals/spot symbols sourced live from the API (e.g. iron ore, tin, platinum, palladium) that aren't part of the weight-calculator selection because no single reference density applies to them as traded commodities.</p>
+</section>
+
+<section id="shapes">
+  <h2><span class="num">4.</span>Shapes &amp; formulas</h2>
+  <p>All formulas compute a <strong>volume in cm&sup3;</strong> first; weight is then <code>volume &times; density &divide; 1000</code> (the &divide;1000 converts grams to kilograms, since density is g/cm&sup3;).</p>
+  <table>
+    <thead><tr><th>Shape</th><th>Inputs</th><th>Volume formula</th></tr></thead>
+    <tbody>
+      <tr><td>Rectangular plate</td><td>Length, Width, Thickness</td><td><code>L &times; W &times; T</code></td></tr>
+      <tr><td>Circular disc</td><td>Diameter, Thickness</td><td><code>&pi; &times; r&sup2; &times; T</code>, r = D/2</td></tr>
+      <tr><td>Square bar</td><td>Side, Length</td><td><code>S&sup2; &times; L</code></td></tr>
+      <tr><td>Round bar</td><td>Diameter, Length</td><td><code>&pi; &times; r&sup2; &times; L</code></td></tr>
+      <tr><td>Hexagonal bar</td><td>Across-flats, Length</td><td><code>(&radic;3/2) &times; AF&sup2; &times; L</code></td></tr>
+      <tr><td>Round pipe</td><td>Outer &empty;, Wall thickness, Length</td><td><code>&pi;/4 &times; (OD&sup2; &minus; ID&sup2;) &times; L</code>, ID = OD &minus; 2&times;wall</td></tr>
+      <tr><td>Square tube <span class="badge good">new</span></td><td>Outer side, Wall thickness, Length</td><td><code>(S&sup2; &minus; (S&minus;2&times;wall)&sup2;) &times; L</code></td></tr>
+    </tbody>
+  </table>
+  <div class="callout">
+    <strong>Hollow shapes (pipe / square tube)</strong> return a weight of <code>0</code> if the wall thickness is large enough that the inner cavity would have zero or negative size (i.e. <code>wall &times; 2 &ge; outer dimension</code>) — this guards against a physically impossible input rather than producing a negative weight.
+  </div>
+  <p>Implementation: <code>lib/models/calculation.dart</code>, function <code>Calculation.compute()</code>.</p>
+</section>
+
+<section id="calc">
+  <h2><span class="num">5.</span>How a calculation works end-to-end</h2>
+  <div class="flow">
+    <div class="step">1. Pick metal</div><div class="arrow">&rarr;</div>
+    <div class="step">2. Pick shape</div><div class="arrow">&rarr;</div>
+    <div class="step">3. Enter dimensions</div><div class="arrow">&rarr;</div>
+    <div class="step">4. Tap Calculate</div><div class="arrow">&rarr;</div>
+    <div class="step">5. Result + history</div>
+  </div>
+  <ol>
+    <li>The calculator screen renders only the input fields relevant to the selected shape (e.g. a round bar only asks for diameter + length, never thickness).</li>
+    <li>Every dimension field is entered in the user's chosen <strong>measurement unit</strong> (mm / cm / inch, see &sect;6). Before computing, <code>CalculatorProvider.calculate()</code> converts every value to centimeters using a fixed factor (mm &times;0.1, cm &times;1, inch &times;2.54), because all density figures and formulas are defined in cm/g internally.</li>
+    <li><code>Calculation.compute()</code> runs the matching geometric formula from &sect;4 to get a volume in cm&sup3;, then multiplies by the metal's density and divides by 1000 to get kilograms.</li>
+    <li>The result is shown in a dialog (copy / share / favorite) and automatically saved to a local on-device history (capped at the last 100 entries), so nothing is sent to any server for this step — it is 100% on-device math.</li>
+  </ol>
+</section>
+
+<section id="units">
+  <h2><span class="num">6.</span>Measurement &amp; price display units</h2>
+  <h3>Measurement unit (Settings &rarr; Calculator)</h3>
+  <p>Controls what unit the dimension input fields (length, width, diameter, thickness...) are interpreted in. Choices: <strong>mm</strong>, <strong>cm</strong> (default), <strong>inch</strong>. This only changes how typed numbers are interpreted — the underlying formulas always run in centimeters internally, so switching the setting does not change a previously saved calculation, only how new input is read.</p>
+  <h3>Price display unit (Settings &rarr; Prices)</h3>
+  <p>Controls which unit the Market Prices screen shows as the large/primary figure per metal: <strong>Tonne</strong> (default — matches the original app behaviour), <strong>Kilogram</strong>, or <strong>Ounce</strong> (troy ounce, standard for precious metals). The secondary (smaller) figure automatically shows a complementary unit for quick cross-reference. Conversions:</p>
+  <pre><code>price_per_kg    = price_per_tonne / 1000
+price_per_ounce = price_per_tonne / 32150.7466   // troy ounces per metric tonne</code></pre>
+</section>
+
+<section id="api">
+  <h2><span class="num">7.</span>Live prices &amp; the metals.dev API</h2>
+  <p>Market prices are sourced from <a class="ext" href="https://metals.dev" target="_blank" rel="noopener">metals.dev</a>, a third-party commodities pricing API.</p>
+  <div class="card">
+    <table>
+      <tbody>
+        <tr><th>Endpoint</th><td><code>GET https://api.metals.dev/v1/latest</code></td></tr>
+        <tr><th>Query params</th><td><code>api_key</code>, <code>currency=USD</code>, <code>unit=tonne</code></td></tr>
+        <tr><th>Auth</th><td>API key as a query parameter (no OAuth/headers)</td></tr>
+        <tr><th>API key (masked)</th><td><code>GSXS&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;I2G0TA</code> <span class="badge warn">redacted</span></td></tr>
+        <tr><th>Rate limit / plan tier</th><td>Not independently verifiable from this document — see the callout below</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="callout warn">
+    <strong>Why the key above is masked:</strong> this is a publicly shareable documentation file. Embedding the real key in plaintext here would leak the live production secret to anyone who opens this file. The real key only ever lives in two places: the <code>METALS_API_KEY</code> GitHub Actions secret, and as a <code>--dart-define</code> build-time value (see &sect;9) — never committed to source control in plaintext.
+  </div>
+  <div class="callout warn">
+    <strong>Rate limits / pricing tier:</strong> metals.dev's public pricing and rate-limit pages returned an HTTP 403 when checked programmatically while writing this document, so exact numbers can't be confirmed here. Check your actual usage and limits directly in your <a class="ext" href="https://metals.dev/account" target="_blank" rel="noopener">metals.dev account dashboard</a>. The app's own polling is intentionally conservative — see the pipeline section below — specifically to stay well under typical free/low-tier API limits.
+  </div>
+  <h3>Response shape (simplified)</h3>
+  <pre><code>{
+  "timestamps": { "metal": "2026-06-29T12:00:00Z" },
+  "metals": {
+    "copper": 9821.4,
+    "gold": 3981.2,     // USD per troy-oz (NOT per tonne — see below)
+    "silver": 39.8,
+    ...
+  }
+}</code></pre>
+  <p>One quirk the app accounts for: <strong>metals.dev always returns gold, silver, platinum and palladium in USD per troy-ounce</strong>, even though the request asked for <code>unit=tonne</code>. <code>MetalPriceService</code> detects these four keys and multiplies them by 32,150.7466 (troy ounces per metric tonne) to normalize everything to USD/tonne before the app does anything else with the numbers.</p>
+</section>
+
+<section id="pipeline">
+  <h2><span class="num">8.</span>Price automation pipeline</h2>
+  <p>Because this is a static site with no backend, "live" prices are produced by a scheduled GitHub Action rather than an API call made directly from every visitor's browser (which would expose the API key and burn through the rate limit per-visitor).</p>
+  <div class="flow">
+    <div class="step">GitHub Actions cron (every 4h)</div><div class="arrow">&rarr;</div>
+    <div class="step">calls metals.dev with the secret key</div><div class="arrow">&rarr;</div>
+    <div class="step">writes <code>prices.json</code></div><div class="arrow">&rarr;</div>
+    <div class="step">commits to <code>gh-pages</code></div><div class="arrow">&rarr;</div>
+    <div class="step">app fetches it same-origin</div>
+  </div>
+  <p>Workflow file: <code>.github/workflows/update-prices.yml</code>. Schedule: <code>0 */4 * * *</code> (every 4 hours), plus a manual <code>workflow_dispatch</code> trigger.</p>
+  <p>In the Flutter app, <code>MetalPriceService._fetchWeb()</code> tries, in order:</p>
+  <ol>
+    <li><strong>Same-origin <code>prices.json</code></strong> — the file the GitHub Action just produced. No CORS issue since it's served from the same domain as the app itself. This is the normal path.</li>
+    <li><strong>CORS proxies</strong> (allorigins.win, corsproxy.io) as a fallback that calls metals.dev directly from the browser, only used if step 1 fails (e.g. file missing or a network hiccup).</li>
+  </ol>
+  <p>The app also caches the last successfully fetched prices locally (<code>StorageService</code>, 15-minute cache window) so the Market Prices screen has something to show instantly on reopen, with a background refresh.</p>
+</section>
+
+<section id="deploy">
+  <h2><span class="num">9.</span>Deployment &amp; hosting</h2>
+  <table>
+    <tbody>
+      <tr><th>Source repo</th><td><code>main</code> branch — Flutter/Dart source</td></tr>
+      <tr><th>Hosting branch</th><td><code>gh-pages</code> branch — compiled static web build</td></tr>
+      <tr><th>Live URL</th><td><a class="ext" href="https://bashirnahas.github.io/Metal-Weight-Calculator/" target="_blank" rel="noopener">bashirnahas.github.io/Metal-Weight-Calculator</a></td></tr>
+      <tr><th>Install on iPhone/iPad</th><td>Open the link in Safari &rarr; Share &rarr; "Add to Home Screen" (installs as a standalone PWA with its own icon, no App Store needed)</td></tr>
+    </tbody>
+  </table>
+  <h3>Rebuilding &amp; redeploying after a code change</h3>
+  <pre><code>flutter build web --base-href /Metal-Weight-Calculator/ --release \
+  --dart-define=METALS_API_KEY=&lt;the real key, never committed&gt;
+
+# then copy build/web/* into the gh-pages branch and push</code></pre>
+  <p>The <code>--dart-define</code> flag injects the API key at <em>build time only</em> — it ends up compiled into the JS bundle (necessary for the browser to call the API directly as a fallback path), but it is never written to any tracked source file.</p>
+</section>
+
+<section id="security">
+  <h2><span class="num">10.</span>Security &amp; secrets handling</h2>
+  <div class="callout">
+    <strong>Where the real API key lives:</strong>
+    <ul>
+      <li>As the GitHub Actions repository secret <code>METALS_API_KEY</code>, used by <code>update-prices.yml</code>.</li>
+      <li>Passed at local build time via <code>--dart-define=METALS_API_KEY=...</code>, never typed directly into a source file.</li>
+    </ul>
+  </div>
+  <div class="callout bad">
+    <strong>Files that must stay out of version control</strong> (already in <code>.gitignore</code>): <code>.env</code>, <code>key.properties</code>, <code>secrets.dart</code>, <code>android/key.properties</code>.
+  </div>
+  <p><code>AppConstants.metalsApiKey</code> is declared as <code>String.fromEnvironment('METALS_API_KEY', defaultValue: '...')</code> — the <code>defaultValue</code> exists purely so the app still builds and runs for local development without needing the flag every time; production deploys always override it explicitly via <code>--dart-define</code>.</p>
+</section>
+
+<footer>
+  Nahas MetalHub &middot; Synaptix &middot; Generated as a one-off technical reference, not auto-updated — regenerate manually if the architecture changes.
+</footer>
+
+</div>
+</body>
+</html>

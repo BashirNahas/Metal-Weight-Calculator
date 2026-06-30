@@ -8,7 +8,7 @@ class Calculation {
   final double? length;
   final double? width;
   final double? diameter;
-  final double thickness; // mm for plate/disc/pipe wall; 0 for bar shapes
+  final double thickness; // cm for plate/disc/pipe/tube wall; 0 for solid bar shapes
   final double weightKg;
   bool isFavorite;
   final DateTime timestamp;
@@ -34,37 +34,47 @@ class Calculation {
     double? diameter,
     double thickness = 0,
   }) {
-    // All linear dimensions are in cm. Thickness is in mm → divide by 10.
+    // All linear dimensions, including thickness, are already in centimeters
+    // by the time they reach this method — the caller (CalculatorProvider)
+    // converts from the user's selected display unit beforehand.
     final double volume = switch (shape) {
-      // Rectangular plate/sheet: L × W × T(mm→cm)
-      Shape.rectangle =>
-        (length ?? 0) * (width ?? 0) * (thickness / 10),
+      // Rectangular plate/sheet: L × W × T
+      Shape.rectangle => (length ?? 0) * (width ?? 0) * thickness,
 
-      // Circular disc: π × r² × T(mm→cm)
-      Shape.circle =>
-        math.pi * math.pow((diameter ?? 0) / 2, 2) * (thickness / 10),
+      // Circular disc: π × r² × T
+      Shape.circle => math.pi * math.pow((diameter ?? 0) / 2, 2) * thickness,
 
-      // Square bar: side² × length (all cm)
+      // Square bar: side² × length
       Shape.squareBar =>
         math.pow(width ?? 0, 2).toDouble() * (length ?? 0),
 
-      // Round bar: π × r² × length (all cm)
+      // Round bar: π × r² × length
       Shape.roundBar =>
         math.pi * math.pow((diameter ?? 0) / 2, 2) * (length ?? 0),
 
-      // Hexagonal bar: (√3/2) × AF² × length  (AF = across-flats in cm)
+      // Hexagonal bar: (√3/2) × AF² × length  (AF = across-flats)
       // Area of regular hexagon given across-flats = (√3/2) × AF²
       Shape.hexBar =>
         (math.sqrt(3) / 2) * math.pow(width ?? 0, 2) * (length ?? 0),
 
-      // Hollow pipe: π/4 × (OD² − ID²) × length
-      // OD = diameter (cm), wall = thickness (mm→cm), ID = OD − 2×wall
+      // Hollow round pipe: π/4 × (OD² − ID²) × length
+      // OD = diameter, wall = thickness, ID = OD − 2×wall
       Shape.pipe => () {
           final od = diameter ?? 0;
-          final wallCm = thickness / 10;
-          final id = od - 2 * wallCm;
+          final id = od - 2 * thickness;
           if (id <= 0) return 0.0;
           return math.pi / 4.0 * ((od * od) - (id * id)) * (length ?? 0);
+        }(),
+
+      // Hollow square tube: (S² − (S − 2×wall)²) × length
+      // S = outer side (width field), wall = thickness
+      Shape.squareTube => () {
+          final outerSide = width ?? 0;
+          final innerSide = outerSide - 2 * thickness;
+          if (innerSide <= 0) return 0.0;
+          final ringArea =
+              math.pow(outerSide, 2).toDouble() - math.pow(innerSide, 2).toDouble();
+          return ringArea * (length ?? 0);
         }(),
     };
 

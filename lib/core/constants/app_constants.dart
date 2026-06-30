@@ -31,6 +31,8 @@ class AppConstants {
   static const String kCalculationHistory = 'calculation_history';
   static const String kLastPricesUpdate = 'last_prices_update';
   static const String kCachedPrices = 'cached_prices';
+  static const String kMeasurementUnit = 'measurement_unit';
+  static const String kPriceUnit = 'price_unit';
 
   // Densities g/cm³
   static const double copperDensity = 8.96;
