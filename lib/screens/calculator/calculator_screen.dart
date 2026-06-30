@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:metal_weight_calculator/core/constants/app_colors.dart';
 import 'package:metal_weight_calculator/core/extensions/context_extensions.dart';
 import 'package:metal_weight_calculator/l10n/app_localizations.dart';
+import 'package:metal_weight_calculator/models/measurement_unit.dart';
 import 'package:metal_weight_calculator/models/metal.dart';
 import 'package:metal_weight_calculator/providers/calculator_provider.dart';
 import 'package:metal_weight_calculator/providers/history_provider.dart';
@@ -289,14 +290,27 @@ class _MeasurementFields extends StatelessWidget {
         onChanged: (_) => calc.clearFieldError('diameter'),
       );
 
-  Widget _thicknessField({required String label, required String symbol}) =>
-      MeasurementField(
-        controller: calc.thicknessController,
-        label: _withUnit(label, symbol),
-        icon: Icons.layers_outlined,
-        hasError: calc.fieldErrors['thickness'] ?? false,
-        errorText: l10n.required,
-        onChanged: (_) => calc.clearFieldError('thickness'),
+  Widget _thicknessField({required String label}) => IntrinsicHeight(
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Expanded(
+              child: MeasurementField(
+                controller: calc.thicknessController,
+                label: _withUnit(label, calc.thicknessUnit.symbol),
+                icon: Icons.layers_outlined,
+                hasError: calc.fieldErrors['thickness'] ?? false,
+                errorText: l10n.required,
+                onChanged: (_) => calc.clearFieldError('thickness'),
+              ),
+            ),
+            const SizedBox(width: 8),
+            _ThicknessUnitPicker(
+              value: calc.thicknessUnit,
+              onChanged: calc.setThicknessUnit,
+            ),
+          ],
+        ),
       );
 
   Widget _row(Widget a, Widget b) => Row(
@@ -323,12 +337,12 @@ class _MeasurementFields extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 14),
-          _thicknessField(label: l10n.thickness, symbol: symbol),
+          _thicknessField(label: l10n.thickness),
         ],
       Shape.circle => [
           _diameterField(label: l10n.diameter, symbol: symbol),
           const SizedBox(height: 14),
-          _thicknessField(label: l10n.thickness, symbol: symbol),
+          _thicknessField(label: l10n.thickness),
         ],
       Shape.squareBar => [
           _row(
@@ -358,7 +372,7 @@ class _MeasurementFields extends StatelessWidget {
           _row(_lengthField(symbol),
               _diameterField(label: l10n.outerDiameter, symbol: symbol)),
           const SizedBox(height: 14),
-          _thicknessField(label: l10n.wallThickness, symbol: symbol),
+          _thicknessField(label: l10n.wallThickness),
         ],
       Shape.squareTube => [
           _row(
@@ -370,7 +384,7 @@ class _MeasurementFields extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 14),
-          _thicknessField(label: l10n.wallThickness, symbol: symbol),
+          _thicknessField(label: l10n.wallThickness),
         ],
     };
 
@@ -378,6 +392,57 @@ class _MeasurementFields extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       mainAxisSize: MainAxisSize.min,
       children: fields,
+    );
+  }
+}
+
+/// Compact unit toggle shown beside the thickness field, letting it use a
+/// different unit (mm by default) than the rest of the measurements.
+class _ThicknessUnitPicker extends StatelessWidget {
+  final MeasurementUnit value;
+  final ValueChanged<MeasurementUnit> onChanged;
+
+  const _ThicknessUnitPicker({
+    required this.value,
+    required this.onChanged,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+
+    return PopupMenuButton<MeasurementUnit>(
+      initialValue: value,
+      onSelected: onChanged,
+      tooltip: '',
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+      itemBuilder: (_) => MeasurementUnit.values
+          .map((u) => PopupMenuItem(value: u, child: Text(u.symbol)))
+          .toList(),
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 10),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(
+            color: colorScheme.outline.withValues(alpha: 0.6),
+            width: 1.2,
+          ),
+        ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              value.symbol,
+              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                    fontWeight: FontWeight.w600,
+                    color: colorScheme.primary,
+                  ),
+            ),
+            Icon(Icons.arrow_drop_down_rounded,
+                size: 18, color: colorScheme.primary),
+          ],
+        ),
+      ),
     );
   }
 }

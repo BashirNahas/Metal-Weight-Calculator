@@ -17,6 +17,18 @@ class CalculatorProvider extends ChangeNotifier {
   final diameterController = TextEditingController();
   final thicknessController = TextEditingController();
 
+  // Thickness is almost always specified in mm even when the rest of the
+  // measurements are in cm, so it gets its own unit independent of the
+  // global measurement unit.
+  MeasurementUnit _thicknessUnit = MeasurementUnit.mm;
+  MeasurementUnit get thicknessUnit => _thicknessUnit;
+
+  void setThicknessUnit(MeasurementUnit unit) {
+    if (_thicknessUnit == unit) return;
+    _thicknessUnit = unit;
+    notifyListeners();
+  }
+
   Map<String, bool> fieldErrors = {
     'length': false,
     'width': false,
@@ -104,8 +116,8 @@ class CalculatorProvider extends ChangeNotifier {
     if (!validate()) return null;
 
     final factor = unit.toCmFactor;
-    final thickness =
-        (double.tryParse(thicknessController.text.trim()) ?? 0) * factor;
+    final thickness = (double.tryParse(thicknessController.text.trim()) ?? 0) *
+        _thicknessUnit.toCmFactor;
     final length = double.tryParse(lengthController.text.trim());
     final width = double.tryParse(widthController.text.trim());
     final diameter = double.tryParse(diameterController.text.trim());
@@ -136,6 +148,7 @@ class CalculatorProvider extends ChangeNotifier {
   void reset() {
     _selectedMetal = Metal.copper;
     _selectedShape = Shape.rectangle;
+    _thicknessUnit = MeasurementUnit.mm;
     lengthController.clear();
     widthController.clear();
     diameterController.clear();
