@@ -7,6 +7,26 @@
 -keep class io.flutter.plugins.** { *; }
 -keep class io.flutter.embedding.** { *; }
 
+# Keep all Flutter plugin registrant + registered plugin classes (GeneratedPluginRegistrant)
+-keep class io.flutter.plugins.sharedpreferences.** { *; }
+-keep class io.flutter.plugins.pathprovider.** { *; }
+-keep class io.flutter.plugins.urllauncher.** { *; }
+-keep class dev.fluttercommunity.plus.packageinfo.** { *; }
+-keep class dev.fluttercommunity.plus.share.** { *; }
+
+# Lottie (lottie package)
+-keep class com.airbnb.lottie.** { *; }
+-dontwarn com.airbnb.lottie.**
+
+# Prevent R8 from removing classes accessed via reflection in plugins
+-keepclassmembers class * implements io.flutter.plugin.common.MethodChannel$MethodCallHandler {
+    public void onMethodCall(io.flutter.plugin.common.MethodCall, io.flutter.plugin.common.MethodChannel$Result);
+}
+-keepclassmembers class * implements io.flutter.plugin.common.EventChannel$StreamHandler {
+    public void onListen(java.lang.Object, io.flutter.plugin.common.EventChannel$EventSink);
+    public void onCancel(java.lang.Object);
+}
+
 # Play Core — referenced by Flutter deferred component support
 -keep class com.google.android.play.core.** { *; }
 -dontwarn com.google.android.play.core.**
