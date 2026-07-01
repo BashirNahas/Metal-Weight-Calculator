@@ -9,7 +9,8 @@ class AppConstants {
   static const String developerHandle = '@Bashir_Nahas';
   static const String companyName = 'Synaptix';
   static const String contactEmail = 'mailto:bashir.nahas97@gmail.com';
-  static const String privacyPolicyUrl = 'https://example.com/privacy-policy';
+  static const String privacyPolicyUrl =
+      'https://bashirnahas.github.io/Metal-Weight-Calculator/privacy-policy.html';
   static const String playStoreUrl =
       'https://play.google.com/store/apps/details?id=com.synaptix.metalweightcalculator';
   static const String shareText =
