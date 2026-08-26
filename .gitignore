@@ -50,3 +50,11 @@ app.*.map.json
 secrets.dart
 key.properties
 android/key.properties
+
+# Screenshot containing the release keystore password — never commit
+keys.png
+
+# Local gh-pages deployment clone (nested git repo)
+temp-gh-pages/
+
+.DS_Store

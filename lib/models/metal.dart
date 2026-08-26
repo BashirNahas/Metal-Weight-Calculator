@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:metal_weight_calculator/core/constants/app_colors.dart';
 
 enum Metal {
@@ -40,19 +39,19 @@ enum Metal {
   String get key => name;
 
   IconData get icon => switch (this) {
-        Metal.copper => FontAwesomeIcons.ring,
-        Metal.aluminum => FontAwesomeIcons.gears,
-        Metal.iron => FontAwesomeIcons.hammer,
+        Metal.copper => Icons.cable, // copper ≈ electrical wiring
+        Metal.aluminum => Icons.settings_outlined, // ≈ former "gears" icon
+        Metal.iron => Icons.build_outlined, // ≈ former "hammer" icon
         Metal.steel => Icons.view_module_rounded,
         Metal.stainlessSteel => Icons.water_drop_outlined,
         Metal.zinc => Icons.hexagon_outlined,
         Metal.nickel => Icons.circle_outlined,
-        Metal.lead => FontAwesomeIcons.weightHanging,
+        Metal.lead => Icons.fitness_center_outlined, // ≈ former "weightHanging" icon
         Metal.brass => Icons.plumbing_rounded,  // brass is widely used in plumbing fittings
         Metal.titanium => Icons.science_outlined,
-        Metal.gold => FontAwesomeIcons.coins,
+        Metal.gold => Icons.monetization_on_outlined, // ≈ former "coins" icon
         Metal.silver => Icons.paid_outlined,
-        Metal.bronze => FontAwesomeIcons.medal,
+        Metal.bronze => Icons.military_tech_outlined, // ≈ former "medal" icon
         Metal.magnesium => Icons.flare_outlined,
         Metal.tungsten => Icons.bolt_outlined,
       };

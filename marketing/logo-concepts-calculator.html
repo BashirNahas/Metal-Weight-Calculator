@@ -1,0 +1,740 @@
+<meta charset="utf-8">
+<title>Nahas MetalHub — Calculator × Metal Marks</title>
+<style>
+  :root{
+    --ground:#0B0C12; --card:#131420; --card2:#181927; --lcd:#080910;
+    --hair:rgba(180,188,197,.13); --hairhot:rgba(184,115,51,.30);
+    --ink:#E8E5DF; --ink2:#8C919E; --ink3:#5F6472;
+    --cu:#B87333; --cu-hi:#E8A868; --cu-lo:#6E3617; --cu-glow:#F0B683;
+    --al:#B4BCC5; --al-hi:#EEF2F6; --al-lo:#5C6169;
+    --plate-a:#22223B; --plate-b:#0F0F1A;
+    --disp:"Avenir Next Condensed","Arial Narrow","Helvetica Neue Condensed",sans-serif;
+    --mono:"SF Mono",ui-monospace,"Menlo","Roboto Mono",monospace;
+    --body:system-ui,-apple-system,"Helvetica Neue",sans-serif;
+    --ar:"SF Arabic","Geeza Pro","Damascus","Segoe UI Arabic",serif;
+  }
+  @media (prefers-color-scheme: light){
+    :root{
+      --ground:#F0EEEA; --card:#FFFFFF; --card2:#F7F5F1; --lcd:#14151F;
+      --hair:rgba(30,34,44,.14); --hairhot:rgba(150,84,32,.32);
+      --ink:#15171D; --ink2:#555B68; --ink3:#848A98;
+      --cu:#96541F; --cu-hi:#B87333; --cu-lo:#5A2C10;
+      --al:#6E747D; --al-hi:#A8B0BA; --al-lo:#42474F;
+    }
+  }
+  :root[data-theme="dark"]{
+    --ground:#0B0C12; --card:#131420; --card2:#181927; --lcd:#080910;
+    --hair:rgba(180,188,197,.13); --hairhot:rgba(184,115,51,.30);
+    --ink:#E8E5DF; --ink2:#8C919E; --ink3:#5F6472;
+    --cu:#B87333; --cu-hi:#E8A868; --cu-lo:#6E3617;
+    --al:#B4BCC5; --al-hi:#EEF2F6; --al-lo:#5C6169;
+  }
+  :root[data-theme="light"]{
+    --ground:#F0EEEA; --card:#FFFFFF; --card2:#F7F5F1; --lcd:#14151F;
+    --hair:rgba(30,34,44,.14); --hairhot:rgba(150,84,32,.32);
+    --ink:#15171D; --ink2:#555B68; --ink3:#848A98;
+    --cu:#96541F; --cu-hi:#B87333; --cu-lo:#5A2C10;
+    --al:#6E747D; --al-hi:#A8B0BA; --al-lo:#42474F;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--ground);color:var(--ink);font-family:var(--body);
+       line-height:1.6;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:1120px;margin:0 auto;padding:0 26px}
+  .defs{position:absolute;width:0;height:0;overflow:hidden}
+
+  /* ── LCD readout: the page's signature device ── */
+  .lcd{background:var(--lcd);border:1px solid var(--hairhot);border-radius:4px;
+       padding:5px 11px;font-family:var(--mono);font-size:12px;letter-spacing:.22em;
+       color:var(--cu-hi);text-shadow:0 0 9px rgba(240,182,131,.5);
+       font-variant-numeric:tabular-nums;display:inline-block;line-height:1.35}
+  :root[data-theme="light"] .lcd,:root:not([data-theme="dark"]) .lcd{color:#F0B683}
+  @media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .lcd{color:var(--cu-hi)}}
+
+  /* ── masthead ── */
+  .mast{border-bottom:1px solid var(--hair);padding:60px 0 32px;
+        background:linear-gradient(180deg,rgba(184,115,51,.06),transparent 72%)}
+  .stamp{display:flex;flex-wrap:wrap;gap:8px 22px;margin-bottom:28px;align-items:center}
+  h1{font-family:var(--disp);font-size:clamp(36px,6vw,70px);line-height:1.04;margin:0;
+     text-transform:uppercase;font-weight:600;text-wrap:balance}
+  h1 em{font-style:normal;color:var(--cu)}
+  .mast .ar-sub{font-family:var(--ar);font-size:clamp(17px,2.5vw,23px);color:var(--ink2);margin:16px 0 0}
+  .mast .lede{color:var(--ink2);max-width:64ch;margin:18px 0 0;font-size:15px}
+  .mast .lede b{color:var(--ink)}
+
+  h2{font-family:var(--disp);font-size:14px;letter-spacing:.2em;text-transform:uppercase;
+     color:var(--ink);border-bottom:1px solid var(--hairhot);padding-bottom:11px;
+     margin:74px 0 6px;display:flex;align-items:baseline;gap:14px}
+  h2 .n{font-family:var(--mono);font-size:11px;color:var(--cu);letter-spacing:.1em}
+  h2 .ar{margin-inline-start:auto;font-family:var(--ar);font-size:20px;letter-spacing:0;color:var(--cu)}
+  .note{color:var(--ink2);font-size:14.5px;max-width:68ch;margin:14px 0 26px}
+  .note b{color:var(--ink)}
+
+  /* ── route card ── */
+  .coupon{background:var(--card);border:1px solid var(--hair);margin:22px 0 0}
+  .cp-head{display:flex;align-items:center;gap:16px;flex-wrap:wrap;
+           padding:15px 22px;border-bottom:1px solid var(--hair);
+           background:linear-gradient(90deg,rgba(184,115,51,.07),transparent 62%)}
+  .cp-ar{font-family:var(--ar);font-size:25px;font-weight:700;line-height:1.25}
+  .cp-en{font-family:var(--disp);text-transform:uppercase;letter-spacing:.17em;font-size:12px;color:var(--ink2)}
+  .cp-alloy{margin-inline-start:auto;display:flex;gap:12px;align-items:center;
+            font-family:var(--mono);font-size:10.5px;color:var(--ink3)}
+  .chip{display:inline-flex;align-items:center;gap:6px}
+  .chip i{width:9px;height:9px;border-radius:50%;display:block}
+  .chip.cu i{background:linear-gradient(135deg,var(--cu-hi),var(--cu-lo))}
+  .chip.al i{background:linear-gradient(135deg,var(--al-hi),var(--al-lo))}
+
+  .cp-body{display:grid;grid-template-columns:300px 1fr}
+  @media(max-width:800px){.cp-body{grid-template-columns:1fr}}
+  .plate-cell{border-inline-end:1px solid var(--hair);padding:26px;display:flex;
+              align-items:center;justify-content:center;background:var(--card2)}
+  @media(max-width:800px){.plate-cell{border-inline-end:none;border-bottom:1px solid var(--hair)}}
+  .plate{position:relative;width:216px;height:216px;border-radius:23%;overflow:hidden;
+         background:radial-gradient(120% 120% at 30% 18%, var(--plate-a), var(--plate-b) 72%);
+         box-shadow:0 10px 34px rgba(0,0,0,.42), inset 0 1px 0 rgba(255,255,255,.07)}
+  .plate svg{position:absolute;inset:11%;width:78%;height:78%}
+  .spec-cell{padding:22px 24px}
+  .rationale{font-size:14.5px;color:var(--ink);margin:0;max-width:60ch}
+  .rationale + .rationale{color:var(--ink2);font-size:13.5px;margin-top:9px}
+  .rationale b{color:var(--cu-hi)}
+  :root[data-theme="light"] .rationale b,:root:not([data-theme="dark"]) .rationale b{color:var(--cu)}
+  @media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .rationale b{color:var(--cu-hi)}}
+
+  .lab{font-family:var(--disp);text-transform:uppercase;letter-spacing:.15em;font-size:10px;
+       color:var(--cu);margin:20px 0 10px;display:flex;align-items:center;gap:10px}
+  .lab::after{content:"";flex:1;height:1px;background:var(--hair)}
+  .ladder{display:flex;align-items:flex-end;gap:16px;flex-wrap:wrap}
+  .rung{text-align:center}
+  .rung .box,.t-item .box{background:radial-gradient(120% 120% at 30% 18%, var(--plate-a), var(--plate-b) 72%);
+             display:grid;place-items:center;box-shadow:0 3px 10px rgba(0,0,0,.35)}
+  .rung .box{border-radius:23%}
+  .rung svg,.t-item .box svg{width:78%;height:78%}
+  .rung small,.t-item small{display:block;font-family:var(--mono);font-size:9.5px;
+                            color:var(--ink3);margin-top:6px;font-variant-numeric:tabular-nums}
+  .tests{display:flex;gap:14px;flex-wrap:wrap;align-items:flex-end}
+  .t-item{text-align:center}
+  .t-item .box{width:62px;height:62px}
+  .m-circle{border-radius:50%} .m-squircle{border-radius:29%} .m-rsq{border-radius:19%}
+  .m-light{background:linear-gradient(160deg,#F4F2EE,#DCD9D2)!important}
+  .m-mono svg{filter:grayscale(1) brightness(0) invert(1)}
+  .m-mono-l svg{filter:grayscale(1) brightness(0)}
+
+  .wall{display:grid;grid-template-columns:repeat(auto-fit,minmax(104px,1fr));gap:12px;margin-top:20px}
+  .wall .cell{background:var(--card);border:1px solid var(--hair);padding:14px 8px;text-align:center}
+  .wall .box{width:56px;height:56px;margin:0 auto;border-radius:23%;display:grid;place-items:center;
+             background:radial-gradient(120% 120% at 30% 18%, var(--plate-a), var(--plate-b) 72%)}
+  .wall .box svg{width:78%;height:78%}
+  .wall small{display:block;font-family:var(--mono);font-size:9px;color:var(--ink3);margin-top:9px}
+  .wall b{display:block;font-family:var(--ar);font-size:13px;color:var(--ink2);margin-top:3px;font-weight:400}
+
+  .home{background:linear-gradient(165deg,#1A1B2E,#0C0C14 70%);border:1px solid var(--hair);
+        padding:30px 26px;display:flex;gap:26px;flex-wrap:wrap;justify-content:center;margin-top:20px}
+  .app{text-align:center;width:76px}
+  .app .box{width:66px;height:66px;border-radius:23%;display:grid;place-items:center;
+            box-shadow:0 5px 16px rgba(0,0,0,.5)}
+  .app .box svg{width:78%;height:78%}
+  .app span{display:block;font-size:10.5px;color:#CFD3DC;margin-top:8px;line-height:1.25}
+  .decoy{background:linear-gradient(150deg,#3A3F4B,#22252D)}
+  .decoy2{background:linear-gradient(150deg,#1E5F8C,#123A57)}
+  .decoy3{background:linear-gradient(150deg,#2E7D4F,#17492E)}
+  .decoy .g,.decoy2 .g,.decoy3 .g{font-family:var(--disp);font-size:26px;color:rgba(255,255,255,.82);font-weight:600}
+
+  .verdict{border:1px solid var(--hairhot);
+           background:linear-gradient(100deg,rgba(184,115,51,.09),transparent 66%);
+           padding:22px 26px;margin:22px 0}
+  .verdict h3{font-family:var(--disp);text-transform:uppercase;letter-spacing:.16em;font-size:12px;
+              color:var(--cu);margin:0 0 12px}
+  .verdict p{margin:0 0 10px;font-size:14.5px;max-width:72ch}
+  .verdict p:last-child{margin-bottom:0}
+  .verdict b{color:var(--cu-hi)}
+  :root[data-theme="light"] .verdict b,:root:not([data-theme="dark"]) .verdict b{color:var(--cu)}
+  @media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .verdict b{color:var(--cu-hi)}}
+
+  ul.steps{padding-inline-start:19px;color:var(--ink2);font-size:14px;max-width:74ch}
+  ul.steps li{margin:8px 0} ul.steps b{color:var(--ink)}
+  code{font-family:var(--mono);font-size:12.5px;background:var(--card2);border:1px solid var(--hair);
+       padding:2px 6px;color:var(--cu)}
+  a{color:var(--cu)}
+  footer{margin:72px 0 44px;border-top:1px solid var(--hair);padding-top:16px;
+         font-family:var(--mono);font-size:11px;color:var(--ink3);
+         display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}
+</style>
+
+<!-- ══ METAL DEFS + MARK LIBRARY ═══════════════════════════════ -->
+<svg class="defs" aria-hidden="true" focusable="false">
+  <defs>
+    <linearGradient id="cu" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%"   stop-color="#7A3E1B"/><stop offset="17%"  stop-color="#C9803F"/>
+      <stop offset="33%"  stop-color="#F2BC89"/><stop offset="49%"  stop-color="#B87333"/>
+      <stop offset="66%"  stop-color="#8A4A22"/><stop offset="84%"  stop-color="#DC9558"/>
+      <stop offset="100%" stop-color="#6B3416"/>
+    </linearGradient>
+    <linearGradient id="cu2" x1="1" y1="0" x2="0" y2="1">
+      <stop offset="0%"   stop-color="#8C4A22"/><stop offset="22%"  stop-color="#E5A76F"/>
+      <stop offset="44%"  stop-color="#A9682D"/><stop offset="68%"  stop-color="#F0B683"/>
+      <stop offset="100%" stop-color="#74391A"/>
+    </linearGradient>
+    <linearGradient id="cuTop" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#C9803F"/><stop offset="42%" stop-color="#F7CDA2"/>
+      <stop offset="100%" stop-color="#B87333"/>
+    </linearGradient>
+    <linearGradient id="cuSide" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#9A5628"/><stop offset="100%" stop-color="#5E2D12"/>
+    </linearGradient>
+    <linearGradient id="al" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%"   stop-color="#5C6169"/><stop offset="15%"  stop-color="#B7BFC8"/>
+      <stop offset="31%"  stop-color="#F0F4F8"/><stop offset="48%"  stop-color="#98A1AB"/>
+      <stop offset="65%"  stop-color="#D9E0E7"/><stop offset="83%"  stop-color="#727881"/>
+      <stop offset="100%" stop-color="#AEB6BF"/>
+    </linearGradient>
+    <linearGradient id="al2" x1="1" y1="0" x2="0" y2="1">
+      <stop offset="0%"   stop-color="#6A7079"/><stop offset="26%"  stop-color="#E4EAF0"/>
+      <stop offset="52%"  stop-color="#8E969F"/><stop offset="78%"  stop-color="#CFD6DD"/>
+      <stop offset="100%" stop-color="#5F656D"/>
+    </linearGradient>
+    <linearGradient id="alTop" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#AEB6BF"/><stop offset="42%" stop-color="#F4F8FB"/>
+      <stop offset="100%" stop-color="#9AA3AD"/>
+    </linearGradient>
+    <linearGradient id="alSide" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#8A929B"/><stop offset="100%" stop-color="#4E535A"/>
+    </linearGradient>
+  </defs>
+
+  <!-- C-01 · THE EQUALS — "=" as two solid billets -->
+  <symbol id="k-equals" viewBox="0 0 512 512">
+    <g>
+      <path d="M96,176 L416,176 L448,144 L128,144 Z" fill="url(#cuTop)"/>
+      <path d="M416,176 L448,144 L448,216 L416,248 Z" fill="url(#cuSide)"/>
+      <path d="M96,176 L416,176 L416,248 L96,248 Z" fill="url(#cu)"/>
+    </g>
+    <g>
+      <path d="M96,296 L416,296 L448,264 L128,264 Z" fill="url(#alTop)"/>
+      <path d="M416,296 L448,264 L448,336 L416,368 Z" fill="url(#alSide)"/>
+      <path d="M96,296 L416,296 L416,368 L96,368 Z" fill="url(#al)"/>
+    </g>
+  </symbol>
+
+  <!-- C-02 · THE KEYPAD — four struck metal keys -->
+  <symbol id="k-keypad" viewBox="0 0 512 512">
+    <g>
+      <rect x="96" y="96" width="148" height="148" rx="28" fill="url(#cuSide)"/>
+      <rect x="104" y="98" width="132" height="132" rx="24" fill="url(#cu)"/>
+    </g>
+    <g>
+      <rect x="268" y="96" width="148" height="148" rx="28" fill="url(#alSide)"/>
+      <rect x="276" y="98" width="132" height="132" rx="24" fill="url(#al)"/>
+    </g>
+    <g>
+      <rect x="96" y="268" width="148" height="148" rx="28" fill="url(#alSide)"/>
+      <rect x="104" y="270" width="132" height="132" rx="24" fill="url(#al2)"/>
+    </g>
+    <g>
+      <rect x="268" y="268" width="148" height="148" rx="28" fill="url(#cuSide)"/>
+      <rect x="276" y="270" width="132" height="132" rx="24" fill="url(#cu2)"/>
+      <rect x="302" y="316" width="80" height="16" rx="7" fill="#3A1B08" opacity=".82"/>
+      <rect x="302" y="348" width="80" height="16" rx="7" fill="#3A1B08" opacity=".82"/>
+    </g>
+  </symbol>
+
+  <!-- C-03 · THE DISPLAY — a bar shown on the readout -->
+  <symbol id="k-display" viewBox="0 0 512 512">
+    <rect x="56" y="152" width="400" height="208" rx="34" fill="url(#al)"/>
+    <rect x="56" y="152" width="400" height="208" rx="34" fill="none" stroke="#4E535A" stroke-width="5" opacity=".5"/>
+    <rect x="86" y="182" width="340" height="148" rx="18" fill="#0B0C14"/>
+    <rect x="116" y="222" width="150" height="68" rx="34" fill="url(#cu)"/>
+    <ellipse cx="266" cy="256" rx="20" ry="34" fill="url(#cu2)"/>
+    <rect x="312" y="232" width="84" height="15" rx="7" fill="url(#cuTop)"/>
+    <rect x="312" y="264" width="84" height="15" rx="7" fill="url(#cuTop)"/>
+  </symbol>
+
+  <!-- C-04 · THE KEY — one key, pipe section on its face -->
+  <symbol id="k-key" viewBox="0 0 512 512">
+    <mask id="keyBore" maskUnits="userSpaceOnUse" x="0" y="0" width="512" height="512">
+      <rect width="512" height="512" fill="#fff"/>
+      <circle cx="256" cy="244" r="48" fill="#000"/>
+    </mask>
+    <g mask="url(#keyBore)">
+      <rect x="80" y="80" width="352" height="352" rx="72" fill="url(#cuSide)"/>
+      <rect x="94" y="82" width="324" height="324" rx="64" fill="url(#cu)"/>
+      <path fill-rule="evenodd" fill="url(#al)"
+        d="M164,244 a92,92 0 1,0 184,0 a92,92 0 1,0 -184,0 Z
+           M208,244 a48,48 0 1,0 96,0 a48,48 0 1,0 -96,0 Z"/>
+    </g>
+    <circle cx="256" cy="244" r="48" fill="none" stroke="#5E2D12" stroke-width="4" opacity=".5"/>
+  </symbol>
+
+  <!-- C-05 · THE DEVICE — calculator milled from metal -->
+  <symbol id="k-device" viewBox="0 0 512 512">
+    <rect x="96" y="48" width="320" height="416" rx="46" fill="url(#alSide)"/>
+    <rect x="104" y="50" width="304" height="400" rx="42" fill="url(#al)"/>
+    <rect x="136" y="82" width="240" height="92" rx="16" fill="#0B0C14"/>
+    <rect x="160" y="112" width="112" height="34" rx="17" fill="url(#cu)"/>
+    <rect x="296" y="118" width="56" height="10" rx="5" fill="url(#cuTop)"/>
+    <rect x="296" y="136" width="56" height="10" rx="5" fill="url(#cuTop)"/>
+    <g>
+      <rect x="136" y="206" width="112" height="58" rx="15" fill="url(#cu)"/>
+      <rect x="264" y="206" width="112" height="58" rx="15" fill="url(#al2)"/>
+      <rect x="136" y="280" width="112" height="58" rx="15" fill="url(#al2)"/>
+      <rect x="264" y="280" width="112" height="58" rx="15" fill="url(#cu)"/>
+      <rect x="136" y="354" width="112" height="58" rx="15" fill="url(#cu2)"/>
+      <rect x="264" y="354" width="112" height="58" rx="15" fill="url(#al)"/>
+    </g>
+  </symbol>
+
+  <!-- C-06 · THE OPERATORS — + − × ÷ cast in metal -->
+  <symbol id="k-operators" viewBox="0 0 512 512">
+    <g fill="url(#cu)">
+      <rect x="100" y="147" width="120" height="26" rx="9"/>
+      <rect x="147" y="100" width="26" height="120" rx="9"/>
+    </g>
+    <rect x="292" y="147" width="120" height="26" rx="9" fill="url(#al)"/>
+    <g fill="url(#al2)">
+      <rect x="100" y="339" width="120" height="26" rx="9" transform="rotate(45 160 352)"/>
+      <rect x="100" y="339" width="120" height="26" rx="9" transform="rotate(-45 160 352)"/>
+    </g>
+    <g fill="url(#cu2)">
+      <rect x="292" y="339" width="120" height="26" rx="9"/>
+      <circle cx="352" cy="306" r="18"/>
+      <circle cx="352" cy="398" r="18"/>
+    </g>
+  </symbol>
+
+  <!-- C-07 · THE SEGMENT — seven-segment digit in two alloys -->
+  <symbol id="k-segment" viewBox="0 0 512 512">
+    <g fill="url(#cu)">
+      <path d="M177,96 L335,96 L352,113 L335,130 L177,130 L160,113 Z"/>
+      <path d="M177,239 L335,239 L352,256 L335,273 L177,273 L160,256 Z"/>
+      <path d="M177,382 L335,382 L352,399 L335,416 L177,416 L160,399 Z"/>
+    </g>
+    <g fill="url(#al)">
+      <path d="M143,147 L160,130 L177,147 L177,222 L160,239 L143,222 Z"/>
+      <path d="M335,147 L352,130 L369,147 L369,222 L352,239 L335,222 Z"/>
+      <path d="M143,290 L160,273 L177,290 L177,365 L160,382 L143,365 Z"/>
+      <path d="M335,290 L352,273 L369,290 L369,365 L352,382 L335,365 Z"/>
+    </g>
+  </symbol>
+
+  <!-- C-08 · THE MILLED SLAB — keys cut clean through the plate -->
+  <symbol id="k-slab" viewBox="0 0 512 512">
+    <rect x="112" y="112" width="288" height="72" rx="20" fill="url(#cu)"/>
+    <path fill-rule="evenodd" fill="url(#al)"
+      d="M120,64 h272 a56,56 0 0 1 56,56 v272 a56,56 0 0 1 -56,56 h-272 a56,56 0 0 1 -56,-56 v-272 a56,56 0 0 1 56,-56 Z
+         M132,112 h248 a20,20 0 0 1 20,20 v32 a20,20 0 0 1 -20,20 h-248 a20,20 0 0 1 -20,-20 v-32 a20,20 0 0 1 20,-20 Z
+         M168,224 h60 a18,18 0 0 1 18,18 v60 a18,18 0 0 1 -18,18 h-60 a18,18 0 0 1 -18,-18 v-60 a18,18 0 0 1 18,-18 Z
+         M284,224 h60 a18,18 0 0 1 18,18 v60 a18,18 0 0 1 -18,18 h-60 a18,18 0 0 1 -18,-18 v-60 a18,18 0 0 1 18,-18 Z
+         M168,340 h60 a18,18 0 0 1 18,18 v60 a18,18 0 0 1 -18,18 h-60 a18,18 0 0 1 -18,-18 v-60 a18,18 0 0 1 18,-18 Z
+         M284,340 h60 a18,18 0 0 1 18,18 v60 a18,18 0 0 1 -18,18 h-60 a18,18 0 0 1 -18,-18 v-60 a18,18 0 0 1 18,-18 Z"/>
+  </symbol>
+
+  <!-- C-09 · THE KEY STACK — keys pressed into stacked plate -->
+  <symbol id="k-keystack" viewBox="0 0 512 512">
+    <g>
+      <path d="M96,262 L96,290 L256,346 L416,290 L416,262 L256,318 Z" fill="url(#cuSide)"/>
+      <path d="M256,206 L416,262 L256,318 L96,262 Z" fill="url(#cu)"/>
+    </g>
+    <g>
+      <path d="M96,206 L96,234 L256,290 L416,234 L416,206 L256,262 Z" fill="url(#alSide)"/>
+      <path d="M256,150 L416,206 L256,262 L96,206 Z" fill="url(#al)"/>
+    </g>
+    <g fill="url(#cu2)" stroke="#5E2D12" stroke-width="3" stroke-linejoin="round">
+      <path d="M256,154 L292,167 L256,180 L220,167 Z"/>
+      <path d="M368,193 L404,206 L368,219 L332,206 Z"/>
+      <path d="M144,193 L180,206 L144,219 L108,206 Z"/>
+      <path d="M256,232 L292,245 L256,258 L220,245 Z"/>
+    </g>
+  </symbol>
+</svg>
+
+<!-- ══ PAGE ═══════════════════════════════════════════════════ -->
+<header class="mast"><div class="wrap">
+  <div class="stamp">
+    <span class="lcd">SET&nbsp;02</span>
+    <span class="lcd">9&nbsp;ROUTES</span>
+    <span class="lcd">Cu&nbsp;+&nbsp;Al</span>
+    <span class="lcd">CALC&nbsp;×&nbsp;METAL</span>
+  </div>
+  <h1>Where the <em>calculator</em><br>meets the metal</h1>
+  <p class="ar-sub" dir="rtl">تسعةُ شعارات — حين تلتقي الآلةُ الحاسبة بالمعدن</p>
+  <p class="lede">The first sheet was pure metal. This one keeps the <b>calculator</b> in the mark — keys, operators,
+    the readout, the equals sign — but casts every one of them in copper and aluminium. Same alloy palette,
+    same tests: five sizes down to 24 px, three Android mask shapes, and flattened to a single colour.</p>
+</div></header>
+
+<main class="wrap">
+
+  <h2><span class="n">00</span> The brief <span class="ar" dir="rtl">الفكرة</span></h2>
+  <p class="note">Your current icon already is a calculator — the problem was never the idea, it was the execution:
+    photoreal clutter that turns to mud below 64 px. So this set keeps what the icon was reaching for and rebuilds it
+    as <b>flat geometry with real metal surfaces</b>. Every route below still says "calculator" at a glance, but the
+    material does the talking. Nothing here is decorative detail that dies when the icon shrinks.</p>
+
+  <h2><span class="n">01</span> The routes <span class="ar" dir="rtl">المقترحات</span></h2>
+
+  <!-- C-01 -->
+  <article class="coupon">
+    <div class="cp-head">
+      <span class="lcd">C-01</span><span class="cp-ar" dir="rtl">المُساواة</span><span class="cp-en">The Equals</span>
+      <span class="cp-alloy"><span class="chip cu"><i></i>Cu 50</span><span class="chip al"><i></i>Al 50</span></span>
+    </div>
+    <div class="cp-body">
+      <div class="plate-cell"><div class="plate"><svg viewBox="0 0 512 512"><use href="#k-equals"/></svg></div></div>
+      <div class="spec-cell">
+        <p class="rationale">The <b>=</b> sign built as two solid metal billets — a copper bar above an aluminium bar,
+          each with a machined top face and end cut. The most recognisable glyph on any calculator, rendered as stock.</p>
+        <p class="rationale">The strongest route in the set. It is two shapes, so it cannot break at any size; it reads
+          as "equals" to everyone on earth; and "equals" is exactly what your app delivers — the answer.
+          It also happens to be the only mark here that would work embossed on physical packaging.</p>
+        <div class="lab">Size ladder</div>
+        <div class="ladder">
+          <div class="rung"><div class="box" style="width:112px;height:112px"><svg viewBox="0 0 512 512"><use href="#k-equals"/></svg></div><small>112</small></div>
+          <div class="rung"><div class="box" style="width:72px;height:72px"><svg viewBox="0 0 512 512"><use href="#k-equals"/></svg></div><small>72</small></div>
+          <div class="rung"><div class="box" style="width:48px;height:48px"><svg viewBox="0 0 512 512"><use href="#k-equals"/></svg></div><small>48</small></div>
+          <div class="rung"><div class="box" style="width:32px;height:32px"><svg viewBox="0 0 512 512"><use href="#k-equals"/></svg></div><small>32</small></div>
+          <div class="rung"><div class="box" style="width:24px;height:24px"><svg viewBox="0 0 512 512"><use href="#k-equals"/></svg></div><small>24</small></div>
+        </div>
+        <div class="lab">Mask &amp; monochrome tests</div>
+        <div class="tests">
+          <div class="t-item"><div class="box m-circle"><svg viewBox="0 0 512 512"><use href="#k-equals"/></svg></div><small>circle</small></div>
+          <div class="t-item"><div class="box m-squircle"><svg viewBox="0 0 512 512"><use href="#k-equals"/></svg></div><small>squircle</small></div>
+          <div class="t-item"><div class="box m-rsq"><svg viewBox="0 0 512 512"><use href="#k-equals"/></svg></div><small>rounded</small></div>
+          <div class="t-item"><div class="box m-rsq m-light m-mono-l"><svg viewBox="0 0 512 512"><use href="#k-equals"/></svg></div><small>1-colour</small></div>
+          <div class="t-item"><div class="box m-rsq m-mono"><svg viewBox="0 0 512 512"><use href="#k-equals"/></svg></div><small>knockout</small></div>
+        </div>
+      </div>
+    </div>
+  </article>
+
+  <!-- C-02 -->
+  <article class="coupon">
+    <div class="cp-head">
+      <span class="lcd">C-02</span><span class="cp-ar" dir="rtl">لوحةُ المفاتيح</span><span class="cp-en">The Keypad</span>
+      <span class="cp-alloy"><span class="chip cu"><i></i>Cu 50</span><span class="chip al"><i></i>Al 50</span></span>
+    </div>
+    <div class="cp-body">
+      <div class="plate-cell"><div class="plate"><svg viewBox="0 0 512 512"><use href="#k-keypad"/></svg></div></div>
+      <div class="spec-cell">
+        <p class="rationale">Four struck keys in a checkerboard of copper and aluminium, each with a raised cap and a
+          shadowed base. The bottom-right key carries the <b>=</b>, the way it does on every calculator ever made.</p>
+        <p class="rationale">Says "calculator" faster than anything else in the set, and the 2×2 grid is
+          bulletproof at small sizes. The engraved equals is the detail that sells it — it is the only element
+          that needs protecting when the icon shrinks.</p>
+        <div class="lab">Size ladder</div>
+        <div class="ladder">
+          <div class="rung"><div class="box" style="width:112px;height:112px"><svg viewBox="0 0 512 512"><use href="#k-keypad"/></svg></div><small>112</small></div>
+          <div class="rung"><div class="box" style="width:72px;height:72px"><svg viewBox="0 0 512 512"><use href="#k-keypad"/></svg></div><small>72</small></div>
+          <div class="rung"><div class="box" style="width:48px;height:48px"><svg viewBox="0 0 512 512"><use href="#k-keypad"/></svg></div><small>48</small></div>
+          <div class="rung"><div class="box" style="width:32px;height:32px"><svg viewBox="0 0 512 512"><use href="#k-keypad"/></svg></div><small>32</small></div>
+          <div class="rung"><div class="box" style="width:24px;height:24px"><svg viewBox="0 0 512 512"><use href="#k-keypad"/></svg></div><small>24</small></div>
+        </div>
+        <div class="lab">Mask &amp; monochrome tests</div>
+        <div class="tests">
+          <div class="t-item"><div class="box m-circle"><svg viewBox="0 0 512 512"><use href="#k-keypad"/></svg></div><small>circle</small></div>
+          <div class="t-item"><div class="box m-squircle"><svg viewBox="0 0 512 512"><use href="#k-keypad"/></svg></div><small>squircle</small></div>
+          <div class="t-item"><div class="box m-rsq"><svg viewBox="0 0 512 512"><use href="#k-keypad"/></svg></div><small>rounded</small></div>
+          <div class="t-item"><div class="box m-rsq m-light m-mono-l"><svg viewBox="0 0 512 512"><use href="#k-keypad"/></svg></div><small>1-colour</small></div>
+          <div class="t-item"><div class="box m-rsq m-mono"><svg viewBox="0 0 512 512"><use href="#k-keypad"/></svg></div><small>knockout</small></div>
+        </div>
+      </div>
+    </div>
+  </article>
+
+  <!-- C-03 -->
+  <article class="coupon">
+    <div class="cp-head">
+      <span class="lcd">C-03</span><span class="cp-ar" dir="rtl">الشاشة</span><span class="cp-en">The Display</span>
+      <span class="cp-alloy"><span class="chip al"><i></i>Al 60</span><span class="chip cu"><i></i>Cu 40</span></span>
+    </div>
+    <div class="cp-body">
+      <div class="plate-cell"><div class="plate"><svg viewBox="0 0 512 512"><use href="#k-display"/></svg></div></div>
+      <div class="spec-cell">
+        <p class="rationale">An aluminium-bezelled readout with a copper round bar sitting where the digits would be,
+          and the <b>=</b> waiting at the right. The screen is not showing a number — it is showing the metal itself.</p>
+        <p class="rationale">The most conceptual route: it states the app's actual job, turning material into a figure.
+          Two costs to weigh — the wide bezel fills a square icon less efficiently than the others, and because the
+          readout is a dark inset rather than a cut-through, the mark flattens to a plain rounded rectangle in
+          one colour. It needs a purpose-drawn outline version for stamps and embroidery.</p>
+        <div class="lab">Size ladder</div>
+        <div class="ladder">
+          <div class="rung"><div class="box" style="width:112px;height:112px"><svg viewBox="0 0 512 512"><use href="#k-display"/></svg></div><small>112</small></div>
+          <div class="rung"><div class="box" style="width:72px;height:72px"><svg viewBox="0 0 512 512"><use href="#k-display"/></svg></div><small>72</small></div>
+          <div class="rung"><div class="box" style="width:48px;height:48px"><svg viewBox="0 0 512 512"><use href="#k-display"/></svg></div><small>48</small></div>
+          <div class="rung"><div class="box" style="width:32px;height:32px"><svg viewBox="0 0 512 512"><use href="#k-display"/></svg></div><small>32</small></div>
+          <div class="rung"><div class="box" style="width:24px;height:24px"><svg viewBox="0 0 512 512"><use href="#k-display"/></svg></div><small>24</small></div>
+        </div>
+        <div class="lab">Mask &amp; monochrome tests</div>
+        <div class="tests">
+          <div class="t-item"><div class="box m-circle"><svg viewBox="0 0 512 512"><use href="#k-display"/></svg></div><small>circle</small></div>
+          <div class="t-item"><div class="box m-squircle"><svg viewBox="0 0 512 512"><use href="#k-display"/></svg></div><small>squircle</small></div>
+          <div class="t-item"><div class="box m-rsq"><svg viewBox="0 0 512 512"><use href="#k-display"/></svg></div><small>rounded</small></div>
+          <div class="t-item"><div class="box m-rsq m-light m-mono-l"><svg viewBox="0 0 512 512"><use href="#k-display"/></svg></div><small>1-colour</small></div>
+          <div class="t-item"><div class="box m-rsq m-mono"><svg viewBox="0 0 512 512"><use href="#k-display"/></svg></div><small>knockout</small></div>
+        </div>
+      </div>
+    </div>
+  </article>
+
+  <!-- C-04 -->
+  <article class="coupon">
+    <div class="cp-head">
+      <span class="lcd">C-04</span><span class="cp-ar" dir="rtl">المِفتاح</span><span class="cp-en">The Key</span>
+      <span class="cp-alloy"><span class="chip cu"><i></i>Cu 70</span><span class="chip al"><i></i>Al 30</span></span>
+    </div>
+    <div class="cp-body">
+      <div class="plate-cell"><div class="plate"><svg viewBox="0 0 512 512"><use href="#k-key"/></svg></div></div>
+      <div class="spec-cell">
+        <p class="rationale">A single oversized copper key with a <b>pipe cross-section</b> inlaid in aluminium on its
+          face — one calculator key, one piece of stock, one mark.</p>
+        <p class="rationale">The most confident and the most premium: enormous shapes, no small detail, and it fills a
+          square icon perfectly. The inlaid ring is a true hole through the aluminium, so it survives the
+          monochrome flatten intact.</p>
+        <div class="lab">Size ladder</div>
+        <div class="ladder">
+          <div class="rung"><div class="box" style="width:112px;height:112px"><svg viewBox="0 0 512 512"><use href="#k-key"/></svg></div><small>112</small></div>
+          <div class="rung"><div class="box" style="width:72px;height:72px"><svg viewBox="0 0 512 512"><use href="#k-key"/></svg></div><small>72</small></div>
+          <div class="rung"><div class="box" style="width:48px;height:48px"><svg viewBox="0 0 512 512"><use href="#k-key"/></svg></div><small>48</small></div>
+          <div class="rung"><div class="box" style="width:32px;height:32px"><svg viewBox="0 0 512 512"><use href="#k-key"/></svg></div><small>32</small></div>
+          <div class="rung"><div class="box" style="width:24px;height:24px"><svg viewBox="0 0 512 512"><use href="#k-key"/></svg></div><small>24</small></div>
+        </div>
+        <div class="lab">Mask &amp; monochrome tests</div>
+        <div class="tests">
+          <div class="t-item"><div class="box m-circle"><svg viewBox="0 0 512 512"><use href="#k-key"/></svg></div><small>circle</small></div>
+          <div class="t-item"><div class="box m-squircle"><svg viewBox="0 0 512 512"><use href="#k-key"/></svg></div><small>squircle</small></div>
+          <div class="t-item"><div class="box m-rsq"><svg viewBox="0 0 512 512"><use href="#k-key"/></svg></div><small>rounded</small></div>
+          <div class="t-item"><div class="box m-rsq m-light m-mono-l"><svg viewBox="0 0 512 512"><use href="#k-key"/></svg></div><small>1-colour</small></div>
+          <div class="t-item"><div class="box m-rsq m-mono"><svg viewBox="0 0 512 512"><use href="#k-key"/></svg></div><small>knockout</small></div>
+        </div>
+      </div>
+    </div>
+  </article>
+
+  <!-- C-05 -->
+  <article class="coupon">
+    <div class="cp-head">
+      <span class="lcd">C-05</span><span class="cp-ar" dir="rtl">الجهاز</span><span class="cp-en">The Device</span>
+      <span class="cp-alloy"><span class="chip al"><i></i>Al 55</span><span class="chip cu"><i></i>Cu 45</span></span>
+    </div>
+    <div class="cp-body">
+      <div class="plate-cell"><div class="plate"><svg viewBox="0 0 512 512"><use href="#k-device"/></svg></div></div>
+      <div class="spec-cell">
+        <p class="rationale">The whole calculator, rebuilt honestly: an aluminium body, a dark readout with a copper
+          bar and an equals on it, and six chunky keys in alternating alloy. <b>This is what your current icon was
+          trying to be</b> before the gears and screws buried it.</p>
+        <p class="rationale">The safest evolution — existing users will recognise it as the same app. Three limits to
+          accept: the portrait silhouette leaves side margins in a square icon, six keys is the ceiling before small
+          sizes clog, and like C-03 it flattens to a plain rounded rectangle in one colour, so it needs a separate
+          outline lockup for single-colour use.</p>
+        <div class="lab">Size ladder</div>
+        <div class="ladder">
+          <div class="rung"><div class="box" style="width:112px;height:112px"><svg viewBox="0 0 512 512"><use href="#k-device"/></svg></div><small>112</small></div>
+          <div class="rung"><div class="box" style="width:72px;height:72px"><svg viewBox="0 0 512 512"><use href="#k-device"/></svg></div><small>72</small></div>
+          <div class="rung"><div class="box" style="width:48px;height:48px"><svg viewBox="0 0 512 512"><use href="#k-device"/></svg></div><small>48</small></div>
+          <div class="rung"><div class="box" style="width:32px;height:32px"><svg viewBox="0 0 512 512"><use href="#k-device"/></svg></div><small>32</small></div>
+          <div class="rung"><div class="box" style="width:24px;height:24px"><svg viewBox="0 0 512 512"><use href="#k-device"/></svg></div><small>24</small></div>
+        </div>
+        <div class="lab">Mask &amp; monochrome tests</div>
+        <div class="tests">
+          <div class="t-item"><div class="box m-circle"><svg viewBox="0 0 512 512"><use href="#k-device"/></svg></div><small>circle</small></div>
+          <div class="t-item"><div class="box m-squircle"><svg viewBox="0 0 512 512"><use href="#k-device"/></svg></div><small>squircle</small></div>
+          <div class="t-item"><div class="box m-rsq"><svg viewBox="0 0 512 512"><use href="#k-device"/></svg></div><small>rounded</small></div>
+          <div class="t-item"><div class="box m-rsq m-light m-mono-l"><svg viewBox="0 0 512 512"><use href="#k-device"/></svg></div><small>1-colour</small></div>
+          <div class="t-item"><div class="box m-rsq m-mono"><svg viewBox="0 0 512 512"><use href="#k-device"/></svg></div><small>knockout</small></div>
+        </div>
+      </div>
+    </div>
+  </article>
+
+  <!-- C-06 -->
+  <article class="coupon">
+    <div class="cp-head">
+      <span class="lcd">C-06</span><span class="cp-ar" dir="rtl">العمليات</span><span class="cp-en">The Operators</span>
+      <span class="cp-alloy"><span class="chip cu"><i></i>Cu 50</span><span class="chip al"><i></i>Al 50</span></span>
+    </div>
+    <div class="cp-body">
+      <div class="plate-cell"><div class="plate"><svg viewBox="0 0 512 512"><use href="#k-operators"/></svg></div></div>
+      <div class="spec-cell">
+        <p class="rationale">The four operators — <b>+ − × ÷</b> — cast as metal bars and set in a 2×2 block,
+          alternating copper and aluminium.</p>
+        <p class="rationale">Bold, graphic and completely unambiguous about what the app does. The risk is that
+          operator grids are a common calculator-app convention, so it wins on clarity rather than on standing out
+          in a crowded search result.</p>
+        <div class="lab">Size ladder</div>
+        <div class="ladder">
+          <div class="rung"><div class="box" style="width:112px;height:112px"><svg viewBox="0 0 512 512"><use href="#k-operators"/></svg></div><small>112</small></div>
+          <div class="rung"><div class="box" style="width:72px;height:72px"><svg viewBox="0 0 512 512"><use href="#k-operators"/></svg></div><small>72</small></div>
+          <div class="rung"><div class="box" style="width:48px;height:48px"><svg viewBox="0 0 512 512"><use href="#k-operators"/></svg></div><small>48</small></div>
+          <div class="rung"><div class="box" style="width:32px;height:32px"><svg viewBox="0 0 512 512"><use href="#k-operators"/></svg></div><small>32</small></div>
+          <div class="rung"><div class="box" style="width:24px;height:24px"><svg viewBox="0 0 512 512"><use href="#k-operators"/></svg></div><small>24</small></div>
+        </div>
+        <div class="lab">Mask &amp; monochrome tests</div>
+        <div class="tests">
+          <div class="t-item"><div class="box m-circle"><svg viewBox="0 0 512 512"><use href="#k-operators"/></svg></div><small>circle</small></div>
+          <div class="t-item"><div class="box m-squircle"><svg viewBox="0 0 512 512"><use href="#k-operators"/></svg></div><small>squircle</small></div>
+          <div class="t-item"><div class="box m-rsq"><svg viewBox="0 0 512 512"><use href="#k-operators"/></svg></div><small>rounded</small></div>
+          <div class="t-item"><div class="box m-rsq m-light m-mono-l"><svg viewBox="0 0 512 512"><use href="#k-operators"/></svg></div><small>1-colour</small></div>
+          <div class="t-item"><div class="box m-rsq m-mono"><svg viewBox="0 0 512 512"><use href="#k-operators"/></svg></div><small>knockout</small></div>
+        </div>
+      </div>
+    </div>
+  </article>
+
+  <!-- C-07 -->
+  <article class="coupon">
+    <div class="cp-head">
+      <span class="lcd">C-07</span><span class="cp-ar" dir="rtl">الرقم</span><span class="cp-en">The Segment</span>
+      <span class="cp-alloy"><span class="chip cu"><i></i>Cu 45</span><span class="chip al"><i></i>Al 55</span></span>
+    </div>
+    <div class="cp-body">
+      <div class="plate-cell"><div class="plate"><svg viewBox="0 0 512 512"><use href="#k-segment"/></svg></div></div>
+      <div class="spec-cell">
+        <p class="rationale">A seven-segment digit with every segment milled from stock — the three horizontals in
+          copper, the four verticals in aluminium. <b>A number made of metal</b>, which is the entire product in
+          one image.</p>
+        <p class="rationale">The most distinctive mark in this set: nobody else in the category is doing a
+          two-alloy segment display. The chamfered segment ends are the classic LCD detail and they survive
+          surprisingly far down the size ladder.</p>
+        <div class="lab">Size ladder</div>
+        <div class="ladder">
+          <div class="rung"><div class="box" style="width:112px;height:112px"><svg viewBox="0 0 512 512"><use href="#k-segment"/></svg></div><small>112</small></div>
+          <div class="rung"><div class="box" style="width:72px;height:72px"><svg viewBox="0 0 512 512"><use href="#k-segment"/></svg></div><small>72</small></div>
+          <div class="rung"><div class="box" style="width:48px;height:48px"><svg viewBox="0 0 512 512"><use href="#k-segment"/></svg></div><small>48</small></div>
+          <div class="rung"><div class="box" style="width:32px;height:32px"><svg viewBox="0 0 512 512"><use href="#k-segment"/></svg></div><small>32</small></div>
+          <div class="rung"><div class="box" style="width:24px;height:24px"><svg viewBox="0 0 512 512"><use href="#k-segment"/></svg></div><small>24</small></div>
+        </div>
+        <div class="lab">Mask &amp; monochrome tests</div>
+        <div class="tests">
+          <div class="t-item"><div class="box m-circle"><svg viewBox="0 0 512 512"><use href="#k-segment"/></svg></div><small>circle</small></div>
+          <div class="t-item"><div class="box m-squircle"><svg viewBox="0 0 512 512"><use href="#k-segment"/></svg></div><small>squircle</small></div>
+          <div class="t-item"><div class="box m-rsq"><svg viewBox="0 0 512 512"><use href="#k-segment"/></svg></div><small>rounded</small></div>
+          <div class="t-item"><div class="box m-rsq m-light m-mono-l"><svg viewBox="0 0 512 512"><use href="#k-segment"/></svg></div><small>1-colour</small></div>
+          <div class="t-item"><div class="box m-rsq m-mono"><svg viewBox="0 0 512 512"><use href="#k-segment"/></svg></div><small>knockout</small></div>
+        </div>
+      </div>
+    </div>
+  </article>
+
+  <!-- C-08 -->
+  <article class="coupon">
+    <div class="cp-head">
+      <span class="lcd">C-08</span><span class="cp-ar" dir="rtl">اللوح المُفرَّغ</span><span class="cp-en">The Milled Slab</span>
+      <span class="cp-alloy"><span class="chip al"><i></i>Al 70</span><span class="chip cu"><i></i>Cu 30</span></span>
+    </div>
+    <div class="cp-body">
+      <div class="plate-cell"><div class="plate"><svg viewBox="0 0 512 512"><use href="#k-slab"/></svg></div></div>
+      <div class="spec-cell">
+        <p class="rationale">One aluminium plate with the calculator <b>cut clean through it</b> — the readout slot
+          backed with copper, the four keys left as open holes you can see the background through.</p>
+        <p class="rationale">The most modern and the most "machined". Because the keys are genuine voids rather than
+          drawn shapes, this is the one route whose structure is completely intact when flattened to a
+          single colour — the best-behaved mark in the set for stamps, invoices and embroidery.</p>
+        <div class="lab">Size ladder</div>
+        <div class="ladder">
+          <div class="rung"><div class="box" style="width:112px;height:112px"><svg viewBox="0 0 512 512"><use href="#k-slab"/></svg></div><small>112</small></div>
+          <div class="rung"><div class="box" style="width:72px;height:72px"><svg viewBox="0 0 512 512"><use href="#k-slab"/></svg></div><small>72</small></div>
+          <div class="rung"><div class="box" style="width:48px;height:48px"><svg viewBox="0 0 512 512"><use href="#k-slab"/></svg></div><small>48</small></div>
+          <div class="rung"><div class="box" style="width:32px;height:32px"><svg viewBox="0 0 512 512"><use href="#k-slab"/></svg></div><small>32</small></div>
+          <div class="rung"><div class="box" style="width:24px;height:24px"><svg viewBox="0 0 512 512"><use href="#k-slab"/></svg></div><small>24</small></div>
+        </div>
+        <div class="lab">Mask &amp; monochrome tests</div>
+        <div class="tests">
+          <div class="t-item"><div class="box m-circle"><svg viewBox="0 0 512 512"><use href="#k-slab"/></svg></div><small>circle</small></div>
+          <div class="t-item"><div class="box m-squircle"><svg viewBox="0 0 512 512"><use href="#k-slab"/></svg></div><small>squircle</small></div>
+          <div class="t-item"><div class="box m-rsq"><svg viewBox="0 0 512 512"><use href="#k-slab"/></svg></div><small>rounded</small></div>
+          <div class="t-item"><div class="box m-rsq m-light m-mono-l"><svg viewBox="0 0 512 512"><use href="#k-slab"/></svg></div><small>1-colour</small></div>
+          <div class="t-item"><div class="box m-rsq m-mono"><svg viewBox="0 0 512 512"><use href="#k-slab"/></svg></div><small>knockout</small></div>
+        </div>
+      </div>
+    </div>
+  </article>
+
+  <!-- C-09 -->
+  <article class="coupon">
+    <div class="cp-head">
+      <span class="lcd">C-09</span><span class="cp-ar" dir="rtl">مفاتيحُ الطبقات</span><span class="cp-en">The Key Stack</span>
+      <span class="cp-alloy"><span class="chip al"><i></i>Al 50</span><span class="chip cu"><i></i>Cu 50</span></span>
+    </div>
+    <div class="cp-body">
+      <div class="plate-cell"><div class="plate"><svg viewBox="0 0 512 512"><use href="#k-keystack"/></svg></div></div>
+      <div class="spec-cell">
+        <p class="rationale">Two stacked plates seen in isometric, with four copper keys set into the top face —
+          the keypad and the sheet stock become <b>the same object</b>, and the plate edges show thickness.</p>
+        <p class="rationale">The most three-dimensional route and a direct sibling of «الطَّبَقات» in the first set,
+          so the two sheets share a family. Its diagonal key grid is the busiest element here; treat 32 px as
+          its practical floor.</p>
+        <div class="lab">Size ladder</div>
+        <div class="ladder">
+          <div class="rung"><div class="box" style="width:112px;height:112px"><svg viewBox="0 0 512 512"><use href="#k-keystack"/></svg></div><small>112</small></div>
+          <div class="rung"><div class="box" style="width:72px;height:72px"><svg viewBox="0 0 512 512"><use href="#k-keystack"/></svg></div><small>72</small></div>
+          <div class="rung"><div class="box" style="width:48px;height:48px"><svg viewBox="0 0 512 512"><use href="#k-keystack"/></svg></div><small>48</small></div>
+          <div class="rung"><div class="box" style="width:32px;height:32px"><svg viewBox="0 0 512 512"><use href="#k-keystack"/></svg></div><small>32</small></div>
+          <div class="rung"><div class="box" style="width:24px;height:24px"><svg viewBox="0 0 512 512"><use href="#k-keystack"/></svg></div><small>24</small></div>
+        </div>
+        <div class="lab">Mask &amp; monochrome tests</div>
+        <div class="tests">
+          <div class="t-item"><div class="box m-circle"><svg viewBox="0 0 512 512"><use href="#k-keystack"/></svg></div><small>circle</small></div>
+          <div class="t-item"><div class="box m-squircle"><svg viewBox="0 0 512 512"><use href="#k-keystack"/></svg></div><small>squircle</small></div>
+          <div class="t-item"><div class="box m-rsq"><svg viewBox="0 0 512 512"><use href="#k-keystack"/></svg></div><small>rounded</small></div>
+          <div class="t-item"><div class="box m-rsq m-light m-mono-l"><svg viewBox="0 0 512 512"><use href="#k-keystack"/></svg></div><small>1-colour</small></div>
+          <div class="t-item"><div class="box m-rsq m-mono"><svg viewBox="0 0 512 512"><use href="#k-keystack"/></svg></div><small>knockout</small></div>
+        </div>
+      </div>
+    </div>
+  </article>
+
+  <h2><span class="n">02</span> All nine at store size <span class="ar" dir="rtl">مقارنة</span></h2>
+  <p class="note">56 px is roughly how large your icon appears in a Play Store search result. Squint at this row —
+    whatever still reads is your real shortlist.</p>
+  <div class="wall">
+    <div class="cell"><div class="box"><svg viewBox="0 0 512 512"><use href="#k-equals"/></svg></div><small>C-01</small><b dir="rtl">المساواة</b></div>
+    <div class="cell"><div class="box"><svg viewBox="0 0 512 512"><use href="#k-keypad"/></svg></div><small>C-02</small><b dir="rtl">لوحة المفاتيح</b></div>
+    <div class="cell"><div class="box"><svg viewBox="0 0 512 512"><use href="#k-display"/></svg></div><small>C-03</small><b dir="rtl">الشاشة</b></div>
+    <div class="cell"><div class="box"><svg viewBox="0 0 512 512"><use href="#k-key"/></svg></div><small>C-04</small><b dir="rtl">المفتاح</b></div>
+    <div class="cell"><div class="box"><svg viewBox="0 0 512 512"><use href="#k-device"/></svg></div><small>C-05</small><b dir="rtl">الجهاز</b></div>
+    <div class="cell"><div class="box"><svg viewBox="0 0 512 512"><use href="#k-operators"/></svg></div><small>C-06</small><b dir="rtl">العمليات</b></div>
+    <div class="cell"><div class="box"><svg viewBox="0 0 512 512"><use href="#k-segment"/></svg></div><small>C-07</small><b dir="rtl">الرقم</b></div>
+    <div class="cell"><div class="box"><svg viewBox="0 0 512 512"><use href="#k-slab"/></svg></div><small>C-08</small><b dir="rtl">اللوح المفرّغ</b></div>
+    <div class="cell"><div class="box"><svg viewBox="0 0 512 512"><use href="#k-keystack"/></svg></div><small>C-09</small><b dir="rtl">مفاتيح الطبقات</b></div>
+  </div>
+
+  <h2><span class="n">03</span> On a real home screen <span class="ar" dir="rtl">على الشاشة</span></h2>
+  <p class="note">The finalists dropped among neighbouring apps — the only context that matters, because your icon
+    never competes alone.</p>
+  <div class="home">
+    <div class="app"><div class="box decoy"><span class="g">A</span></div><span>Files</span></div>
+    <div class="app"><div class="box" style="background:radial-gradient(120% 120% at 30% 18%,#22223B,#0F0F1A 72%)"><svg viewBox="0 0 512 512"><use href="#k-equals"/></svg></div><span dir="rtl">نحاس</span></div>
+    <div class="app"><div class="box decoy2"><span class="g">S</span></div><span>Sheets</span></div>
+    <div class="app"><div class="box" style="background:radial-gradient(120% 120% at 30% 18%,#22223B,#0F0F1A 72%)"><svg viewBox="0 0 512 512"><use href="#k-segment"/></svg></div><span dir="rtl">نحاس</span></div>
+    <div class="app"><div class="box decoy3"><span class="g">M</span></div><span>Market</span></div>
+    <div class="app"><div class="box" style="background:radial-gradient(120% 120% at 30% 18%,#22223B,#0F0F1A 72%)"><svg viewBox="0 0 512 512"><use href="#k-key"/></svg></div><span dir="rtl">نحاس</span></div>
+    <div class="app"><div class="box decoy"><span class="g">C</span></div><span>Calc</span></div>
+  </div>
+
+  <h2><span class="n">04</span> Recommendation <span class="ar" dir="rtl">التوصية</span></h2>
+  <div class="verdict">
+    <h3>What I would ship from this set</h3>
+    <p><b>C-07 «الرقم» — the segment digit.</b> It is the one mark here that is simultaneously a calculator and a
+      piece of metal, with no compromise on either half, and no competitor in the category looks like it.
+      If you want the calculator idea kept but want to stop looking like every other calculator app, this is it.</p>
+    <p><b>C-01 «المُساواة» — the equals — if you want the safest possible icon.</b> Two shapes, zero risk at any size,
+      instantly understood in every language, and it carries the promise of the product: you get an answer.</p>
+    <p><b>C-05 «الجهاز» — the device — if continuity matters most.</b> Existing testers already know a calculator
+      icon; this is that same icon done properly. The least disruptive change you could make.</p>
+    <p>Compare against the pure-metal set in <a href="logo-concepts.html">logo-concepts.html</a> — both sheets share
+      one palette, so a mark from either can be the app icon while a mark from the other becomes the wordmark
+      or feature-graphic device.</p>
+  </div>
+
+  <h2><span class="n">05</span> Taking one to production <span class="ar" dir="rtl">التنفيذ</span></h2>
+  <ul class="steps">
+    <li><b>Tell me the route code</b> (C-01 … C-09) and I will export clean SVG plus the full PNG set your build needs.</li>
+    <li><b>Icon source:</b> replace <code>assets/logo.png</code> at 1024×1024, then run <code>flutter pub run flutter_launcher_icons</code> — <code>pubspec.yaml</code> is already wired for Android, iOS and web.</li>
+    <li><b>Adaptive icon:</b> keep <code>adaptive_icon_background: "#22223B"</code> and supply the mark alone as the foreground at <b>66% of the canvas</b>, so Android's circle mask never clips it.</li>
+    <li><b>Play Store:</b> 512×512 icon (32-bit PNG, no alpha) plus a 1024×500 feature graphic.</li>
+    <li><b>Colour reference:</b> copper <code>#B87333</code> · copper highlight <code>#E8A868</code> · aluminium <code>#B4BCC5</code> · plate <code>#0F0F1A</code> → <code>#22223B</code>.</li>
+    <li><b>Version note:</b> ship an icon change with a new version code — <code>1.0.4+9</code> — never by replacing a bundle already uploaded to Play.</li>
+  </ul>
+
+  <footer>
+    <span>NAHAS METALHUB · SYNAPTIX — CALCULATOR × METAL, SET 02</span>
+    <span dir="rtl">الدقةُ معدنُنا</span>
+  </footer>
+</main>

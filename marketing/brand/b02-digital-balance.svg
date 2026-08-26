@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <linearGradient id="cu" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#7A3E1B"/><stop offset="17%" stop-color="#C9803F"/>
+      <stop offset="33%" stop-color="#F2BC89"/><stop offset="49%" stop-color="#B87333"/>
+      <stop offset="66%" stop-color="#8A4A22"/><stop offset="84%" stop-color="#DC9558"/>
+      <stop offset="100%" stop-color="#6B3416"/>
+    </linearGradient>
+    <linearGradient id="cuSide" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#9A5628"/><stop offset="100%" stop-color="#5E2D12"/>
+    </linearGradient>
+    <linearGradient id="al" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#5C6169"/><stop offset="15%" stop-color="#B7BFC8"/>
+      <stop offset="31%" stop-color="#F0F4F8"/><stop offset="48%" stop-color="#98A1AB"/>
+      <stop offset="65%" stop-color="#D9E0E7"/><stop offset="83%" stop-color="#727881"/>
+      <stop offset="100%" stop-color="#AEB6BF"/>
+    </linearGradient>
+    <linearGradient id="al2" x1="1" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#6A7079"/><stop offset="26%" stop-color="#E4EAF0"/>
+      <stop offset="52%" stop-color="#8E969F"/><stop offset="78%" stop-color="#CFD6DD"/>
+      <stop offset="100%" stop-color="#5F656D"/>
+    </linearGradient>
+    <linearGradient id="alSide" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#8A929B"/><stop offset="100%" stop-color="#4E535A"/>
+    </linearGradient>
+    <radialGradient id="plate" cx="30%" cy="18%" r="92%">
+      <stop offset="0%" stop-color="#26264180"/><stop offset="0%" stop-color="#242440"/>
+      <stop offset="70%" stop-color="#12121F"/><stop offset="100%" stop-color="#0D0D16"/>
+    </radialGradient>
+  </defs>
+  <g transform="translate(0,6)">
+    <rect x="176" y="338" width="160" height="30" rx="13" fill="url(#alSide)"/>
+    <rect x="238" y="176" width="36" height="166" fill="url(#al)"/>
+    <path d="M100,180 L412,132 L412,158 L100,206 Z" fill="url(#al)"/>
+    <circle cx="256" cy="167" r="21" fill="url(#al2)" stroke="#3E434A" stroke-width="5"/>
+    <g>
+      <rect x="44" y="202" width="112" height="112" rx="26" fill="url(#cuSide)"/>
+      <rect x="50" y="204" width="100" height="100" rx="22" fill="url(#cu)"/>
+      <rect x="72" y="238" width="56" height="13" rx="6" fill="#3A1B08" opacity=".8"/>
+      <rect x="72" y="262" width="56" height="13" rx="6" fill="#3A1B08" opacity=".8"/>
+    </g>
+    <g>
+      <rect x="356" y="154" width="112" height="112" rx="26" fill="url(#alSide)"/>
+      <rect x="362" y="156" width="100" height="100" rx="22" fill="url(#al2)"/>
+    </g>
+  </g>
+</svg>

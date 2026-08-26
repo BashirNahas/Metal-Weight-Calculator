@@ -1,0 +1,726 @@
+<meta charset="utf-8">
+<title>Nahas MetalHub — Logo Concepts</title>
+<style>
+  :root{
+    --ground:#0A0A11; --card:#12121C; --card2:#171725; --hair:rgba(180,188,197,.13); --hairhot:rgba(184,115,51,.30);
+    --ink:#E7E4DE; --ink2:#8B909D; --ink3:#5E6371;
+    --cu:#B87333; --cu-hi:#E8A868; --cu-lo:#6E3617;
+    --al:#B4BCC5; --al-hi:#EEF2F6; --al-lo:#5C6169;
+    --plate-a:#22223B; --plate-b:#0F0F1A;
+    --disp:"Avenir Next Condensed","Arial Narrow","Helvetica Neue Condensed",sans-serif;
+    --mono:"SF Mono",ui-monospace,"Menlo","Roboto Mono",monospace;
+    --body:system-ui,-apple-system,"Helvetica Neue",sans-serif;
+    --ar:"SF Arabic","Geeza Pro","Damascus","Segoe UI Arabic",serif;
+  }
+  @media (prefers-color-scheme: light){
+    :root{
+      --ground:#EFEDE8; --card:#FFFFFF; --card2:#F6F4F0; --hair:rgba(30,34,44,.14); --hairhot:rgba(150,84,32,.32);
+      --ink:#16181E; --ink2:#565C69; --ink3:#858B99;
+      --cu:#96541F; --cu-hi:#B87333; --cu-lo:#5A2C10;
+      --al:#6E747D; --al-hi:#A8B0BA; --al-lo:#42474F;
+    }
+  }
+  :root[data-theme="dark"]{
+    --ground:#0A0A11; --card:#12121C; --card2:#171725; --hair:rgba(180,188,197,.13); --hairhot:rgba(184,115,51,.30);
+    --ink:#E7E4DE; --ink2:#8B909D; --ink3:#5E6371;
+    --cu:#B87333; --cu-hi:#E8A868; --cu-lo:#6E3617;
+    --al:#B4BCC5; --al-hi:#EEF2F6; --al-lo:#5C6169;
+  }
+  :root[data-theme="light"]{
+    --ground:#EFEDE8; --card:#FFFFFF; --card2:#F6F4F0; --hair:rgba(30,34,44,.14); --hairhot:rgba(150,84,32,.32);
+    --ink:#16181E; --ink2:#565C69; --ink3:#858B99;
+    --cu:#96541F; --cu-hi:#B87333; --cu-lo:#5A2C10;
+    --al:#6E747D; --al-hi:#A8B0BA; --al-lo:#42474F;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--ground);color:var(--ink);font-family:var(--body);line-height:1.6;
+       -webkit-font-smoothing:antialiased}
+  .wrap{max-width:1120px;margin:0 auto;padding:0 26px}
+  .defs{position:absolute;width:0;height:0;overflow:hidden}
+
+  /* ── masthead ───────────────────────────────── */
+  .mast{border-bottom:1px solid var(--hair);padding:64px 0 30px;
+        background:linear-gradient(180deg,rgba(184,115,51,.055),transparent 70%)}
+  .stamp{display:flex;flex-wrap:wrap;gap:6px 24px;font-family:var(--mono);font-size:11px;
+         letter-spacing:.07em;color:var(--ink3);margin-bottom:26px}
+  .stamp b{color:var(--cu);font-weight:600}
+  h1{font-family:var(--disp);font-size:clamp(38px,6.4vw,74px);line-height:1.02;margin:0;
+     text-transform:uppercase;letter-spacing:-.005em;font-weight:600;text-wrap:balance}
+  h1 em{font-style:normal;color:var(--cu)}
+  .mast .ar-sub{font-family:var(--ar);font-size:clamp(17px,2.5vw,24px);color:var(--ink2);margin:16px 0 0}
+  .mast .lede{color:var(--ink2);max-width:62ch;margin:18px 0 0;font-size:15px}
+
+  /* ── section heads ──────────────────────────── */
+  h2{font-family:var(--disp);font-size:14px;letter-spacing:.2em;text-transform:uppercase;
+     color:var(--ink);border-bottom:1px solid var(--hairhot);padding-bottom:11px;
+     margin:76px 0 6px;display:flex;align-items:baseline;gap:14px}
+  h2 .n{font-family:var(--mono);font-size:11px;color:var(--cu);letter-spacing:.1em}
+  h2 .ar{margin-inline-start:auto;font-family:var(--ar);font-size:20px;letter-spacing:0;color:var(--cu)}
+  .note{color:var(--ink2);font-size:14.5px;max-width:66ch;margin:14px 0 26px}
+
+  /* ── specimen coupon ────────────────────────── */
+  .coupon{background:var(--card);border:1px solid var(--hair);margin:22px 0 0;position:relative}
+  .cp-head{display:flex;align-items:baseline;gap:16px;flex-wrap:wrap;
+           padding:16px 22px;border-bottom:1px solid var(--hair);
+           background:linear-gradient(90deg,rgba(184,115,51,.07),transparent 60%)}
+  .cp-id{font-family:var(--mono);font-size:12px;color:var(--cu);letter-spacing:.1em}
+  .cp-ar{font-family:var(--ar);font-size:25px;font-weight:700;line-height:1.2}
+  .cp-en{font-family:var(--disp);text-transform:uppercase;letter-spacing:.17em;font-size:12px;color:var(--ink2)}
+  .cp-alloy{margin-inline-start:auto;display:flex;gap:12px;align-items:center;font-family:var(--mono);font-size:10.5px;color:var(--ink3)}
+  .chip{display:inline-flex;align-items:center;gap:6px}
+  .chip i{width:9px;height:9px;border-radius:50%;display:block}
+  .chip.cu i{background:linear-gradient(135deg,var(--cu-hi),var(--cu-lo))}
+  .chip.al i{background:linear-gradient(135deg,var(--al-hi),var(--al-lo))}
+
+  .cp-body{display:grid;grid-template-columns:300px 1fr;gap:0}
+  @media(max-width:800px){.cp-body{grid-template-columns:1fr}}
+
+  /* hero plate w/ registration ticks */
+  .plate-cell{border-inline-end:1px solid var(--hair);padding:26px;display:flex;
+              align-items:center;justify-content:center;background:var(--card2)}
+  @media(max-width:800px){.plate-cell{border-inline-end:none;border-bottom:1px solid var(--hair)}}
+  .plate{position:relative;width:216px;height:216px;border-radius:23%;overflow:hidden;
+         background:radial-gradient(120% 120% at 30% 18%, var(--plate-a), var(--plate-b) 72%);
+         box-shadow:0 10px 34px rgba(0,0,0,.42), inset 0 1px 0 rgba(255,255,255,.07)}
+  .plate svg{position:absolute;inset:11%;width:78%;height:78%}
+  .tick{position:absolute;background:var(--hairhot)}
+  .tick.t{top:0;left:50%;width:1px;height:9px} .tick.b{bottom:0;left:50%;width:1px;height:9px}
+  .tick.l{left:0;top:50%;height:1px;width:9px}  .tick.r{right:0;top:50%;height:1px;width:9px}
+
+  .spec-cell{padding:22px 24px}
+  .rationale{font-size:14.5px;color:var(--ink);margin:0 0 4px;max-width:60ch}
+  .rationale + .rationale{color:var(--ink2);font-size:13.5px;margin-top:8px}
+
+  /* size ladder */
+  .lab{font-family:var(--disp);text-transform:uppercase;letter-spacing:.15em;font-size:10px;
+       color:var(--cu);margin:20px 0 10px;display:flex;align-items:center;gap:10px}
+  .lab::after{content:"";flex:1;height:1px;background:var(--hair)}
+  .ladder{display:flex;align-items:flex-end;gap:16px;flex-wrap:wrap}
+  .rung{text-align:center}
+  .rung .box{background:radial-gradient(120% 120% at 30% 18%, var(--plate-a), var(--plate-b) 72%);
+             border-radius:23%;display:grid;place-items:center;box-shadow:0 3px 10px rgba(0,0,0,.35)}
+  .rung svg{width:78%;height:78%}
+  .rung small{display:block;font-family:var(--mono);font-size:9.5px;color:var(--ink3);margin-top:6px;
+              font-variant-numeric:tabular-nums}
+
+  /* mask + mono tests */
+  .tests{display:flex;gap:14px;flex-wrap:wrap;align-items:flex-end}
+  .t-item{text-align:center}
+  .t-item .box{width:62px;height:62px;display:grid;place-items:center;
+               background:radial-gradient(120% 120% at 30% 18%, var(--plate-a), var(--plate-b) 72%)}
+  .t-item .box svg{width:78%;height:78%}
+  .t-item small{display:block;font-family:var(--mono);font-size:9px;color:var(--ink3);margin-top:6px}
+  .m-circle{border-radius:50%} .m-squircle{border-radius:29%} .m-rsq{border-radius:19%}
+  .m-light{background:linear-gradient(160deg,#F4F2EE,#DCD9D2)!important}
+  .m-mono svg{filter:grayscale(1) brightness(0) invert(1)}
+  .m-mono-l svg{filter:grayscale(1) brightness(0)}
+
+  /* comparison wall */
+  .wall{display:grid;grid-template-columns:repeat(auto-fit,minmax(104px,1fr));gap:12px;margin-top:20px}
+  .wall .cell{background:var(--card);border:1px solid var(--hair);padding:14px 8px;text-align:center}
+  .wall .box{width:56px;height:56px;margin:0 auto;border-radius:23%;display:grid;place-items:center;
+             background:radial-gradient(120% 120% at 30% 18%, var(--plate-a), var(--plate-b) 72%)}
+  .wall .box svg{width:78%;height:78%}
+  .wall small{display:block;font-family:var(--mono);font-size:9px;color:var(--ink3);margin-top:9px}
+  .wall b{display:block;font-family:var(--ar);font-size:13px;color:var(--ink2);margin-top:3px;font-weight:400}
+
+  /* home screen mock */
+  .home{background:linear-gradient(165deg,#1A1B2E,#0C0C14 70%);border:1px solid var(--hair);
+        padding:30px 26px;display:flex;gap:26px;flex-wrap:wrap;justify-content:center;margin-top:20px}
+  .app{text-align:center;width:76px}
+  .app .box{width:66px;height:66px;border-radius:23%;display:grid;place-items:center;
+            box-shadow:0 5px 16px rgba(0,0,0,.5)}
+  .app .box svg{width:78%;height:78%}
+  .app span{display:block;font-size:10.5px;color:#CFD3DC;margin-top:8px;line-height:1.25}
+  .decoy{background:linear-gradient(150deg,#3A3F4B,#22252D)}
+  .decoy2{background:linear-gradient(150deg,#1E5F8C,#123A57)}
+  .decoy3{background:linear-gradient(150deg,#2E7D4F,#17492E)}
+  .decoy .g,.decoy2 .g,.decoy3 .g{font-family:var(--disp);font-size:26px;color:rgba(255,255,255,.82);font-weight:600}
+
+  /* verdict */
+  .verdict{border:1px solid var(--hairhot);background:linear-gradient(100deg,rgba(184,115,51,.09),transparent 65%);
+           padding:22px 26px;margin:22px 0}
+  .verdict h3{font-family:var(--disp);text-transform:uppercase;letter-spacing:.16em;font-size:12px;
+              color:var(--cu);margin:0 0 12px}
+  .verdict p{margin:0 0 10px;font-size:14.5px;max-width:70ch}
+  .verdict p:last-child{margin-bottom:0}
+  .verdict b{color:var(--cu-hi)}
+  :root[data-theme="light"] .verdict b, :root:not([data-theme="dark"]) .verdict b{color:var(--cu)}
+  @media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .verdict b{color:var(--cu-hi)}}
+
+  ul.steps{padding-inline-start:19px;color:var(--ink2);font-size:14px;max-width:72ch}
+  ul.steps li{margin:8px 0} ul.steps b{color:var(--ink)}
+  code{font-family:var(--mono);font-size:12.5px;background:var(--card2);border:1px solid var(--hair);
+       padding:2px 6px;color:var(--cu)}
+
+  footer{margin:74px 0 44px;border-top:1px solid var(--hair);padding-top:16px;
+         font-family:var(--mono);font-size:11px;color:var(--ink3);
+         display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}
+</style>
+
+<!-- ══ METAL DEFS + MARK LIBRARY ═══════════════════════════════ -->
+<svg class="defs" aria-hidden="true" focusable="false">
+  <defs>
+    <linearGradient id="cu" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%"   stop-color="#7A3E1B"/><stop offset="17%"  stop-color="#C9803F"/>
+      <stop offset="33%"  stop-color="#F2BC89"/><stop offset="49%"  stop-color="#B87333"/>
+      <stop offset="66%"  stop-color="#8A4A22"/><stop offset="84%"  stop-color="#DC9558"/>
+      <stop offset="100%" stop-color="#6B3416"/>
+    </linearGradient>
+    <linearGradient id="cu2" x1="1" y1="0" x2="0" y2="1">
+      <stop offset="0%"   stop-color="#8C4A22"/><stop offset="22%"  stop-color="#E5A76F"/>
+      <stop offset="44%"  stop-color="#A9682D"/><stop offset="68%"  stop-color="#F0B683"/>
+      <stop offset="100%" stop-color="#74391A"/>
+    </linearGradient>
+    <linearGradient id="al" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%"   stop-color="#5C6169"/><stop offset="15%"  stop-color="#B7BFC8"/>
+      <stop offset="31%"  stop-color="#F0F4F8"/><stop offset="48%"  stop-color="#98A1AB"/>
+      <stop offset="65%"  stop-color="#D9E0E7"/><stop offset="83%"  stop-color="#727881"/>
+      <stop offset="100%" stop-color="#AEB6BF"/>
+    </linearGradient>
+    <linearGradient id="al2" x1="1" y1="0" x2="0" y2="1">
+      <stop offset="0%"   stop-color="#6A7079"/><stop offset="26%"  stop-color="#E4EAF0"/>
+      <stop offset="52%"  stop-color="#8E969F"/><stop offset="78%"  stop-color="#CFD6DD"/>
+      <stop offset="100%" stop-color="#5F656D"/>
+    </linearGradient>
+    <linearGradient id="cuEdge" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#F2BC89"/><stop offset="100%" stop-color="#8A4A22"/>
+    </linearGradient>
+    <linearGradient id="alEdge" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#EEF2F6"/><stop offset="100%" stop-color="#6A7079"/>
+    </linearGradient>
+  </defs>
+
+  <!-- 01 · THE FOLD — N from folded sheet -->
+  <symbol id="m-fold" viewBox="0 0 512 512">
+    <path d="M334,126 h60 v260 h-60 z" fill="url(#al)"/>
+    <path d="M118,126 L178,126 L394,386 L334,386 L178,198 L178,386 L118,386 Z"
+          fill="url(#cu)" stroke="#0F0F1A" stroke-width="7" stroke-linejoin="round"/>
+    <path d="M178,126 L394,386" fill="none" stroke="#F2BC89" stroke-width="4" opacity=".33"/>
+  </symbol>
+
+  <!-- 02 · THE HUB — hex nut, bore is a true hole -->
+  <symbol id="m-hub" viewBox="0 0 512 512">
+    <path fill-rule="evenodd" fill="url(#al)"
+      d="M456,256 L356,429 L156,429 L56,256 L156,83 L356,83 Z
+         M194,256 a62,62 0 1,0 124,0 a62,62 0 1,0 -124,0 Z"/>
+    <path d="M426,256 L341,403 L171,403 L86,256 L171,109 L341,109 Z" fill="url(#al2)" opacity=".5"/>
+    <path fill-rule="evenodd" fill="url(#cu)"
+      d="M130,256 a126,126 0 1,0 252,0 a126,126 0 1,0 -252,0 Z
+         M194,256 a62,62 0 1,0 124,0 a62,62 0 1,0 -124,0 Z"/>
+    <circle cx="256" cy="256" r="62" fill="none" stroke="#F2BC89" stroke-width="4" opacity=".4"/>
+  </symbol>
+
+  <!-- 03 · THE PROFILES — stock cross-sections -->
+  <symbol id="m-profiles" viewBox="0 0 512 512">
+    <circle cx="172" cy="172" r="66" fill="url(#cu)"/>
+    <path fill-rule="evenodd" fill="url(#al)"
+      d="M274,172 a66,66 0 1,0 132,0 a66,66 0 1,0 -132,0 Z M304,172 a36,36 0 1,1 72,0 a36,36 0 1,1 -72,0 Z"/>
+    <rect x="106" y="274" width="132" height="132" rx="13" fill="url(#al2)"/>
+    <path fill-rule="evenodd" fill="url(#cu2)"
+      d="M287,274 h106 a13,13 0 0 1 13,13 v106 a13,13 0 0 1 -13,13 h-106 a13,13 0 0 1 -13,-13 v-106 a13,13 0 0 1 13,-13 Z
+         M313,306 h54 a7,7 0 0 1 7,7 v54 a7,7 0 0 1 -7,7 h-54 a7,7 0 0 1 -7,-7 v-54 a7,7 0 0 1 7,-7 Z"/>
+  </symbol>
+
+  <!-- 04 · THE BALANCE — equal volume, unequal weight -->
+  <symbol id="m-balance" viewBox="0 0 512 512">
+    <rect x="176" y="398" width="160" height="26" rx="10" fill="url(#al2)"/>
+    <rect x="240" y="238" width="32" height="168" fill="url(#al)"/>
+    <path d="M104,256 L408,178 L416,208 L112,286 Z" fill="url(#al)"/>
+    <circle cx="256" cy="222" r="24" fill="url(#al2)" stroke="#0F0F1A" stroke-width="6"/>
+    <circle cx="112" cy="336" r="60" fill="url(#cu)" stroke="#0F0F1A" stroke-width="7"/>
+    <circle cx="408" cy="228" r="60" fill="url(#al)" stroke="#0F0F1A" stroke-width="7"/>
+  </symbol>
+
+  <!-- 05 · THE NOON — Arabic ن as a copper U-channel -->
+  <symbol id="m-noon" viewBox="0 0 512 512">
+    <path d="M110,196 A146,146 0 0 0 402,196 L344,196 A88,88 0 0 1 168,196 Z" fill="url(#cu)"/>
+    <path d="M110,196 A146,146 0 0 0 402,196" fill="none" stroke="#F2BC89" stroke-width="7" opacity=".38"/>
+    <rect x="110" y="180" width="58" height="18" rx="4" fill="url(#cuEdge)"/>
+    <rect x="344" y="180" width="58" height="18" rx="4" fill="url(#cuEdge)"/>
+    <circle cx="256" cy="112" r="40" fill="url(#al)"/>
+    <circle cx="246" cy="101" r="13" fill="#F0F4F8" opacity=".55"/>
+  </symbol>
+
+  <!-- 06 · THE STACK — laminated plate block -->
+  <symbol id="m-stack" viewBox="0 0 512 512">
+    <g>
+      <path d="M96,286 L96,312 L256,368 L416,312 L416,286 L256,342 Z" fill="url(#cuEdge)"/>
+      <path d="M256,230 L416,286 L256,342 L96,286 Z" fill="url(#cu)"/>
+    </g>
+    <g>
+      <path d="M96,252 L96,278 L256,334 L416,278 L416,252 L256,308 Z" fill="url(#alEdge)"/>
+      <path d="M256,196 L416,252 L256,308 L96,252 Z" fill="url(#al)"/>
+    </g>
+    <g>
+      <path d="M96,218 L96,244 L256,300 L416,244 L416,218 L256,274 Z" fill="url(#cuEdge)"/>
+      <path d="M256,162 L416,218 L256,274 L96,218 Z" fill="url(#cu2)"/>
+    </g>
+    <g>
+      <path d="M96,184 L96,210 L256,266 L416,210 L416,184 L256,240 Z" fill="url(#alEdge)"/>
+      <path d="M256,128 L416,184 L256,240 L96,184 Z" fill="url(#al2)"/>
+    </g>
+  </symbol>
+
+  <!-- 07 · THE CALIPER — jaws closing on copper stock -->
+  <symbol id="m-caliper" viewBox="0 0 512 512">
+    <rect x="80" y="96" width="352" height="42" rx="9" fill="url(#al)"/>
+    <g fill="#0F0F1A" opacity=".55">
+      <rect x="124" y="96" width="5" height="17"/><rect x="168" y="96" width="5" height="17"/>
+      <rect x="212" y="96" width="5" height="17"/><rect x="256" y="96" width="5" height="24"/>
+      <rect x="300" y="96" width="5" height="17"/><rect x="344" y="96" width="5" height="17"/>
+      <rect x="388" y="96" width="5" height="17"/>
+    </g>
+    <circle cx="256" cy="266" r="118" fill="url(#cu)"/>
+    <circle cx="256" cy="266" r="118" fill="none" stroke="#6B3416" stroke-width="5" opacity=".55"/>
+    <circle cx="215" cy="222" r="30" fill="#F2BC89" opacity=".30"/>
+    <rect x="80" y="138" width="58" height="248" rx="7" fill="url(#al2)"/>
+    <rect x="374" y="138" width="58" height="248" rx="7" fill="url(#al2)"/>
+  </symbol>
+
+  <!-- 08 · THE BUNDLE — hex bar stock, honeycomb hub -->
+  <symbol id="m-bundle" viewBox="0 0 512 512">
+    <g stroke="#0F0F1A" stroke-width="6" stroke-linejoin="round">
+      <path d="M446,190 L408,256 L332,256 L294,190 L332,124 L408,124 Z" fill="url(#al)"/>
+      <path d="M446,322 L408,388 L332,388 L294,322 L332,256 L408,256 Z" fill="url(#cu2)"/>
+      <path d="M332,388 L294,454 L218,454 L180,388 L218,322 L294,322 Z" fill="url(#al2)"/>
+      <path d="M218,322 L180,388 L104,388 L66,322 L104,256 L180,256 Z" fill="url(#cu2)"/>
+      <path d="M218,190 L180,256 L104,256 L66,190 L104,124 L180,124 Z" fill="url(#al)"/>
+      <path d="M332,124 L294,190 L218,190 L180,124 L218,58 L294,58 Z" fill="url(#al2)"/>
+      <path d="M332,256 L294,322 L218,322 L180,256 L218,190 L294,190 Z" fill="url(#cu)"/>
+    </g>
+  </symbol>
+
+  <!-- 09 · THE HALLMARK — assay seal -->
+  <symbol id="m-hallmark" viewBox="0 0 512 512">
+    <mask id="hallmarkCut" maskUnits="userSpaceOnUse" x="0" y="0" width="512" height="512">
+      <rect width="512" height="512" fill="#fff"/>
+      <path d="M118,126 L178,126 L394,386 L334,386 L178,198 L178,386 L118,386 Z" fill="#000"
+            transform="translate(256,262) scale(.60) translate(-256,-256)"/>
+    </mask>
+    <g mask="url(#hallmarkCut)">
+      <circle cx="256" cy="256" r="204" fill="url(#al)"/>
+      <g stroke="#0F0F1A" stroke-width="7" opacity=".42">
+        <path d="M256,52 v26 M256,434 v26 M52,256 h26 M434,256 h26
+                 M111,111 l18,18 M383,383 l18,18 M401,111 l-18,18 M129,383 l-18,18
+                 M180,63 l10,24 M322,425 l10,24 M63,332 l24,10 M425,180 l24,10
+                 M332,63 l-10,24 M190,425 l-10,24 M63,180 l24,-10 M425,332 l24,-10"/>
+      </g>
+      <circle cx="256" cy="256" r="164" fill="url(#cu)"/>
+      <circle cx="256" cy="256" r="164" fill="none" stroke="#6B3416" stroke-width="6" opacity=".55"/>
+    </g>
+    <path d="M118,126 L178,126 L394,386 L334,386 L178,198 L178,386 L118,386 Z"
+          fill="none" stroke="#F2BC89" stroke-width="5" opacity=".4"
+          transform="translate(256,262) scale(.60) translate(-256,-256)"/>
+  </symbol>
+</svg>
+
+<!-- ══ PAGE ═══════════════════════════════════════════════════ -->
+<header class="mast"><div class="wrap">
+  <div class="stamp">
+    <span>CLIENT <b>SYNAPTIX · NAHAS METALHUB</b></span>
+    <span>DELIVERABLE <b>9 IDENTITY ROUTES</b></span>
+    <span>ALLOY <b>Cu · Al</b></span>
+    <span>FORMAT <b>VECTOR / SVG</b></span>
+  </div>
+  <h1>Nine marks<br>struck in <em>copper</em><br>and aluminium</h1>
+  <p class="ar-sub" dir="rtl">تسعةُ شعاراتٍ مقترحة — «نحاس ميتال هب»</p>
+  <p class="lede">Every route is built from the same two alloys and tested the way an app icon actually gets used:
+    at 24 px, under the three Android mask shapes, and flattened to a single colour. The name is the brief —
+    <b>نحاس</b> <i>means copper</i>.</p>
+</div></header>
+
+<main class="wrap">
+
+  <h2><span class="n">00</span> Why replace the current icon <span class="ar" dir="rtl">لماذا التغيير</span></h2>
+  <p class="note">The icon shipping today is a photoreal calculator crowded with gears, screws and coils. Three problems:
+    the detail turns to mud below 64 px; a calculator body says <i>arithmetic</i>, not <i>metal</i>; and it carries no trace of
+    the name that is the strongest asset the brand owns. Each route below fixes all three — and all nine share
+    one alloy palette, so choosing any of them still gives you a coherent system.</p>
+
+  <h2><span class="n">01</span> The routes <span class="ar" dir="rtl">المقترحات</span></h2>
+
+  <!-- ══ 01 ══ -->
+  <article class="coupon">
+    <div class="cp-head">
+      <span class="cp-id">R-01</span><span class="cp-ar" dir="rtl">الطَّيّة</span><span class="cp-en">The Fold</span>
+      <span class="cp-alloy"><span class="chip cu"><i></i>Cu 70</span><span class="chip al"><i></i>Al 30</span></span>
+    </div>
+    <div class="cp-body">
+      <div class="plate-cell"><div class="plate">
+        <span class="tick t"></span><span class="tick b"></span><span class="tick l"></span><span class="tick r"></span>
+        <svg viewBox="0 0 512 512"><use href="#m-fold"/></svg>
+      </div></div>
+      <div class="spec-cell">
+        <p class="rationale">An <b>N</b> for Nahas, cut and folded from sheet stock — the copper stem and diagonal
+          welded across an aluminium post, with a machined seam where the two alloys meet.</p>
+        <p class="rationale">The strongest letterform route: it carries the name, survives to 24 px because it is one
+          bold silhouette, and the two-metal split reads even in monochrome as a change of value.</p>
+        <div class="lab">Size ladder</div>
+        <div class="ladder">
+          <div class="rung"><div class="box" style="width:112px;height:112px"><svg viewBox="0 0 512 512"><use href="#m-fold"/></svg></div><small>112</small></div>
+          <div class="rung"><div class="box" style="width:72px;height:72px"><svg viewBox="0 0 512 512"><use href="#m-fold"/></svg></div><small>72</small></div>
+          <div class="rung"><div class="box" style="width:48px;height:48px"><svg viewBox="0 0 512 512"><use href="#m-fold"/></svg></div><small>48</small></div>
+          <div class="rung"><div class="box" style="width:32px;height:32px"><svg viewBox="0 0 512 512"><use href="#m-fold"/></svg></div><small>32</small></div>
+          <div class="rung"><div class="box" style="width:24px;height:24px"><svg viewBox="0 0 512 512"><use href="#m-fold"/></svg></div><small>24</small></div>
+        </div>
+        <div class="lab">Mask &amp; monochrome tests</div>
+        <div class="tests">
+          <div class="t-item"><div class="box m-circle"><svg viewBox="0 0 512 512"><use href="#m-fold"/></svg></div><small>circle</small></div>
+          <div class="t-item"><div class="box m-squircle"><svg viewBox="0 0 512 512"><use href="#m-fold"/></svg></div><small>squircle</small></div>
+          <div class="t-item"><div class="box m-rsq"><svg viewBox="0 0 512 512"><use href="#m-fold"/></svg></div><small>rounded</small></div>
+          <div class="t-item"><div class="box m-rsq m-light m-mono-l"><svg viewBox="0 0 512 512"><use href="#m-fold"/></svg></div><small>1-colour</small></div>
+          <div class="t-item"><div class="box m-rsq m-mono"><svg viewBox="0 0 512 512"><use href="#m-fold"/></svg></div><small>knockout</small></div>
+        </div>
+      </div>
+    </div>
+  </article>
+
+  <!-- ══ 02 ══ -->
+  <article class="coupon">
+    <div class="cp-head">
+      <span class="cp-id">R-02</span><span class="cp-ar" dir="rtl">المِحْوَر</span><span class="cp-en">The Hub</span>
+      <span class="cp-alloy"><span class="chip al"><i></i>Al 60</span><span class="chip cu"><i></i>Cu 40</span></span>
+    </div>
+    <div class="cp-body">
+      <div class="plate-cell"><div class="plate">
+        <span class="tick t"></span><span class="tick b"></span><span class="tick l"></span><span class="tick r"></span>
+        <svg viewBox="0 0 512 512"><use href="#m-hub"/></svg>
+      </div></div>
+      <div class="spec-cell">
+        <p class="rationale">A hex nut in aluminium with a pressed copper bushing — <b>MetalHub</b> taken literally:
+          a hub, bored and ready to take a shaft.</p>
+        <p class="rationale">The most legible route at any size; the hexagon is the universal shorthand for engineering.
+          Trade-off: hex marks are common in industrial branding, so it is the least ownable of the nine.</p>
+        <div class="lab">Size ladder</div>
+        <div class="ladder">
+          <div class="rung"><div class="box" style="width:112px;height:112px"><svg viewBox="0 0 512 512"><use href="#m-hub"/></svg></div><small>112</small></div>
+          <div class="rung"><div class="box" style="width:72px;height:72px"><svg viewBox="0 0 512 512"><use href="#m-hub"/></svg></div><small>72</small></div>
+          <div class="rung"><div class="box" style="width:48px;height:48px"><svg viewBox="0 0 512 512"><use href="#m-hub"/></svg></div><small>48</small></div>
+          <div class="rung"><div class="box" style="width:32px;height:32px"><svg viewBox="0 0 512 512"><use href="#m-hub"/></svg></div><small>32</small></div>
+          <div class="rung"><div class="box" style="width:24px;height:24px"><svg viewBox="0 0 512 512"><use href="#m-hub"/></svg></div><small>24</small></div>
+        </div>
+        <div class="lab">Mask &amp; monochrome tests</div>
+        <div class="tests">
+          <div class="t-item"><div class="box m-circle"><svg viewBox="0 0 512 512"><use href="#m-hub"/></svg></div><small>circle</small></div>
+          <div class="t-item"><div class="box m-squircle"><svg viewBox="0 0 512 512"><use href="#m-hub"/></svg></div><small>squircle</small></div>
+          <div class="t-item"><div class="box m-rsq"><svg viewBox="0 0 512 512"><use href="#m-hub"/></svg></div><small>rounded</small></div>
+          <div class="t-item"><div class="box m-rsq m-light m-mono-l"><svg viewBox="0 0 512 512"><use href="#m-hub"/></svg></div><small>1-colour</small></div>
+          <div class="t-item"><div class="box m-rsq m-mono"><svg viewBox="0 0 512 512"><use href="#m-hub"/></svg></div><small>knockout</small></div>
+        </div>
+      </div>
+    </div>
+  </article>
+
+  <!-- ══ 03 ══ -->
+  <article class="coupon">
+    <div class="cp-head">
+      <span class="cp-id">R-03</span><span class="cp-ar" dir="rtl">المقاطع</span><span class="cp-en">The Profiles</span>
+      <span class="cp-alloy"><span class="chip cu"><i></i>Cu 50</span><span class="chip al"><i></i>Al 50</span></span>
+    </div>
+    <div class="cp-body">
+      <div class="plate-cell"><div class="plate">
+        <span class="tick t"></span><span class="tick b"></span><span class="tick l"></span><span class="tick r"></span>
+        <svg viewBox="0 0 512 512"><use href="#m-profiles"/></svg>
+      </div></div>
+      <div class="spec-cell">
+        <p class="rationale">Four stock cross-sections in a tight square: solid round bar, pipe, solid square bar,
+          square tube — <b>exactly the geometry the app calculates</b>, drawn the way a mill catalogue draws it.</p>
+        <p class="rationale">The most honest route about what the product does, and crisp at every size because it is
+          pure geometry. Watch for it reading as a generic "grid" glyph when very small.</p>
+        <div class="lab">Size ladder</div>
+        <div class="ladder">
+          <div class="rung"><div class="box" style="width:112px;height:112px"><svg viewBox="0 0 512 512"><use href="#m-profiles"/></svg></div><small>112</small></div>
+          <div class="rung"><div class="box" style="width:72px;height:72px"><svg viewBox="0 0 512 512"><use href="#m-profiles"/></svg></div><small>72</small></div>
+          <div class="rung"><div class="box" style="width:48px;height:48px"><svg viewBox="0 0 512 512"><use href="#m-profiles"/></svg></div><small>48</small></div>
+          <div class="rung"><div class="box" style="width:32px;height:32px"><svg viewBox="0 0 512 512"><use href="#m-profiles"/></svg></div><small>32</small></div>
+          <div class="rung"><div class="box" style="width:24px;height:24px"><svg viewBox="0 0 512 512"><use href="#m-profiles"/></svg></div><small>24</small></div>
+        </div>
+        <div class="lab">Mask &amp; monochrome tests</div>
+        <div class="tests">
+          <div class="t-item"><div class="box m-circle"><svg viewBox="0 0 512 512"><use href="#m-profiles"/></svg></div><small>circle</small></div>
+          <div class="t-item"><div class="box m-squircle"><svg viewBox="0 0 512 512"><use href="#m-profiles"/></svg></div><small>squircle</small></div>
+          <div class="t-item"><div class="box m-rsq"><svg viewBox="0 0 512 512"><use href="#m-profiles"/></svg></div><small>rounded</small></div>
+          <div class="t-item"><div class="box m-rsq m-light m-mono-l"><svg viewBox="0 0 512 512"><use href="#m-profiles"/></svg></div><small>1-colour</small></div>
+          <div class="t-item"><div class="box m-rsq m-mono"><svg viewBox="0 0 512 512"><use href="#m-profiles"/></svg></div><small>knockout</small></div>
+        </div>
+      </div>
+    </div>
+  </article>
+
+  <!-- ══ 04 ══ -->
+  <article class="coupon">
+    <div class="cp-head">
+      <span class="cp-id">R-04</span><span class="cp-ar" dir="rtl">المِيزان</span><span class="cp-en">The Balance</span>
+      <span class="cp-alloy"><span class="chip cu"><i></i>Cu 45</span><span class="chip al"><i></i>Al 55</span></span>
+    </div>
+    <div class="cp-body">
+      <div class="plate-cell"><div class="plate">
+        <span class="tick t"></span><span class="tick b"></span><span class="tick l"></span><span class="tick r"></span>
+        <svg viewBox="0 0 512 512"><use href="#m-balance"/></svg>
+      </div></div>
+      <div class="spec-cell">
+        <p class="rationale">Two discs of <b>identical size</b> on a tilted beam — and the copper one sinks. The whole
+          premise of the app in a single image: same volume, different weight, because density decides.</p>
+        <p class="rationale">The smartest concept of the nine and the one that explains the product without a word.
+          It is also the busiest silhouette, so it needs the chunky proportions used here to hold up at 32 px.</p>
+        <div class="lab">Size ladder</div>
+        <div class="ladder">
+          <div class="rung"><div class="box" style="width:112px;height:112px"><svg viewBox="0 0 512 512"><use href="#m-balance"/></svg></div><small>112</small></div>
+          <div class="rung"><div class="box" style="width:72px;height:72px"><svg viewBox="0 0 512 512"><use href="#m-balance"/></svg></div><small>72</small></div>
+          <div class="rung"><div class="box" style="width:48px;height:48px"><svg viewBox="0 0 512 512"><use href="#m-balance"/></svg></div><small>48</small></div>
+          <div class="rung"><div class="box" style="width:32px;height:32px"><svg viewBox="0 0 512 512"><use href="#m-balance"/></svg></div><small>32</small></div>
+          <div class="rung"><div class="box" style="width:24px;height:24px"><svg viewBox="0 0 512 512"><use href="#m-balance"/></svg></div><small>24</small></div>
+        </div>
+        <div class="lab">Mask &amp; monochrome tests</div>
+        <div class="tests">
+          <div class="t-item"><div class="box m-circle"><svg viewBox="0 0 512 512"><use href="#m-balance"/></svg></div><small>circle</small></div>
+          <div class="t-item"><div class="box m-squircle"><svg viewBox="0 0 512 512"><use href="#m-balance"/></svg></div><small>squircle</small></div>
+          <div class="t-item"><div class="box m-rsq"><svg viewBox="0 0 512 512"><use href="#m-balance"/></svg></div><small>rounded</small></div>
+          <div class="t-item"><div class="box m-rsq m-light m-mono-l"><svg viewBox="0 0 512 512"><use href="#m-balance"/></svg></div><small>1-colour</small></div>
+          <div class="t-item"><div class="box m-rsq m-mono"><svg viewBox="0 0 512 512"><use href="#m-balance"/></svg></div><small>knockout</small></div>
+        </div>
+      </div>
+    </div>
+  </article>
+
+  <!-- ══ 05 ══ -->
+  <article class="coupon">
+    <div class="cp-head">
+      <span class="cp-id">R-05</span><span class="cp-ar" dir="rtl">النُّون</span><span class="cp-en">The Noon</span>
+      <span class="cp-alloy"><span class="chip cu"><i></i>Cu 75</span><span class="chip al"><i></i>Al 25</span></span>
+    </div>
+    <div class="cp-body">
+      <div class="plate-cell"><div class="plate">
+        <span class="tick t"></span><span class="tick b"></span><span class="tick l"></span><span class="tick r"></span>
+        <svg viewBox="0 0 512 512"><use href="#m-noon"/></svg>
+      </div></div>
+      <div class="spec-cell">
+        <p class="rationale">The Arabic <b>ن</b> — first letter of نحاس — drawn as a copper U-channel with its cut faces
+          showing, and the letter's dot rendered as a polished aluminium ball bearing.</p>
+        <p class="rationale">The most ownable mark here: no other brand can use it, it is legible to Arabic readers as a
+          letter and to everyone else as a clean abstract cradle-and-sphere, and the channel section is a real
+          metal profile. My recommendation for the primary brand mark.</p>
+        <div class="lab">Size ladder</div>
+        <div class="ladder">
+          <div class="rung"><div class="box" style="width:112px;height:112px"><svg viewBox="0 0 512 512"><use href="#m-noon"/></svg></div><small>112</small></div>
+          <div class="rung"><div class="box" style="width:72px;height:72px"><svg viewBox="0 0 512 512"><use href="#m-noon"/></svg></div><small>72</small></div>
+          <div class="rung"><div class="box" style="width:48px;height:48px"><svg viewBox="0 0 512 512"><use href="#m-noon"/></svg></div><small>48</small></div>
+          <div class="rung"><div class="box" style="width:32px;height:32px"><svg viewBox="0 0 512 512"><use href="#m-noon"/></svg></div><small>32</small></div>
+          <div class="rung"><div class="box" style="width:24px;height:24px"><svg viewBox="0 0 512 512"><use href="#m-noon"/></svg></div><small>24</small></div>
+        </div>
+        <div class="lab">Mask &amp; monochrome tests</div>
+        <div class="tests">
+          <div class="t-item"><div class="box m-circle"><svg viewBox="0 0 512 512"><use href="#m-noon"/></svg></div><small>circle</small></div>
+          <div class="t-item"><div class="box m-squircle"><svg viewBox="0 0 512 512"><use href="#m-noon"/></svg></div><small>squircle</small></div>
+          <div class="t-item"><div class="box m-rsq"><svg viewBox="0 0 512 512"><use href="#m-noon"/></svg></div><small>rounded</small></div>
+          <div class="t-item"><div class="box m-rsq m-light m-mono-l"><svg viewBox="0 0 512 512"><use href="#m-noon"/></svg></div><small>1-colour</small></div>
+          <div class="t-item"><div class="box m-rsq m-mono"><svg viewBox="0 0 512 512"><use href="#m-noon"/></svg></div><small>knockout</small></div>
+        </div>
+      </div>
+    </div>
+  </article>
+
+  <!-- ══ 06 ══ -->
+  <article class="coupon">
+    <div class="cp-head">
+      <span class="cp-id">R-06</span><span class="cp-ar" dir="rtl">الطَّبَقات</span><span class="cp-en">The Stack</span>
+      <span class="cp-alloy"><span class="chip cu"><i></i>Cu 50</span><span class="chip al"><i></i>Al 50</span></span>
+    </div>
+    <div class="cp-body">
+      <div class="plate-cell"><div class="plate">
+        <span class="tick t"></span><span class="tick b"></span><span class="tick l"></span><span class="tick r"></span>
+        <svg viewBox="0 0 512 512"><use href="#m-stack"/></svg>
+      </div></div>
+      <div class="spec-cell">
+        <p class="rationale">Four plates stacked in isometric, alternating copper and aluminium, every sheet edge
+          showing its <b>thickness</b> — the measurement you just gave its own mm picker.</p>
+        <p class="rationale">The safest choice for the store: instantly legible as metal to any viewer in any language,
+          holds a clean diamond silhouette down to 24 px, and needs no cultural knowledge to decode.</p>
+        <div class="lab">Size ladder</div>
+        <div class="ladder">
+          <div class="rung"><div class="box" style="width:112px;height:112px"><svg viewBox="0 0 512 512"><use href="#m-stack"/></svg></div><small>112</small></div>
+          <div class="rung"><div class="box" style="width:72px;height:72px"><svg viewBox="0 0 512 512"><use href="#m-stack"/></svg></div><small>72</small></div>
+          <div class="rung"><div class="box" style="width:48px;height:48px"><svg viewBox="0 0 512 512"><use href="#m-stack"/></svg></div><small>48</small></div>
+          <div class="rung"><div class="box" style="width:32px;height:32px"><svg viewBox="0 0 512 512"><use href="#m-stack"/></svg></div><small>32</small></div>
+          <div class="rung"><div class="box" style="width:24px;height:24px"><svg viewBox="0 0 512 512"><use href="#m-stack"/></svg></div><small>24</small></div>
+        </div>
+        <div class="lab">Mask &amp; monochrome tests</div>
+        <div class="tests">
+          <div class="t-item"><div class="box m-circle"><svg viewBox="0 0 512 512"><use href="#m-stack"/></svg></div><small>circle</small></div>
+          <div class="t-item"><div class="box m-squircle"><svg viewBox="0 0 512 512"><use href="#m-stack"/></svg></div><small>squircle</small></div>
+          <div class="t-item"><div class="box m-rsq"><svg viewBox="0 0 512 512"><use href="#m-stack"/></svg></div><small>rounded</small></div>
+          <div class="t-item"><div class="box m-rsq m-light m-mono-l"><svg viewBox="0 0 512 512"><use href="#m-stack"/></svg></div><small>1-colour</small></div>
+          <div class="t-item"><div class="box m-rsq m-mono"><svg viewBox="0 0 512 512"><use href="#m-stack"/></svg></div><small>knockout</small></div>
+        </div>
+      </div>
+    </div>
+  </article>
+
+  <!-- ══ 07 ══ -->
+  <article class="coupon">
+    <div class="cp-head">
+      <span class="cp-id">R-07</span><span class="cp-ar" dir="rtl">الفِرْجار</span><span class="cp-en">The Caliper</span>
+      <span class="cp-alloy"><span class="chip al"><i></i>Al 55</span><span class="chip cu"><i></i>Cu 45</span></span>
+    </div>
+    <div class="cp-body">
+      <div class="plate-cell"><div class="plate">
+        <span class="tick t"></span><span class="tick b"></span><span class="tick l"></span><span class="tick r"></span>
+        <svg viewBox="0 0 512 512"><use href="#m-caliper"/></svg>
+      </div></div>
+      <div class="spec-cell">
+        <p class="rationale">Aluminium caliper jaws closed on a copper round bar, the graduated beam above with a longer
+          centre tick. <b>Measurement and material</b> in one frame.</p>
+        <p class="rationale">The clearest "this is a precision tool" signal of the nine. Its risk is familiarity —
+          calipers are the default metaphor for measuring apps — so it wins on clarity, not on distinction.</p>
+        <div class="lab">Size ladder</div>
+        <div class="ladder">
+          <div class="rung"><div class="box" style="width:112px;height:112px"><svg viewBox="0 0 512 512"><use href="#m-caliper"/></svg></div><small>112</small></div>
+          <div class="rung"><div class="box" style="width:72px;height:72px"><svg viewBox="0 0 512 512"><use href="#m-caliper"/></svg></div><small>72</small></div>
+          <div class="rung"><div class="box" style="width:48px;height:48px"><svg viewBox="0 0 512 512"><use href="#m-caliper"/></svg></div><small>48</small></div>
+          <div class="rung"><div class="box" style="width:32px;height:32px"><svg viewBox="0 0 512 512"><use href="#m-caliper"/></svg></div><small>32</small></div>
+          <div class="rung"><div class="box" style="width:24px;height:24px"><svg viewBox="0 0 512 512"><use href="#m-caliper"/></svg></div><small>24</small></div>
+        </div>
+        <div class="lab">Mask &amp; monochrome tests</div>
+        <div class="tests">
+          <div class="t-item"><div class="box m-circle"><svg viewBox="0 0 512 512"><use href="#m-caliper"/></svg></div><small>circle</small></div>
+          <div class="t-item"><div class="box m-squircle"><svg viewBox="0 0 512 512"><use href="#m-caliper"/></svg></div><small>squircle</small></div>
+          <div class="t-item"><div class="box m-rsq"><svg viewBox="0 0 512 512"><use href="#m-caliper"/></svg></div><small>rounded</small></div>
+          <div class="t-item"><div class="box m-rsq m-light m-mono-l"><svg viewBox="0 0 512 512"><use href="#m-caliper"/></svg></div><small>1-colour</small></div>
+          <div class="t-item"><div class="box m-rsq m-mono"><svg viewBox="0 0 512 512"><use href="#m-caliper"/></svg></div><small>knockout</small></div>
+        </div>
+      </div>
+    </div>
+  </article>
+
+  <!-- ══ 08 ══ -->
+  <article class="coupon">
+    <div class="cp-head">
+      <span class="cp-id">R-08</span><span class="cp-ar" dir="rtl">الحُزْمة</span><span class="cp-en">The Bundle</span>
+      <span class="cp-alloy"><span class="chip cu"><i></i>Cu 45</span><span class="chip al"><i></i>Al 55</span></span>
+    </div>
+    <div class="cp-body">
+      <div class="plate-cell"><div class="plate">
+        <span class="tick t"></span><span class="tick b"></span><span class="tick l"></span><span class="tick r"></span>
+        <svg viewBox="0 0 512 512"><use href="#m-bundle"/></svg>
+      </div></div>
+      <div class="spec-cell">
+        <p class="rationale">Seven hex bars bundled and viewed end-on: a copper core ringed by alternating alloys.
+          A <b>hub</b> in the network sense — one centre, six connections — built from real hexagonal stock.</p>
+        <p class="rationale">The richest mark at large sizes and excellent for the feature graphic. Below 32 px the
+          individual bars begin to merge, so pair it with a simplified single-hex fallback.</p>
+        <div class="lab">Size ladder</div>
+        <div class="ladder">
+          <div class="rung"><div class="box" style="width:112px;height:112px"><svg viewBox="0 0 512 512"><use href="#m-bundle"/></svg></div><small>112</small></div>
+          <div class="rung"><div class="box" style="width:72px;height:72px"><svg viewBox="0 0 512 512"><use href="#m-bundle"/></svg></div><small>72</small></div>
+          <div class="rung"><div class="box" style="width:48px;height:48px"><svg viewBox="0 0 512 512"><use href="#m-bundle"/></svg></div><small>48</small></div>
+          <div class="rung"><div class="box" style="width:32px;height:32px"><svg viewBox="0 0 512 512"><use href="#m-bundle"/></svg></div><small>32</small></div>
+          <div class="rung"><div class="box" style="width:24px;height:24px"><svg viewBox="0 0 512 512"><use href="#m-bundle"/></svg></div><small>24</small></div>
+        </div>
+        <div class="lab">Mask &amp; monochrome tests</div>
+        <div class="tests">
+          <div class="t-item"><div class="box m-circle"><svg viewBox="0 0 512 512"><use href="#m-bundle"/></svg></div><small>circle</small></div>
+          <div class="t-item"><div class="box m-squircle"><svg viewBox="0 0 512 512"><use href="#m-bundle"/></svg></div><small>squircle</small></div>
+          <div class="t-item"><div class="box m-rsq"><svg viewBox="0 0 512 512"><use href="#m-bundle"/></svg></div><small>rounded</small></div>
+          <div class="t-item"><div class="box m-rsq m-light m-mono-l"><svg viewBox="0 0 512 512"><use href="#m-bundle"/></svg></div><small>1-colour</small></div>
+          <div class="t-item"><div class="box m-rsq m-mono"><svg viewBox="0 0 512 512"><use href="#m-bundle"/></svg></div><small>knockout</small></div>
+        </div>
+      </div>
+    </div>
+  </article>
+
+  <!-- ══ 09 ══ -->
+  <article class="coupon">
+    <div class="cp-head">
+      <span class="cp-id">R-09</span><span class="cp-ar" dir="rtl">الخَتْم</span><span class="cp-en">The Hallmark</span>
+      <span class="cp-alloy"><span class="chip cu"><i></i>Cu 65</span><span class="chip al"><i></i>Al 35</span></span>
+    </div>
+    <div class="cp-body">
+      <div class="plate-cell"><div class="plate">
+        <span class="tick t"></span><span class="tick b"></span><span class="tick l"></span><span class="tick r"></span>
+        <svg viewBox="0 0 512 512"><use href="#m-hallmark"/></svg>
+      </div></div>
+      <div class="spec-cell">
+        <p class="rationale">An assay seal: knurled aluminium rim, copper face, and the R-01 <b>N</b> struck into the
+          metal — borrowed from the hallmarks stamped on traded metal to certify its content.</p>
+        <p class="rationale">The most premium and the most "trust" of the nine, and it pairs with R-01 as a system
+          (letter alone / letter sealed). The deboss needs real depth to survive small sizes — treat 32 px as its floor.</p>
+        <div class="lab">Size ladder</div>
+        <div class="ladder">
+          <div class="rung"><div class="box" style="width:112px;height:112px"><svg viewBox="0 0 512 512"><use href="#m-hallmark"/></svg></div><small>112</small></div>
+          <div class="rung"><div class="box" style="width:72px;height:72px"><svg viewBox="0 0 512 512"><use href="#m-hallmark"/></svg></div><small>72</small></div>
+          <div class="rung"><div class="box" style="width:48px;height:48px"><svg viewBox="0 0 512 512"><use href="#m-hallmark"/></svg></div><small>48</small></div>
+          <div class="rung"><div class="box" style="width:32px;height:32px"><svg viewBox="0 0 512 512"><use href="#m-hallmark"/></svg></div><small>32</small></div>
+          <div class="rung"><div class="box" style="width:24px;height:24px"><svg viewBox="0 0 512 512"><use href="#m-hallmark"/></svg></div><small>24</small></div>
+        </div>
+        <div class="lab">Mask &amp; monochrome tests</div>
+        <div class="tests">
+          <div class="t-item"><div class="box m-circle"><svg viewBox="0 0 512 512"><use href="#m-hallmark"/></svg></div><small>circle</small></div>
+          <div class="t-item"><div class="box m-squircle"><svg viewBox="0 0 512 512"><use href="#m-hallmark"/></svg></div><small>squircle</small></div>
+          <div class="t-item"><div class="box m-rsq"><svg viewBox="0 0 512 512"><use href="#m-hallmark"/></svg></div><small>rounded</small></div>
+          <div class="t-item"><div class="box m-rsq m-light m-mono-l"><svg viewBox="0 0 512 512"><use href="#m-hallmark"/></svg></div><small>1-colour</small></div>
+          <div class="t-item"><div class="box m-rsq m-mono"><svg viewBox="0 0 512 512"><use href="#m-hallmark"/></svg></div><small>knockout</small></div>
+        </div>
+      </div>
+    </div>
+  </article>
+
+  <h2><span class="n">02</span> All nine at store size <span class="ar" dir="rtl">مقارنة</span></h2>
+  <p class="note">This is the honest test — 56 px is roughly how big your icon is in a Play Store search result.
+    Squint at this row: whatever still reads is the shortlist.</p>
+  <div class="wall">
+    <div class="cell"><div class="box"><svg viewBox="0 0 512 512"><use href="#m-fold"/></svg></div><small>R-01</small><b dir="rtl">الطية</b></div>
+    <div class="cell"><div class="box"><svg viewBox="0 0 512 512"><use href="#m-hub"/></svg></div><small>R-02</small><b dir="rtl">المحور</b></div>
+    <div class="cell"><div class="box"><svg viewBox="0 0 512 512"><use href="#m-profiles"/></svg></div><small>R-03</small><b dir="rtl">المقاطع</b></div>
+    <div class="cell"><div class="box"><svg viewBox="0 0 512 512"><use href="#m-balance"/></svg></div><small>R-04</small><b dir="rtl">الميزان</b></div>
+    <div class="cell"><div class="box"><svg viewBox="0 0 512 512"><use href="#m-noon"/></svg></div><small>R-05</small><b dir="rtl">النون</b></div>
+    <div class="cell"><div class="box"><svg viewBox="0 0 512 512"><use href="#m-stack"/></svg></div><small>R-06</small><b dir="rtl">الطبقات</b></div>
+    <div class="cell"><div class="box"><svg viewBox="0 0 512 512"><use href="#m-caliper"/></svg></div><small>R-07</small><b dir="rtl">الفرجار</b></div>
+    <div class="cell"><div class="box"><svg viewBox="0 0 512 512"><use href="#m-bundle"/></svg></div><small>R-08</small><b dir="rtl">الحزمة</b></div>
+    <div class="cell"><div class="box"><svg viewBox="0 0 512 512"><use href="#m-hallmark"/></svg></div><small>R-09</small><b dir="rtl">الختم</b></div>
+  </div>
+
+  <h2><span class="n">03</span> On a real home screen <span class="ar" dir="rtl">على الشاشة</span></h2>
+  <p class="note">The three finalists dropped among neighbouring apps — the only context that matters,
+    because your icon never competes alone.</p>
+  <div class="home">
+    <div class="app"><div class="box decoy"><span class="g">A</span></div><span>Files</span></div>
+    <div class="app"><div class="box" style="background:radial-gradient(120% 120% at 30% 18%,#22223B,#0F0F1A 72%)"><svg viewBox="0 0 512 512"><use href="#m-noon"/></svg></div><span dir="rtl">نحاس</span></div>
+    <div class="app"><div class="box decoy2"><span class="g">S</span></div><span>Sheets</span></div>
+    <div class="app"><div class="box" style="background:radial-gradient(120% 120% at 30% 18%,#22223B,#0F0F1A 72%)"><svg viewBox="0 0 512 512"><use href="#m-stack"/></svg></div><span dir="rtl">نحاس</span></div>
+    <div class="app"><div class="box decoy3"><span class="g">M</span></div><span>Market</span></div>
+    <div class="app"><div class="box" style="background:radial-gradient(120% 120% at 30% 18%,#22223B,#0F0F1A 72%)"><svg viewBox="0 0 512 512"><use href="#m-balance"/></svg></div><span dir="rtl">نحاس</span></div>
+    <div class="app"><div class="box decoy"><span class="g">C</span></div><span>Calc</span></div>
+  </div>
+
+  <h2><span class="n">04</span> Recommendation <span class="ar" dir="rtl">التوصية</span></h2>
+  <div class="verdict">
+    <h3>What I would ship</h3>
+    <p><b>R-05 «النُّون» as the primary brand mark.</b> It is the only route no competitor can copy, because it is built
+      from your own name. It works on the splash screen, the film's logo-forge shot, letterheads and the website,
+      and it reads as a considered abstract mark even to someone who cannot read Arabic.</p>
+    <p><b>R-06 «الطَّبَقات» as the Play Store icon</b> if you want zero risk. Your store listing is worldwide in four
+      languages; the stack says "metal, measured by thickness" with no decoding required, and it is the strongest
+      of the nine at 24 px.</p>
+    <p><b>R-04 «المِيزان» as the dark horse.</b> If the goal is to make someone understand the app before they read a
+      word of the description, the tilted balance with two equal discs does more work than any other mark here.</p>
+    <p>All three share the identical copper and aluminium palette, so committing to one now does not lock out the
+      others later — R-05 on the brand, R-06 on the store and R-04 in the onboarding illustration is a coherent system,
+      not a compromise.</p>
+  </div>
+
+  <h2><span class="n">05</span> Taking one to production <span class="ar" dir="rtl">التنفيذ</span></h2>
+  <ul class="steps">
+    <li><b>Tell me the route number</b> and I will export it as clean SVG plus the PNG set your build needs.</li>
+    <li><b>Icon source:</b> replace <code>assets/logo.png</code> at 1024×1024, then run <code>flutter pub run flutter_launcher_icons</code> — your <code>pubspec.yaml</code> is already wired for Android, iOS and web.</li>
+    <li><b>Adaptive icon:</b> keep <code>adaptive_icon_background: "#22223B"</code> and supply the mark alone as the foreground, sized to <b>66% of the canvas</b> so Android's circle mask never clips it.</li>
+    <li><b>Play Store assets:</b> 512×512 icon (32-bit PNG, no alpha) and a 1024×500 feature graphic — R-08 makes the best feature graphic even if it is not the icon.</li>
+    <li><b>Colour reference:</b> copper <code>#B87333</code> · copper highlight <code>#E8A868</code> · aluminium <code>#B4BCC5</code> · plate <code>#0F0F1A</code> → <code>#22223B</code>.</li>
+    <li><b>Wordmark:</b> pair the mark with <b>Cairo ExtraBold</b> for نحاس ميتال هب and a condensed Latin face for the English lockup — matching the film's typography.</li>
+  </ul>
+
+  <footer>
+    <span>NAHAS METALHUB · SYNAPTIX — IDENTITY ROUTES v1</span>
+    <span dir="rtl">الدقةُ معدنُنا</span>
+  </footer>
+</main>
